@@ -1,11 +1,13 @@
-<?php namespace DS3\Application\Query;
+<?php
+
+namespace DS3\Application\Query;
 
 /**
-* TODO : TO COMPLETE
-*/
+ * TODO : TO COMPLETE.
+ */
 class Serie
 {
-	/* --- ATTRIBUTES --- */
+    /* --- ATTRIBUTES --- */
 
-	private $id;
+    private $id;
 }

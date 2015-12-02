@@ -1,49 +1,50 @@
 <?php
+
 namespace DS3\Framework\Filesystem;
 
 /**
-* Enable read/write in a file
-*/
+ * Enable read/write in a file.
+ */
 class File
 {
-	/* --- ATTRIBUTES --- */
+    /* --- ATTRIBUTES --- */
 
-	private $spl_file_object;
-	
-	/* --- CONSTRUCTORS --- */
+    private $spl_file_object;
 
-	/*!
-	 * Path constructor, open file in r/w
-	 * @param string $path File path
-	 */
-	public function __construct($path) {
-		
-	}
+    /* --- CONSTRUCTORS --- */
 
-	/* --- METHODS --- */
+    /*!
+     * Path constructor, open file in r/w
+     * @param string $path File path
+     */
+    public function __construct($path)
+    {
+    }
 
-	/*!
-	 * Write at the end of the file
-	 * @param  string $str Text to write
-	 * @return void
-	 */
-	public function write($str) {
+    /* --- METHODS --- */
 
-	}
+    /*!
+     * Write at the end of the file
+     * @param  string $str Text to write
+     * @return void
+     */
+    public function write($str)
+    {
+    }
 
-	/*!
-	 * Read file
-	 * @return string File contents
-	 */
-	public function read() {
+    /*!
+     * Read file
+     * @return string File contents
+     */
+    public function read()
+    {
+    }
 
-	}
-
-	/*!
-	 * Delete file contents
-	 * @return void
-	 */
-	public function clear() {
-
-	}
+    /*!
+     * Delete file contents
+     * @return void
+     */
+    public function clear()
+    {
+    }
 }

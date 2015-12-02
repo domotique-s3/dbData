@@ -1,41 +1,46 @@
-<?php namespace DS3\Application;
+<?php
+
+namespace DS3\Application;
 
 /**
-* Database Configuration
-*/
+ * Database Configuration.
+ */
 abstract class PDOConfiguration
 {
-	/* --- ATTRIBUTES --- */
+    /* --- ATTRIBUTES --- */
 
-	protected $login;
-	protected $passwd;
-	protected $database_name;
+    protected $login;
+    protected $passwd;
+    protected $database_name;
 
-	/* --- METHODS --- */
+    /* --- METHODS --- */
 
-	/*!
-	 * Returns user's login
-	 */
-	public function getLogin() {
-		return $this->login;
-	}
+    /*!
+     * Returns user's login
+     */
+    public function getLogin()
+    {
+        return $this->login;
+    }
 
-	/*!
-	 * Returns user's password
-	 */
-	public function getPassword() {
-		return $this->passwd;
-	}
+    /*!
+     * Returns user's password
+     */
+    public function getPassword()
+    {
+        return $this->passwd;
+    }
 
-	/*!
-	 * Returns database's name
-	 */
-	public function getDatabaseName() {
-		return $this->database_name;
-	}
+    /*!
+     * Returns database's name
+     */
+    public function getDatabaseName()
+    {
+        return $this->database_name;
+    }
 
-	/*!
-	 * Returns PDO
-	 */
-	public abstract function getPDO();
+    /*!
+     * Returns PDO
+     */
+    abstract public function getPDO();
 }

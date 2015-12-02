@@ -1,24 +1,26 @@
-<?php namespace DS3\Application;
+<?php
+
+namespace DS3\Application;
 
 /**
-* TODO : TO COMPLETE
-*/
+ * TODO : TO COMPLETE.
+ */
 class Database
 {
-	/* --- METHODS --- */
+    /* --- METHODS --- */
 
-	/*!
-	 * TODO : TO COMPLETE
-	 */
-	public function __construct ($pdo){
+    /*!
+     * TODO : TO COMPLETE
+     */
+    public function __construct($pdo)
+    {
+    }
 
-	}
-
-	/*!
-	 * TODO : TO COMPLETE
-	 */
-	public function execute ($query){
-
-		return array('serie' => 'test',);
-	}
+    /*!
+     * TODO : TO COMPLETE
+     */
+    public function execute($query)
+    {
+        return array('serie' => 'test');
+    }
 }

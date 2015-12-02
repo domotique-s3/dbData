@@ -1,26 +1,27 @@
-<?php namespace DS3\Application;
+<?php
+
+namespace DS3\Application;
 
 /**
-* TODO : TO COMPLETE
-*/
+ * TODO : TO COMPLETE.
+ */
 class FilePDOConfiguration extends PDOConfiguration
 {
-	/* --- ATTRIBUTES --- */
+    /* --- ATTRIBUTES --- */
 
-	private $file;
+    private $file;
 
-	/* --- METHODS --- */
+    /* --- METHODS --- */
 
-	/*!
-	 * TODO : TO COMPLETE
-	 */
-	public function __construct ($path){
+    /*!
+     * TODO : TO COMPLETE
+     */
+    public function __construct($path)
+    {
+    }
 
-	}
-
-	public function getPDO()
-	{
-		// TODO: Implement getPDO() method.
-	}
+    public function getPDO()
+    {
+        // TODO: Implement getPDO() method.
+    }
 }
-

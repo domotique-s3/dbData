@@ -1,31 +1,32 @@
-<?php namespace DS3\Application\Query;
+<?php
+
+namespace DS3\Application\Query;
 
 /**
-* TODO : TO COMPLETE
-*/
-class Measurement
+ * TODO : TO COMPLETE.
+ */
+class Measurment
 {
-	/* --- ATTRIBUTES --- */
+    /* --- ATTRIBUTES --- */
 
-	private $value;
-	private $moment;
+    private $value;
+    private $moment;
 
-	/* --- GET SET --- */
+    /* --- GET SET --- */
 
-	public function getValue() {
+    public function getValue()
+    {
+    }
 
-	}
+    public function setValue()
+    {
+    }
 
-	public function setValue() {
+    public function getMoment()
+    {
+    }
 
-	}
-
-	public function getMoment() {
-
-	}
-
-	public function setMoment() {
-		
-	}
-
+    public function setMoment()
+    {
+    }
 }

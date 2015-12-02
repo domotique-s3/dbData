@@ -1,25 +1,27 @@
-<?php namespace DS3\Application\Query;
+<?php
+
+namespace DS3\Application\Query;
 
 /**
-* TODO : TO COMPLETE
-*/
+ * TODO : TO COMPLETE.
+ */
 class URLQuery extends Query
 {
-	/* --- ATTRIBUTES --- */
+    /* --- ATTRIBUTES --- */
 
-	private $table;
-	private $sensorColumn;
-	private $timestampColumn;
-	private $sensorIds;
-	private $timestampInterval;
+    private $table;
+    private $sensorColumn;
+    private $timestampColumn;
+    private $sensorIds;
+    private $timestampInterval;
 
-	/* --- METHODS --- */
+    /* --- METHODS --- */
 
-	/*!
-	 * TODO : TO COMPLETE
-	 */
-	public function fromRequest ($request){
-
-		return '';
-	}
+    /*!
+     * TODO : TO COMPLETE
+     */
+    public function fromRequest($request)
+    {
+        return '';
+    }
 }

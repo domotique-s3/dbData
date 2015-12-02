@@ -1,25 +1,27 @@
-<?php namespace DS3\Application\Query;
+<?php
+
+namespace DS3\Application\Query;
 
 /**
-* TODO : TO COMPLETE
-*/
+ * TODO : TO COMPLETE.
+ */
 class Query
 {
-	/* --- METHODS --- */
+    /* --- METHODS --- */
 
-	/*!
-	 * TODO : TO COMPLETE
-	 */
-	public function fromRequest ($request){
+    /*!
+     * TODO : TO COMPLETE
+     */
+    public function fromRequest($request)
+    {
+        return '';
+    }
 
-		return '';
-	}
-
-	/*!
-	 * TODO : TO COMPLETE
-	 */
-	public function execute ($query){
-
-		return array('serie' => 'test',);
-	}
+    /*!
+     * TODO : TO COMPLETE
+     */
+    public function execute($query)
+    {
+        return array('serie' => 'test');
+    }
 }

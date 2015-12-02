@@ -1,27 +1,39 @@
 <?php
-namespace DS3\Framework\HTTP
+
+namespace DS3\Framework\HTTP;
 
 /**
-* Represente la requette de l'utilisateur
-*/
+ * Represente la requette de l'utilisateur.
+ */
 class Request
 {
-	/* --- ATTRIBUTES --- */
+    /* --- ATTRIBUTES --- */
 
-	public $server = new ParameterBag();
-	public $attributes = new ParameterBag();
-	public $query = new ParameterBag();
-	public $post = new ParameterBag();
-	public $cookies = new ParameterBag();
-	public $headers = new ParameterBag();
+    public $server;
+    public $attributes;
+    public $query;
+    public $post;
+    public $cookies;
+    public $headers;
 
-	/* --- METHODS --- */
+    /* --- CONSTRUCTOR --- */
+    public function __construct()
+    {
+        $this->server = new ParameterBag();
+        $this->attributes = new ParameterBag();
+        $this->query = new ParameterBag();
+        $this->post = new ParameterBag();
+        $this->cookies = new ParameterBag();
+        $this->headers = new ParameterBag();
+    }
 
-	/*!
-	 * Cree un objet Request depuis les variables globales
-	 * @return Request
-	 */
-	public function fromGlobals() {
+    /* --- METHODS --- */
 
-	}
+    /*!
+     * Cree un objet Request depuis les variables globales
+     * @return Request
+     */
+    public function fromGlobals()
+    {
+    }
 }
