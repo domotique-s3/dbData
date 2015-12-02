@@ -24,11 +24,6 @@ class ParameterBag
 	 * @param mixed[] $parameters Parameters table
 	 */
 
-    //IN PHP, Only one constructor
-	/*public function __construct($parameters) {
-
-	}*/
-
 	/* --- METHODS --- */
 
 	/*!
