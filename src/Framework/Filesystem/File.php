@@ -2,7 +2,7 @@
 namespace DS3\Framework\Filesystem;
 
 /**
-* Permet la lecture et l'ecriture dans un fichier
+* Enable read/write in a file
 */
 class File
 {
@@ -13,8 +13,8 @@ class File
 	/* --- CONSTRUCTORS --- */
 
 	/*!
-	 * Constructeur par chemin, ouvre le fichier en lecture et ecriture
-	 * @param string $path Chemin du fichier
+	 * Path constructor, open file in r/w
+	 * @param string $path File path
 	 */
 	public function __construct($path) {
 		
@@ -23,8 +23,8 @@ class File
 	/* --- METHODS --- */
 
 	/*!
-	 * Ecrit a la fin du fichier
-	 * @param  string $str Texte a ecrire
+	 * Write at the end of the file
+	 * @param  string $str Text to write
 	 * @return void
 	 */
 	public function write($str) {
@@ -32,15 +32,15 @@ class File
 	}
 
 	/*!
-	 * Lit le fichier
-	 * @return string Le contenu du fichier
+	 * Read file
+	 * @return string File contents
 	 */
 	public function read() {
 
 	}
 
 	/*!
-	 * Efface le contenu du fichier
+	 * Delete file contents
 	 * @return void
 	 */
 	public function clear() {
