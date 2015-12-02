@@ -5,6 +5,10 @@
 */
 class FilePDOConfiguration extends PDOConfiguration
 {
+	/* --- ATTRIBUTES --- */
+
+	private $file;
+
 	/* --- METHODS --- */
 
 	/*!

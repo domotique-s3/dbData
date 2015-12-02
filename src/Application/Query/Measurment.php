@@ -10,4 +10,22 @@ class Measurement
 	private $value;
 	private $moment;
 
+	/* --- GET SET --- */
+
+	public function getValue() {
+
+	}
+
+	public function setValue() {
+
+	}
+
+	public function getMoment() {
+
+	}
+
+	public function setMoment() {
+		
+	}
+
 }
