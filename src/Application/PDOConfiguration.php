@@ -16,26 +16,26 @@ abstract class PDOConfiguration
 	/*!
 	 * Retourne le login de l'utilisateur
 	 */
-	public getLogin() {
+	public function getLogin() {
 		return $this->login;
 	}
 
 	/*!
 	 * Retourne le mot de passe de l'utilisateur
 	 */
-	public getPassword() {
+	public function getPassword() {
 		return $this->passwd;
 	}
 
 	/*!
 	 * Retourne le nom de la BDD
 	 */
-	public getDatabaseName() {
+	public function getDatabaseName() {
 		return $this->database_name;
 	}
 
 	/*!
 	 * Retourne le PDO configure
 	 */
-	public getPDO();
+	public function getPDO();
 }
