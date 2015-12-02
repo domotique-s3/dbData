@@ -1,4 +1,5 @@
-<?php namespace DS3\Framework\Logger
+<?php
+namespace DS3\Framework\Logger;
 
 /**
 * Permet d'ecrire les logs dans un fichier

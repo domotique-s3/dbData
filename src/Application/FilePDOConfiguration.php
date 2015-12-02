@@ -13,4 +13,9 @@ class FilePDOConfiguration extends PDOConfiguration
 	public function __construct ($path){
 
 	}
+
+	public function getPDO()
+	{
+		// TODO: Implement getPDO() method.
+	}
 }

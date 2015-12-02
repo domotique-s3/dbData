@@ -1,4 +1,5 @@
-<?php namespace DS3\Framework\Filesystem
+<?php
+namespace DS3\Framework\Filesystem;
 
 /**
 * Permet la lecture et l'ecriture dans un fichier

@@ -37,5 +37,5 @@ abstract class PDOConfiguration
 	/*!
 	 * Retourne le PDO configure
 	 */
-	public function getPDO();
+	public abstract function getPDO();
 }

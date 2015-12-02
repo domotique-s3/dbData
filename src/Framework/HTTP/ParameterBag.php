@@ -1,4 +1,5 @@
-<?php namespace DS3\Framework\HTTP
+<?php
+namespace DS3\Framework\HTTP;
 
 /**
 * Sac de parametres, permet de stocker des valeurs associees a des cles
@@ -22,9 +23,11 @@ class ParameterBag
 	 * Contructeur par tableau de parametres
 	 * @param mixed[] $parameters Tableau de parametres
 	 */
-	public function __construct($parameters) {
 
-	}
+    //IN PHP, Only one constructor
+	/*public function __construct($parameters) {
+
+	}*/
 
 	/* --- METHODS --- */
 
