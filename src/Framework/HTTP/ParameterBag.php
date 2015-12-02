@@ -1,4 +1,5 @@
-<?php namespace DS3\Framework\HTTP
+<?php
+namespace DS3\Framework\HTTP;
 
 /**
 * Sac de parametres, permet de stocker des valeurs associees a des cles
@@ -12,41 +13,43 @@ class ParameterBag
 	/* --- CONSTRUCTORS --- */
 	
 	/*!
-	 * Constructeur par defaut
+	 * Default constructor
 	 */
 	public function __construct() {
 		
 	}
 
 	/*!
-	 * Contructeur par tableau de parametres
-	 * @param mixed[] $parameters Tableau de parametres
+	 * Table constructor, where table is a table of parameter
+	 * @param mixed[] $parameters Parameters table
 	 */
-	public function __construct($parameters) {
 
-	}
+    //IN PHP, Only one constructor
+	/*public function __construct($parameters) {
+
+	}*/
 
 	/* --- METHODS --- */
 
 	/*!
-	 * Retourne tout les parametres
-	 * @return mixed[] Parametres
+	 * Returns all parameters
+	 * @return mixed[] Parameters
 	 */
 	public function all() {
 
 	}
 
 	/*!
-	 * Retourne toute les cles
-	 * @return string[] Cles
+	 * Returns all keys
+	 * @return string[] Keys
 	 */
 	public function keys() {
 
 	}
 
 	/*!
-	 * Remplace les parametres
-	 * @param  mixed[] $parameters Parametres a remplacer
+	 * Replace parameters
+	 * @param  mixed[] $parameters Parameter to replace
 	 * @return void
 	 */
 	public function replace($parameters) {
@@ -54,44 +57,44 @@ class ParameterBag
 	}
 
 	/*!
-	 * Ajoute les parametres
-	 * @param mixed[] $parameters Parametres a ajouter
+	 * Add parameters
+	 * @param mixed[] $parameters Parameter to add
 	 */
 	public function add($parameters) {
 
 	}
 
 	/*!
-	 * Retourne la valeur d'un parametre
+	 * Returns parameter's value
 	 * @param  string $key     Cle
-	 * @param  mixed $default Valeur a retourner par defaut si le parametre n'existe pas
-	 * @return mixed          La valeur du parametre
+	 * @param  mixed $default Default value to return if parameter doesn't exist
+	 * @return mixed          Parameter's value
 	 */
 	public function get($key, $default = null) {
 
 	}
 
 	/*!
-	 * Change la valeur d'un parametre, cree le parametre s'il n'existe pas
-	 * @param string $key   Cle du parametre
-	 * @param mixed $value Valeur du parametre
+	 * Change parameter's value, create if doesn't exist
+	 * @param string $key   Parameter's key
+	 * @param mixed $value Parameter's value
 	 */
 	public function set($key, $value) {
 
 	}
 
 	/*!
-	 * Verifie si un parametre existe
+	 * Check if a parameter exists
 	 * @param  string  $key Cle
-	 * @return boolean      True si le parametre existe
+	 * @return boolean      True if parameter exists
 	 */
 	public function has($key) {
 
 	}
 
 	/*!
-	 * Supprime un parametre
-	 * @param  string $key Cle du parametre a supprimer
+	 * Remove a parameter
+	 * @param  string $key Parameter's key
 	 * @return void
 	 */
 	public function remove($key) {
@@ -99,8 +102,8 @@ class ParameterBag
 	}
 
 	/*!
-	 * Compte le nombre de parametres
-	 * @return int Nombre de parametres
+	 * Count number of parameters
+	 * @return int Number of Parameters
 	 */
 	public function count() {
 

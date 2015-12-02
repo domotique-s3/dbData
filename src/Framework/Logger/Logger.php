@@ -1,7 +1,8 @@
-<?php namespace DS3\Framework\Logger
+<?php
+namespace DS3\Framework\Logger;
 
 /**
-* Permet d'ecrire les logs dans un fichier
+* Enable to write logs in a file
 */
 class Logger
 {
@@ -14,8 +15,8 @@ class Logger
 	/* --- CONSTRUCTORS --- */
 
 	/*!
-	 * Constructeur par fichier
-	 * @param File $file Fichier dans lequel seront ecrit les logs
+	 * File constructor
+	 * @param File $file File in which logs will be written
 	 */
 	public function __construct($file) {
 		
@@ -24,9 +25,9 @@ class Logger
 	/* --- METHODS --- */
 
 	/*!
-	 * Ecrit un message dans les logs
+	 * Write a message in logs
 	 * @param  string $message Message
-	 * @param  bool $timer   Si true, le timer est lance jusque l'appel de la methode done
+	 * @param  bool $timer   If true, timer is on until done()'s call
 	 * @return void
 	 */
 	public function message($message, $timer) {
@@ -34,7 +35,7 @@ class Logger
 	}
 
 	/*!
-	 * Ecrit "Done (time ms)" ou time est remplace par le temps ecoule depuis le dernier appel de la methode message
+	 * Write "Done (time ms)" where time is replaced with time elapsed since last message()'s call
 	 * @return void
 	 */
 	public function done() {

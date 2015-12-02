@@ -1,7 +1,7 @@
 <?php namespace DS3\Application;
 
 /**
-* Configuration de la base de donnees
+* Database Configuration
 */
 abstract class PDOConfiguration
 {
@@ -14,28 +14,28 @@ abstract class PDOConfiguration
 	/* --- METHODS --- */
 
 	/*!
-	 * Retourne le login de l'utilisateur
+	 * Returns user's login
 	 */
 	public function getLogin() {
 		return $this->login;
 	}
 
 	/*!
-	 * Retourne le mot de passe de l'utilisateur
+	 * Returns user's password
 	 */
 	public function getPassword() {
 		return $this->passwd;
 	}
 
 	/*!
-	 * Retourne le nom de la BDD
+	 * Returns database's name
 	 */
 	public function getDatabaseName() {
 		return $this->database_name;
 	}
 
 	/*!
-	 * Retourne le PDO configure
+	 * Returns PDO
 	 */
-	public function getPDO();
+	public abstract function getPDO();
 }
