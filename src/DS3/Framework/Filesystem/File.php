@@ -9,7 +9,8 @@ class File
 {
     /* --- ATTRIBUTES --- */
 
-    private $spl_file_object;
+    private $handle;
+    private $path;
 
     /* --- CONSTRUCTORS --- */
 
@@ -19,6 +20,13 @@ class File
      */
     public function __construct($path)
     {
+        $this->path = $path;
+        $this->handle = fopen($path, "c+");
+    }
+
+    public function __destruct()
+    {
+        fclose($this->handle);
     }
 
     /* --- METHODS --- */
@@ -30,6 +38,8 @@ class File
      */
     public function write($str)
     {
+        if (!fwrite($this->handle, $str))
+            throw new \Exception("Cannot write file " . $this->path);
     }
 
     /*!
@@ -38,6 +48,14 @@ class File
      */
     public function read()
     {
+        fseek($this->handle, 0);
+        
+        $contents = "";
+        while (!feof($this->handle)) {
+            $contents .= fread($this->handle, 1024);
+        }
+
+        return $contents;
     }
 
     /*!
@@ -46,5 +64,12 @@ class File
      */
     public function clear()
     {
+        file_put_contents($this->path, "");
+    }
+
+
+    public static function exists($path)
+    {
+        return file_exists($path);
     }
 }
