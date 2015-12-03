@@ -1,0 +1,23 @@
+{
+    "name": "dbCharts",
+    "authors": [
+        {
+            "name": "Loïc Payol",
+            "email": "loicpayol@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr4": {
+            "": "tests/"
+        }
+    }
+}

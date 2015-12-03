@@ -16,3 +16,12 @@ Se connecter en tant qu'utilisateur 'postgres'.
 Executer le script 'setup.sh'.
 `./setup.sh`
 
+### Configuration
+
+1. Installer Composer : `php -r "readfile('https://getcomposer.org/installer');" | php`
+2. `php composer.phar install`
+
+## Tests
+
+Après avoir installé le projet, comme indiqué plus haut, exécuter à la racine du projet :
+`phpunit --bootstrap vendor/autoload.php tests`
