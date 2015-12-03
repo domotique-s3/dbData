@@ -3,7 +3,7 @@
 namespace DS3\Application\Query;
 
 /**
- * TODO : TO COMPLETE.
+ * Represente a measure
  */
 class Measurment
 {
@@ -12,21 +12,41 @@ class Measurment
     private $value;
     private $moment;
 
-    /* --- GET SET --- */
+    /* --- GETTERS --- */
 
+    /*!
+     * Returns measurment's value
+     */
     public function getValue()
     {
+        return $this->value;
     }
 
-    public function setValue()
-    {
-    }
-
+    /*!
+     * Returns measurment's moment (horodatage)
+     */
     public function getMoment()
     {
+        return $this->moment;
+    }  
+
+    /* --- SETTERS --- */
+
+    /*!
+     * Sets measurment's moment
+     */
+    public function setMoment($moment)
+    {
+        $this->moment = $moment;
     }
 
-    public function setMoment()
+    /*!
+     * Sets measurment's value
+     */
+    public function setValue($value)
     {
+        $this->value = $value;
     }
+
+
 }
