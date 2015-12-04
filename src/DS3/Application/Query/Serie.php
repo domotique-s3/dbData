@@ -28,6 +28,10 @@ class Serie
      */
     public function setId ($id) 
     {
-    	$this->id = $id;
+    	if(is_int($id)){
+    		$this->id = $id;
+    	} else {
+    		throw new Exception("Param '". $id . "' is not an integer");
+    	}
     }
 }
