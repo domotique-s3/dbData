@@ -60,8 +60,10 @@ class ParameterBag
      */
     public function add($parameters,$erase = false) {
         foreach ($parameters as $key => $value) {
-            if($erase) $this->parameters[$key] = $value;
-            else return false;
+            if($this->has($key)){
+                if($erase) $this->parameters[$key] = $value;
+                else return false;
+            }
         }
         return true;
     }
