@@ -64,13 +64,14 @@ class ParameterBag
                 if($erase) $this->parameters[$key] = $value;
                 else return false;
             }
+            else $this->set($key,$value);
         }
         return true;
     }
 
     /*!
      * Returns parameter's value
-     * @param  string $key     Cle
+     * @param  string $key     Key
      * @param  mixed $default Default value to return if parameter doesn't exist
      * @return mixed          Parameter's value
      */
