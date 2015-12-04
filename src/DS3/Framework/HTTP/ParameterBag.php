@@ -10,20 +10,13 @@ class ParameterBag
 
     private $parameters = array();
 
-
-
     /* --- CONSTRUCTORS --- *
     /*!
      * Default constructor
      */
-    public function __construct() {
-        $this->init();
+    public function __construct($parameters = array()) {
+        $this->parameters = $parameters;
     }
-
-    public function init($parameters=array()) {
-        $this->replace($parameters);
-    }
-
 
     /* --- METHODS --- */
 
@@ -96,7 +89,8 @@ class ParameterBag
      * @return boolean      True if parameter exists
      */
     public function has($key) {
-        return array_key_exists($key,$this->parameters);
+        if (array_key_exists($key,$this->parameters)) return true;
+        return false;
     }
 
     /*!
