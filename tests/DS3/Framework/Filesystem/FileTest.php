@@ -27,6 +27,10 @@ class FileTest extends \PHPUnit_Framework_TestCase
 		$file->write("test");
 
 		$this->assertEquals("test", $file->read());
+
+		$file->write("\ntest2");
+
+		$this->assertEquals("test\ntest2", $file->read());
 		
 		if (file_exists($filename))
 			unlink($filename);
