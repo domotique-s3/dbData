@@ -1,9 +1,8 @@
 <?php
-
 namespace DS3\Framework\HTTP;
 
 /**
- * Sac de parametres, permet de stocker des valeurs associees a des cles.
+ * Parameter Bag, contains values and related keys
  */
 class ParameterBag
 {
@@ -11,19 +10,20 @@ class ParameterBag
 
     private $parameters = array();
 
-    /* --- CONSTRUCTORS --- */
 
+
+    /* --- CONSTRUCTORS --- *
     /*!
      * Default constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
+        $this->init();
     }
 
-    /*!
-     * Table constructor, where table is a table of parameter
-     * @param mixed[] $parameters Parameters table
-     */
+    public function init($parameters=array()) {
+        $this->replace($parameters);
+    }
+
 
     /* --- METHODS --- */
 
@@ -31,16 +31,16 @@ class ParameterBag
      * Returns all parameters
      * @return mixed[] Parameters
      */
-    public function all()
-    {
+    public function all() {
+        return $this->parameters;
     }
 
     /*!
      * Returns all keys
      * @return string[] Keys
      */
-    public function keys()
-    {
+    public function keys() {
+        return array_keys($this->parameters);
     }
 
     /*!
@@ -48,16 +48,22 @@ class ParameterBag
      * @param  mixed[] $parameters Parameter to replace
      * @return void
      */
-    public function replace($parameters)
-    {
+    public function replace($parameters) {
+        $this->parameters = NULL;
+        $this->parameters = $parameters;
     }
 
     /*!
      * Add parameters
-     * @param mixed[] $parameters Parameter to add
+     * @param mixed[] $parameters Parameters to add
+     * @param boolean $erase If true, duplicate keys will be overwritten
      */
-    public function add($parameters)
-    {
+    public function add($parameters,$erase = false) {
+        foreach ($parameters as $key => $value) {
+            if($erase) $this->parameters[$key] = $value;
+            else return false;
+        }
+        return true;
     }
 
     /*!
@@ -66,8 +72,9 @@ class ParameterBag
      * @param  mixed $default Default value to return if parameter doesn't exist
      * @return mixed          Parameter's value
      */
-    public function get($key, $default = null)
-    {
+    public function get($key, $default = null) {
+        if ($this->has($key))return $this->parameters[$key];
+        return $default;
     }
 
     /*!
@@ -75,8 +82,9 @@ class ParameterBag
      * @param string $key   Parameter's key
      * @param mixed $value Parameter's value
      */
-    public function set($key, $value)
-    {
+    public function set($key, $value) {
+        $this->parameters[$key] = $value;
+        return $this;
     }
 
     /*!
@@ -84,8 +92,8 @@ class ParameterBag
      * @param  string  $key Cle
      * @return boolean      True if parameter exists
      */
-    public function has($key)
-    {
+    public function has($key) {
+        return array_key_exists($key,$this->parameters);
     }
 
     /*!
@@ -93,15 +101,17 @@ class ParameterBag
      * @param  string $key Parameter's key
      * @return void
      */
-    public function remove($key)
-    {
+    public function remove($key) {
+        unset($this->parameters[$key]);
     }
 
     /*!
      * Count number of parameters
      * @return int Number of Parameters
      */
-    public function count()
-    {
+    public function count() {
+        return count($this->parameters);
     }
+
+
 }
