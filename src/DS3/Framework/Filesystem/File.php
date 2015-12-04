@@ -38,6 +38,8 @@ class File
      */
     public function write($str)
     {
+        fseek($this->handle, filesize($this->path));
+
         if (!fwrite($this->handle, $str))
             throw new \Exception("Cannot write file " . $this->path);
     }
