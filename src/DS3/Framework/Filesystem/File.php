@@ -22,6 +22,8 @@ class File
     {
         $this->path = $path;
         $this->handle = fopen($path, "c+");
+        $filesize = filesize($path);
+        fseek($this->handle, $filesize);
     }
 
     public function __destruct()
@@ -38,8 +40,6 @@ class File
      */
     public function write($str)
     {
-        fseek($this->handle, filesize($this->path));
-
         if (!fwrite($this->handle, $str))
             throw new \Exception("Cannot write file " . $this->path);
     }
