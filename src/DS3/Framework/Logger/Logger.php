@@ -2,6 +2,19 @@
 
 namespace DS3\Framework\Logger;
 
+require_once "../vendor/autoload.php";
+
+use DS3\Framework\Filesystem\File;
+
+function millitime() {
+    $microtime = microtime();
+    $comps = explode(' ', $microtime);
+
+    // Note: Using a string here to prevent loss of precision
+    // in case of "overflow" (PHP converts it to a double)
+    return sprintf('%d%03d', $comps[1], $comps[0] * 1000);
+}
+
 /**
  * Enable to write logs in a file.
  */
@@ -10,7 +23,6 @@ class Logger
     /* --- ATTRIBUTES --- */
 
     private $file;
-    private $last_message_timestamp;
     private $timers_stack;
 
     /* --- CONSTRUCTORS --- */
@@ -21,6 +33,37 @@ class Logger
      */
     public function __construct($file)
     {
+        $this->file = $file;
+        $this->timers_stack = new \SplStack();
+
+        // Date
+        
+        $today = getdate();
+        $year = $today['year'];
+        $mon = $today['mon'];
+        $mday = $today['mday'];
+        $hours = $today['hours'];
+        $minutes = $today['minutes'];
+        $seconds = $today['seconds'];
+
+        $this->file->write(
+            "\n\n --- " . 
+            $year . 
+            "-" . 
+            $mon . 
+            "-" . 
+            $mday . 
+            " " . 
+            $hours . 
+            ":" . 
+            $minutes . 
+            ":" . 
+            $seconds . 
+            " --- \n\n");
+    }
+
+    public function __destruct() {
+        $this->file->write("\n");
     }
 
     /* --- METHODS --- */
@@ -31,8 +74,26 @@ class Logger
      * @param  bool $timer   If true, timer is on until done()'s call
      * @return void
      */
-    public function message($message, $timer)
+    public function message($message, $timer = false)
     {
+        $str = "\n";
+
+        for ($i = 0; $i < $this->timers_stack->count(); $i++)
+            $str .= "\t";
+
+        $str .= $message;
+
+        if ($timer) {
+            if ($this->timers_stack->count() > 0) {
+                $temp = $this->timers_stack->pop();
+                $temp['has_childs'] = 1;
+                $this->timers_stack->push($temp);
+            }
+            $this->timers_stack->push(array('time' => millitime(), 'has_childs' => 0));
+        }
+
+        echo $str;
+        $this->file->write($str);
     }
 
     /*!
@@ -41,5 +102,23 @@ class Logger
      */
     public function done()
     {
+        $elapsed_time = millitime() - $this->timers_stack->top()['time'];
+        $has_childs = $this->timers_stack->pop()['has_childs'];
+
+        $str = "";
+
+        if ($has_childs) {
+            $str .= "\n";
+            for ($i = 0; $i < $this->timers_stack->count(); $i++)
+                $str .= "\t";
+        }
+        else {
+            $str .= " ";
+        }
+
+        $str .= "Done (" . $elapsed_time . " ms)";
+
+        echo $str;
+        $this->file->write($str);
     }
 }
