@@ -79,13 +79,19 @@ class FilePDOConfiguration extends PDOConfiguration
             return (null);
         }
 
+        return getSgbdPDO();
+    }
+
+    public function getSgbdPDO()
+    {
         if ($_sgbd == 'mysql')
             return new PDO('mysql:host='.$_host.';dbname='.$_database_name, $_login, $_passwd);
         
         elseif ($_sgbd == 'pgsql')
             return new PDO('pgsql:dbname='.$_database_name.' host='.$_host, $_login, $_passwd);
+        else
+            return null;
     }
-
     // Get functions
     public function getDBname()
     {
