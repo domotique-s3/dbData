@@ -58,7 +58,7 @@ class Query
         $this->startTime = $startTime;
 
         if($endTime < $this->startTime)
-            throw new \Exception('$endTime is not supposed to be anterior to $startTime');
+            throw new \InvalidArgumentException('$endTime is not supposed to be anterior to $startTime');
         $this->endTime = $endTime;
     }
 
