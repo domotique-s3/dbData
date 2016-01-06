@@ -32,7 +32,7 @@ class Request
         return new static($_GET, array(), $_SERVER);
     }
     /**
-     * Retourne la méthode http de la requette
+     * Retourne la méthode http de la requête
      */
     public function getMethod()
     {

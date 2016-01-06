@@ -2,8 +2,6 @@
 
 namespace DS3\Framework\Logger;
 
-require_once "../vendor/autoload.php";
-
 use DS3\Framework\Filesystem\File;
 
 function millitime() {
@@ -31,7 +29,7 @@ class Logger
      * File constructor
      * @param File $file File in which logs will be written
      */
-    public function __construct($file)
+    public function __construct(File $file)
     {
         $this->file = $file;
         $this->timers_stack = new \SplStack();
@@ -92,7 +90,6 @@ class Logger
             $this->timers_stack->push(array('time' => millitime(), 'has_childs' => 0));
         }
 
-        echo $str;
         $this->file->write($str);
     }
 
@@ -118,7 +115,6 @@ class Logger
 
         $str .= "Done (" . $elapsed_time . " ms)";
 
-        echo $str;
         $this->file->write($str);
     }
 }

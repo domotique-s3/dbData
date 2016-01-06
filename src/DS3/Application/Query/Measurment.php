@@ -9,8 +9,28 @@ class Measurment
 {
     /* --- ATTRIBUTES --- */
 
+    /**
+     * @var mixed
+     */
     private $value;
+
+    /**
+     * @var number
+     */
     private $moment;
+
+    /**
+     * Measurment constructor.
+     * @param mixed $value
+     * @param number $moment
+     */
+    public function __construct($value, $moment)
+    {
+        $this->value = $value;
+        $this->moment = $moment;
+    }
+
+
 
     /* --- GETTERS --- */
 
@@ -28,25 +48,5 @@ class Measurment
     public function getMoment()
     {
         return $this->moment;
-    }  
-
-    /* --- SETTERS --- */
-
-    /*!
-     * Sets measurment's moment
-     */
-    public function setMoment($moment)
-    {
-        $this->moment = $moment;
     }
-
-    /*!
-     * Sets measurment's value
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-    }
-
-
 }
