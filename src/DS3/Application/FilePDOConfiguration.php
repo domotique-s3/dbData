@@ -15,11 +15,11 @@ namespace DS3\Application;
 
 class FilePDOConfiguration extends PDOConfiguration
 {   
-    private const _DB_NAME = 0;
-    private const _DB_HOST = 1;
-    private const _DB_CONNECT = 2;
-    private const _DB_LOGIN = 3
-    private const _DB_PASSWORD = 4;
+    const _DB_NAME = 0;
+    const _DB_HOST = 1;
+    const _DB_CONNECT = 2;
+    const _DB_LOGIN = 3
+    const _DB_PASSWORD = 4;
 
     // File path
     private $_file;
@@ -38,8 +38,8 @@ class FilePDOConfiguration extends PDOConfiguration
     {
         if (empty($sgbd) or empty($path) or (file_exists($path) == false))
             throw new Exception("Error : No file in parameter", 1);        
-        $_file = $path;
-        $_sgbd = $sgbd;
+        $this->_file = $path;
+        $this->_sgbd = $sgbd;
     }
 
     // Return PDO Object
@@ -47,27 +47,27 @@ class FilePDOConfiguration extends PDOConfiguration
     {
         try {
     
-            if (($handel = fopen($_file, "r")) == false)
-                throw new Exception("Error : $_file can't be open", 1);
+            if (($handel = fopen($this->_file, "r")) == false)
+                throw new Exception("Error : ".$this->_file." can't be open", 1);
 
             
             for ($i = 0, ($data = readdir($handel)) != false, $i++)
             {
                 switch ($i) {
-                    case _DB_NAME:
-                        $_database_name = $data;
+                    case self::_DB_NAME:
+                        $this->_database_name = $data;
                         break;
-                    case _DB_HOST:
-                        $_host = $data;
+                    case self::_DB_HOST:
+                        $this->_host = $data;
                         break;
-                    case _DB_CONNECT:
-                        $_connector = $data;
+                    case self::_DB_CONNECT:
+                        $this->_connector = $data;
                         break;
-                    case _DB_LOGIN:
-                        $_login = $data;
+                    case self::_DB_LOGIN:
+                        $this->_login = $data;
                         break;
-                    case _DB_PASSWORD:
-                        $_passwd = $data;
+                    case self::_DB_PASSWORD:
+                        $this->_passwd = $data;
                         break;                    
                 }
                 echo $data."\n";
@@ -84,44 +84,44 @@ class FilePDOConfiguration extends PDOConfiguration
 
     public function getSgbdPDO()
     {
-        if ($_sgbd == 'mysql')
-            return new PDO('mysql:host='.$_host.';dbname='.$_database_name, $_login, $_passwd);
+        if ($this->_sgbd == 'mysql')
+            return new PDO('mysql:host='.$this->_host.';dbname='.$this->_database_name, $this->_login, $this->_passwd);
         
-        elseif ($_sgbd == 'pgsql')
-            return new PDO('pgsql:dbname='.$_database_name.' host='.$_host, $_login, $_passwd);
+        elseif ($this->_sgbd == 'pgsql')
+            return new PDO('pgsql:dbname='.$this->_database_name.' host='.$this->_host, $this->_login, $this->_passwd);
         else
             return null;
     }
     // Get functions
     public function getDBname()
     {
-        return $_database_name;
+        return $this->_database_name;
     }
 
     public function getHost()
     {
-        return $_host;
+        return $this->_host;
     }
 
     public function getConnector()
     {
-        return $_connector;
+        return $this->_connector;
     }
 
     public function getLogin()
     {
-        return $_login;
+        return $this->_login;
     }
 
     public function getSgbd()
     {
-       return $_sgbd;
+       return $this->_sgbd;
     }
 
     // Set function
     public function setSgbd($sgbd)
     {
-        $_sgbd = $sgbd;
+        $this->_sgbd = $sgbd;
     }
 }
 

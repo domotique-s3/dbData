@@ -9,22 +9,16 @@ class Request
 {
     /* --- ATTRIBUTES --- */
 
-    public $server;
-    public $attributes;
-    public $query;
-    public $post;
-    public $cookies;
-    public $headers;
+    private $query;
+    private $attributes;
+    private $server;
 
     /* --- CONSTRUCTOR --- */
-    public function __construct()
+    public function __construct(array $query = array(), array $attributes = array(), array $server = array())
     {
-        $this->server = new ParameterBag();
-        $this->attributes = new ParameterBag();
-        $this->query = new ParameterBag();
-        $this->post = new ParameterBag();
-        $this->cookies = new ParameterBag();
-        $this->headers = new ParameterBag();
+        $this->server = new ParameterBag($server);
+        $this->attributes = new ParameterBag($attributes);
+        $this->query = new ParameterBag($query);
     }
 
     /* --- METHODS --- */
@@ -33,7 +27,29 @@ class Request
      * Cree un objet Request depuis les variables globales
      * @return Request
      */
-    public function fromGlobals()
+    public static function fromGlobals()
     {
+        return new static($_GET, array(), $_SERVER);
+    }
+    /**
+     * Retourne la méthode http de la requette
+     */
+    public function getMethod()
+    {
+        return $this->server->get('REQUEST_METHOD', 'GET');
+    }
+
+    /* --- GET --- */
+
+    public function getQuery() {
+        return $this->query;
+    }
+
+    public function getAttributes() {
+        return $this->attributes;
+    }
+
+    public function getServer() {
+        return $this->server;
     }
 }
