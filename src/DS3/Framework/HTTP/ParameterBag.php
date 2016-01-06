@@ -41,7 +41,7 @@ class ParameterBag
      * @param  mixed[] $parameters Parameter to replace
      * @return void
      */
-    public function replace($parameters) {
+    public function replace(array $parameters) {
         $this->parameters = NULL;
         $this->parameters = $parameters;
     }
