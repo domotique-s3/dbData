@@ -2,17 +2,23 @@
 
 namespace DS3\Application\Query;
 
+use DS3\Framework\Logger\Logger;
+use DS3\Framework\Logger\LoggerAwareInterface;
+
 /**
  * Handles a query with a given PDO connection.
  *
  * @author Loïc Payol <loic.payol@gmail.com>
  */
-class QueryHandler
+class QueryHandler implements LoggerAwareInterface
 {
     private static $timestampCol = "_r0";
     private static $valuesCol = "_r1";
     private static $sensorCol = "_r2";
-
+    /**
+     * @var Logger|null
+     */
+    protected $logger;
     /**
      * @var \PDO The PDO connection object.
      */
@@ -29,14 +35,30 @@ class QueryHandler
     }
 
     /**
+     * Injects the logger
+     * @param Logger|null $logger The logger to inject
+     * @return void
+     */
+    public function setLogger(Logger $logger = null)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
      * Executes a given Query to the inner PDO connection.
      */
     public function execute(Query $query)
     {
         $statement = $this->prepareSQL($query);
 
+        if ($this->logger != null)
+            $this->logger->message("QueryHandler : executing query ...", true);
+
         $statement->execute();
         $res = $statement->fetchAll(\PDO::FETCH_GROUP | \PDO::FETCH_ASSOC);
+
+        if ($this->logger != null)
+            $this->logger->done();
 
         return $this->toSeries($res);
     }
@@ -109,6 +131,10 @@ class QueryHandler
         $statement = $this->pdo->prepare($sql);
         foreach ($params as $args) {
             call_user_func_array(array($statement, 'bindValue'), $args);
+        }
+
+        if ($this->logger != null) {
+            $this->logger->message("QueryHandler : $sql with params " . json_encode($params));
         }
 
         return $statement;
