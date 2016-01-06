@@ -16,11 +16,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $table = 'a';
         $sensorColumn = 'b';
         $timestampColumn = 'c';
-        $sensorIds = array('d', 3);
+        $valuesColumn = 'd';
+        $sensorIds = array('e', 3);
         $startTime = new \DateTime("now");
         $endTime = new \DateTime("tomorrow");
 
-        $query = new Query($table, $sensorColumn, $timestampColumn, $sensorIds, $startTime, $endTime);
+        $query = new Query($table, $sensorColumn, $timestampColumn, $valuesColumn, $sensorIds, $startTime, $endTime);
 
         $this->assertEquals($table, $query->getTable());
         $this->assertEquals($sensorColumn, $query->getSensorColumn());
@@ -36,11 +37,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $table = 'a';
         $sensorColumn = 'b';
         $timestampColumn = 'c';
-        $sensorIds = array('d', 3);
+        $valuesColumn = 'd';
+        $sensorIds = array('e', 3);
         $startTime = new \DateTime("tomorrow");
         $endTime = new \DateTime("now");
 
         $this->setExpectedException('InvalidArgumentException');
-        new Query($table, $sensorColumn, $timestampColumn, $sensorIds, $startTime, $endTime);
+        new Query($table, $sensorColumn, $timestampColumn, $valuesColumn, $sensorIds, $startTime, $endTime);
     }
 }

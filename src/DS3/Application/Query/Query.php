@@ -26,6 +26,11 @@ class Query
     private $timestampColumn;
 
     /**
+     * @var string The column where to fetch the values
+     */
+    private $valuesColumn;
+
+    /**
      * @var string[] An array of sensor IDs
      */
     private $sensorIds = array();
@@ -45,15 +50,17 @@ class Query
      * @param string $table
      * @param string $sensorColumn
      * @param string $timestampColumn
+     * @param string $valuesColumn
      * @param \string[] $sensorIds
      * @param \DateTime $startTime
      * @param \DateTime $endTime
      */
-    public function __construct($table, $sensorColumn, $timestampColumn, array $sensorIds, \DateTime $startTime, \DateTime $endTime)
+    public function __construct($table, $sensorColumn, $timestampColumn, $valuesColumn, array $sensorIds, \DateTime $startTime = null, \DateTime $endTime = null)
     {
         $this->table = (string) $table;
         $this->sensorColumn = (string) $sensorColumn;
         $this->timestampColumn = (string) $timestampColumn;
+        $this->valuesColumn = (string)$valuesColumn;
         $this->sensorIds = $sensorIds;
         $this->startTime = $startTime;
 
@@ -84,6 +91,14 @@ class Query
     public function getTimestampColumn()
     {
         return $this->timestampColumn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValuesColumn()
+    {
+        return $this->valuesColumn;
     }
 
     /**
