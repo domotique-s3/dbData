@@ -9,9 +9,9 @@ class Request
 {
     /* --- ATTRIBUTES --- */
 
-    public $query;
-    public $attributes;
-    public $server;
+    private $query;
+    private $attributes;
+    private $server;
 
     /* --- CONSTRUCTOR --- */
     public function __construct(array $query = array(), array $attributes = array(), array $server = array())
@@ -37,5 +37,19 @@ class Request
     public function getMethod()
     {
         return $this->server->get('REQUEST_METHOD', 'GET');
+    }
+
+    /* --- GET --- */
+
+    public function getQuery() {
+        return $this->query;
+    }
+
+    public function getAttributes() {
+        return $this->attributes;
+    }
+
+    public function getServer() {
+        return $this->server;
     }
 }
