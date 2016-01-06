@@ -21,19 +21,24 @@ class FilePDOConfiguration extends PDOConfiguration
     const _DB_LOGIN = 3
     const _DB_PASSWORD = 4;
 
-    // File path
+    /* File path */
     private $_file;
-    // SGBD String
+    /* SGBD String */
     private $_sgbd;   
 
-    // Database info
+    /* Database info */
     private $_database_name;
     private $_host;
     private $_connector;
     private $_passwd;
 
 
-    // Constructor 
+    /**
+	*	Constructor FilePDOConfiguration
+	*
+	* 	@param String $path	File with connection data
+	*	@param String $sgbd	Sgbd type	
+	*/
     public function __construct($path, $sgbd)
     {
         if (empty($sgbd) or empty($path) or (file_exists($path) == false))
@@ -42,7 +47,9 @@ class FilePDOConfiguration extends PDOConfiguration
         $this->_sgbd = $sgbd;
     }
 
-    // Return PDO Object
+    /** 
+	*	@return PDO Object
+	*/
     public function getPDO()
     {
         try {
@@ -82,6 +89,9 @@ class FilePDOConfiguration extends PDOConfiguration
         return getSgbdPDO();
     }
 
+	/** 
+	* @return PDO Object
+	*/
     public function getSgbdPDO()
     {
         if ($this->_sgbd == 'mysql')
@@ -92,33 +102,50 @@ class FilePDOConfiguration extends PDOConfiguration
         else
             return null;
     }
-    // Get functions
+	
+    /** 
+	* @return string	database name
+	*/
     public function getDBname()
     {
         return $this->_database_name;
     }
-
+	
+    /** 
+	* @return string	host name
+	*/
     public function getHost()
     {
         return $this->_host;
     }
 
-    public function getConnector()
+    /** 
+	* @return string	connector
+	*/
+	public function getConnector()
     {
         return $this->_connector;
     }
 
+	/** 
+	* @return string	login
+	*/
     public function getLogin()
     {
         return $this->_login;
     }
 
-    public function getSgbd()
+    /** 
+	* @return string	sgbd
+	*/
+	public function getSgbd()
     {
        return $this->_sgbd;
     }
 
-    // Set function
+    /** 
+	*	@param string	sgbd
+	*/
     public function setSgbd($sgbd)
     {
         $this->_sgbd = $sgbd;
