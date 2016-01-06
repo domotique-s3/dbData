@@ -4,7 +4,7 @@ namespace DS3\Application\Query;
 
 class MeasurmentTest extends \PHPUnit_Framework_TestCase
 {
-	$measur = new Measurment()
+	$measur = new Measurment();
 
 	public function testGetterSetter()
 	{
