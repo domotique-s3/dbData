@@ -9,6 +9,10 @@ namespace DS3\Application\Query;
  */
 class QueryHandler
 {
+    private static $timestampCol = "_r0";
+    private static $valuesCol = "_r1";
+    private static $sensorCol = "_r2";
+
     /**
      * @var \PDO The PDO connection object.
      */
@@ -29,6 +33,20 @@ class QueryHandler
      */
     public function execute(Query $query)
     {
+        $statement = $this->prepareSQL($query);
+
+        $statement->execute();
+        $res = $statement->fetchAll(\PDO::FETCH_GROUP | \PDO::FETCH_ASSOC);
+
+        return $this->toSeries($res);
+    }
+
+    /**
+     * @param Query $query
+     * @return \PDOStatement
+     */
+    private function prepareSQL(Query $query)
+    {
         // Securing variables names, as PDO can't escape table and column names
         $timestampCol = $this->sanitize($query->getTimestampColumn());
         $sensorCol = $this->sanitize($query->getSensorColumn());
@@ -37,7 +55,11 @@ class QueryHandler
         $start = $query->getStartTime();
         $end = $query->getEndTime();
 
-        $sql = "SELECT $sensorCol, $timestampCol, $valuesCol FROM $table";
+        $sql = "SELECT
+            $sensorCol AS " . self::$sensorCol . ",
+            $timestampCol AS " . self::$timestampCol . ",
+            $valuesCol AS " . self::$valuesCol . "
+          FROM $table";
 
         $whereClauses = array();
         $params = array();
@@ -89,12 +111,29 @@ class QueryHandler
             call_user_func_array(array($statement, 'bindValue'), $args);
         }
 
-        $statement->execute();
-        return $statement->fetchAll(\PDO::FETCH_GROUP | \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC);
+        return $statement;
     }
 
     protected function sanitize($str)
     {
         return preg_replace('/[^a-zA-Z0-9_]/', '', $str);
+    }
+
+    /**
+     * @param array $output
+     * @return Serie[]
+     */
+    private function toSeries(array $output)
+    {
+        $ret = array();
+        foreach ($output as $sensorId => $rawMeasurments) {
+            $measurments = array();
+            foreach ($rawMeasurments as $rawMeasurment) {
+                $measurments[] = new Measurment($rawMeasurment[self::$valuesCol], $rawMeasurment[self::$timestampCol]);
+            }
+
+            $ret[] = new Serie($sensorId, $measurments);
+        }
+        return $ret;
     }
 }
