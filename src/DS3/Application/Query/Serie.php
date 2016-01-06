@@ -9,29 +9,46 @@ class Serie
 {
     /* --- ATTRIBUTES --- */
 
+    /**
+     * @var mixed
+     */
     private $id;
+
+    /**
+     * @var Measurment[]
+     */
+    private $measurments;
+
+    /**
+     * Serie constructor.
+     * @param mixed $id
+     * @param Measurment[] $measurments
+     */
+    public function __construct($id, array $measurments)
+    {
+        $this->id = $id;
+        $this->measurments = $measurments;
+    }
 
     /* --- GETTERS --- */
 
-    /*!
+    /**
      * Returns serie's id
+     * @return mixed
      */
     public function getId () 
     {
     	return $this->id;
     }
 
-    /* --- SETTERS --- */
-
-    /*!
-     * Sets serie's id
+    /**
+     * Return serie's measurments
+     * @return Measurment[]
      */
-    public function setId ($id) 
+    public function getMeasurments()
     {
-    	if(is_int($id)){
-    		$this->id = $id;
-    	} else {
-    		throw new Exception("Param '". $id . "' is not an integer");
-    	}
+        return $this->measurments;
     }
+
+
 }
