@@ -25,6 +25,7 @@ Executer le script 'setup.sh'.
 Installer Composer : 
 
 `php -r "readfile('https://getcomposer.org/installer');" | php`
+
 `php composer.phar install`
 
 Lancer `php db_setup.php` pour configurer PDO.
