@@ -30,6 +30,11 @@ class Serie
         $this->measurments = $measurments;
     }
 
+    public static function fromArray(array $input)
+    {
+
+    }
+
     /* --- GETTERS --- */
 
     /**

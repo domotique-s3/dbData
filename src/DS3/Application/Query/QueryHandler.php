@@ -12,9 +12,10 @@ use DS3\Framework\Logger\LoggerAwareInterface;
  */
 class QueryHandler implements LoggerAwareInterface
 {
-    private static $timestampCol = "_r0";
-    private static $valuesCol = "_r1";
-    private static $sensorCol = "_r2";
+    private static $sensorCol = "sensor";
+    private static $valuesCol = "value";
+    private static $timestampCol = "timestamp";
+
     /**
      * @var Logger|null
      */
@@ -32,6 +33,34 @@ class QueryHandler implements LoggerAwareInterface
     public function __construct($pdo)
     {
         $this->pdo = $pdo;
+        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+    }
+
+    /**
+     * @param array $output
+     * @return Serie[]
+     */
+    public static function toSeries(array $output)
+    {
+        $ret = array();
+        foreach ($output as $sensorId => $rawMeasurments) {
+            if (!is_array($rawMeasurments))
+                throw new \InvalidArgumentException('Measurments must be an array');
+
+            $measurments = array();
+            foreach ($rawMeasurments as $rawMeasurment) {
+                if (!isset($rawMeasurment[self::$valuesCol]))
+                    throw new \InvalidArgumentException(self::$valuesCol . ' field is missing');
+
+                if (!isset($rawMeasurment[self::$timestampCol]))
+                    throw new \InvalidArgumentException(self::$timestampCol . ' field is missing');
+
+                $measurments[] = new Measurment($rawMeasurment[self::$valuesCol], $rawMeasurment[self::$timestampCol]);
+            }
+
+            $ret[] = new Serie($sensorId, $measurments);
+        }
+        return $ret;
     }
 
     /**
@@ -60,7 +89,7 @@ class QueryHandler implements LoggerAwareInterface
         if ($this->logger != null)
             $this->logger->done();
 
-        return $this->toSeries($res);
+        return $res;
     }
 
     /**
@@ -73,7 +102,7 @@ class QueryHandler implements LoggerAwareInterface
         $timestampCol = $this->sanitize($query->getTimestampColumn());
         $sensorCol = $this->sanitize($query->getSensorColumn());
         $valuesCol = $this->sanitize($query->getValuesColumn());
-        $table = $query->getTable();
+        $table = $this->sanitize($query->getTable());
         $start = $query->getStartTime();
         $end = $query->getEndTime();
 
@@ -143,23 +172,5 @@ class QueryHandler implements LoggerAwareInterface
     protected function sanitize($str)
     {
         return preg_replace('/[^a-zA-Z0-9_]/', '', $str);
-    }
-
-    /**
-     * @param array $output
-     * @return Serie[]
-     */
-    private function toSeries(array $output)
-    {
-        $ret = array();
-        foreach ($output as $sensorId => $rawMeasurments) {
-            $measurments = array();
-            foreach ($rawMeasurments as $rawMeasurment) {
-                $measurments[] = new Measurment($rawMeasurment[self::$valuesCol], $rawMeasurment[self::$timestampCol]);
-            }
-
-            $ret[] = new Serie($sensorId, $measurments);
-        }
-        return $ret;
     }
 }
