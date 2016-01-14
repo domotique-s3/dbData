@@ -30,6 +30,12 @@ Installer Composer :
 
 Lancer `php db_setup.php` pour configurer PDO.
 
+Puis :
+
+`sudo chown www-data pdo.cfg`
+
+`sudo chmod 700 pdo.cfg`
+
 ## Tests
 
 Installer phpunit :
