@@ -32,6 +32,9 @@ class QueryHandler implements LoggerAwareInterface
      */
     public function __construct($pdo)
     {
+        if (!$pdo instanceof \PDO)
+            throw new \Exception("La variable n'est pas un PDO");
+
         $this->pdo = $pdo;
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }

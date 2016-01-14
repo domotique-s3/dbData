@@ -15,6 +15,10 @@ class FilePDOConfiguration extends PDOConfiguration {
 			throw new exception("Configuration file does not exists");
 		$this->file = new File($path);
 		$str = $this->file->read();
+
+		if ($str == "")
+			throw new \Exception("$path is empty");
+
 		$array = explode("\n", $str);
 		$this->connector = $array[0];
 		$this->database_name = $array[1];
