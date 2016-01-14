@@ -2,7 +2,7 @@
 
 ## Installation
 
-### Création de la BDD de developpement (uniquement pour développer)
+### Création de la BDD (uniquement pour développer)
 
 Installer postgresql (si ce n'est déjà fait).
 
