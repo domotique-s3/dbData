@@ -12,6 +12,8 @@ abstract class PDOConfiguration
     protected $login;
     protected $passwd;
     protected $database_name;
+    protected $host;
+    protected $connector;
 
     /* --- METHODS --- */
 
@@ -39,6 +41,16 @@ abstract class PDOConfiguration
     public function getDatabaseName()
     {
         return $this->database_name;
+    }
+
+    public function getHost()
+    {
+        return $this->host;
+    }
+
+    public function getConnector()
+    {
+        return $this->connector;
     }
 
     /*!

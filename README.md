@@ -22,10 +22,19 @@ Executer le script 'setup.sh'.
 
 ### Configuration
 
-1. Installer Composer : `php -r "readfile('https://getcomposer.org/installer');" | php`
-2. `php composer.phar install`
+Installer Composer : 
+
+`php -r "readfile('https://getcomposer.org/installer');" | php`
+
+`php composer.phar install`
+
+Lancer `php db_setup.php` pour configurer PDO.
 
 ## Tests
+
+Installer phpunit :
+
+`sudo apt-get install phpunit`
 
 Après avoir installé le projet, comme indiqué plus haut, exécuter à la racine du projet :
 
