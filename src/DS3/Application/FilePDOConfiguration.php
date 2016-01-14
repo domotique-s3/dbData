@@ -26,10 +26,10 @@ class FilePDOConfiguration extends PDOConfiguration {
 	public function getPDO() {
 		switch ($this->connector) {
 			case 'pgsql':
-				return new PDO('pgsql:dbname='.$this->database_name.' host='.$this->host, $this->login, $this->passwd);
+				return new \PDO('pgsql:dbname='.$this->database_name.' host='.$this->host, $this->login, $this->passwd);
 			break;
 			case 'mysql':
-				return new PDO('mysql:host='.$this->host.';dbname='.$this->database_name, $this->login, $this->passwd);
+				return new \PDO('mysql:host='.$this->host.';dbname='.$this->database_name, $this->login, $this->passwd);
 			break;
 		}
 	}

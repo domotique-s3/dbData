@@ -11,6 +11,7 @@ class Response
 
     public $headers;
     private $content;
+    private $status;
 
     /*! --- CONSTRUCTOR --- */
 
@@ -20,8 +21,10 @@ class Response
      * @param int $status  Status de la reponse
      * @param mixed[] $headers En-tete
      */
-    public function __construct($content, $status, $headers)
+    public function __construct($content, $status = 200, $headers = array())
     {
+        $this->content = $content;
+        $this->status = $status;
         $this->headers = new ParameterBag();
     }
 
@@ -33,6 +36,7 @@ class Response
      */
     public function send()
     {
+        echo json_encode($this->content);
     }
 
     /* --- GET SET --- */
