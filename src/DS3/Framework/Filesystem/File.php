@@ -55,7 +55,7 @@ class File
         $contents = "";
         do {
             $contents .= fread($this->handle, 1024);
-        } while (!feof($this->handle) && $content != "");
+        } while (!feof($this->handle) && $contents != "");
 
         return $contents;
     }
