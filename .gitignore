@@ -3,3 +3,4 @@
 /composer.phar
 *.log
 pdo.cfg
+.idea/

@@ -1,44 +1,34 @@
 # dbCharts
 
-## Installation
+## Prerequis
 
-### Création de la BDD (uniquement pour développer)
+### Apache2
 
-Installer postgresql (si ce n'est déjà fait).
+Apache 2 doit être installé.
 
-`sudo apt-get install postgresql`
+La dossier de dbCharts doit être placé dans un dossier d'apache (par defaut '/var/www/html/').
 
-Se placer dans le dossier 'setup_dev'.
+### PHP5
 
-`cd setup_dev`
+PHP5 doit être installé.
 
-Se connecter en tant qu'utilisateur 'postgres'.
+### Un SGBD
 
-`sudo su postgres`
+Postgresql et Mysql sont pris en charge par dbCharts.
 
-Executer le script 'setup.sh'.
+### Une base de données
 
-`./setup_dev.sh`
+Cette base de données doit contenir une table contenant 3 champs (les noms de la table et des champs ne sont pas imposés) :
 
-### Configuration
+- ID du capteur, de type INT
+- Valeur de la mesure, de type DOUBLE PRECISION
+- Horodatage, de type DOUBLE PRECISION
+
+## Configuration
 
 Lancer le script 'setup_rel.sh' en super-utilisateur à la racine du projet :
 
 `sudo sh setup_rel.sh`
-
-## Tests (uniquement pour développer)
-
-Installer phpunit :
-
-`sudo apt-get install phpunit`
-
-Après avoir installé le projet, comme indiqué plus haut, exécuter à la racine du projet :
-
-`phpunit --bootstrap vendor/autoload.php tests`
-
-ou
-
-`sh unittests.sh`
 
 ## Utilisation
 
