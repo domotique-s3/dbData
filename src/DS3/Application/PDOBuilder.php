@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace DS3\Application;
 
