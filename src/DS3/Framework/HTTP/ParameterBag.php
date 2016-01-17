@@ -10,9 +10,9 @@ class ParameterBag
 
     private $parameters = array();
 
-    /* --- CONSTRUCTORS --- *
-    /*!
-     * Default constructor
+    /**
+     * ParameterBag constructor.
+     * @param array $parameters optional existing parameters
      */
     public function __construct($parameters = array()) {
         $this->parameters = $parameters;
@@ -20,7 +20,7 @@ class ParameterBag
 
     /* --- METHODS --- */
 
-    /*!
+    /**
      * Returns all parameters
      * @return mixed[] Parameters
      */
@@ -28,15 +28,16 @@ class ParameterBag
         return $this->parameters;
     }
 
-    /*!
+    /**
      * Returns all keys
      * @return string[] Keys
      */
+
     public function keys() {
         return array_keys($this->parameters);
     }
 
-    /*!
+    /**
      * Replace parameters
      * @param  mixed[] $parameters Parameter to replace
      * @return void
@@ -45,10 +46,11 @@ class ParameterBag
         $this->parameters = $parameters;
     }
 
-    /*!
+    /**
      * Add parameters
      * @param mixed[] $parameters Parameters to add
      * @param boolean $erase If true, duplicate keys will be overwritten
+     * @return boolean false if add() fails, true otherwise
      */
     public function add($parameters,$erase = false) {
         foreach ($parameters as $key => $value) {
@@ -59,7 +61,7 @@ class ParameterBag
         return true;
     }
 
-    /*!
+    /**
      * Returns parameter's value
      * @param  string $key     Key
      * @param  mixed $default Default value to return if parameter doesn't exist
@@ -70,17 +72,18 @@ class ParameterBag
         return $default;
     }
 
-    /*!
+    /**
      * Change parameter's value, create if doesn't exist
      * @param string $key   Parameter's key
      * @param mixed $value Parameter's value
+     * @return ParameterBag the updated parameter bag
      */
     public function set($key, $value) {
         $this->parameters[$key] = $value;
         return $this;
     }
 
-    /*!
+    /**
      * Check if a parameter exists
      * @param  string  $key Cle
      * @return boolean      True if parameter exists
@@ -89,7 +92,7 @@ class ParameterBag
         return array_key_exists($key, $this->parameters);
     }
 
-    /*!
+    /**
      * Remove a parameter
      * @param  string $key Parameter's key
      * @return void
@@ -98,7 +101,7 @@ class ParameterBag
         unset($this->parameters[$key]);
     }
 
-    /*!
+    /**
      * Count number of parameters
      * @return int Number of Parameters
      */
