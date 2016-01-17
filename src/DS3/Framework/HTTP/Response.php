@@ -25,7 +25,7 @@ class Response
      * @param $content string The content of the response
      * @param $status int The HTTP status of the response
      */
-    public function __construct($content, $statusCode)
+    public function __construct($content, $statusCode = 200)
     {
         $this->setContent($content);
         $this->setStatusCode($statusCode);
