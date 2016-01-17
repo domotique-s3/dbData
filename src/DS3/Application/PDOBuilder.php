@@ -5,7 +5,7 @@ namespace DS3\Application;
 /**
  * Database Configuration.
  */
-abstract class PDOConfiguration
+abstract class PDOBuilder
 {
     /* --- ATTRIBUTES --- */
 

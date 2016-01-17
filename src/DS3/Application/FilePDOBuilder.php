@@ -4,7 +4,7 @@ namespace DS3\Application;
 
 use DS3\Framework\Filesystem\File;
 
-class FilePDOConfiguration extends PDOConfiguration {
+class FilePDOBuilder extends PDOBuilder {
 
 	private $file;
 

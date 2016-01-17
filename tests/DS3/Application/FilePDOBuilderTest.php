@@ -2,10 +2,10 @@
 
 namespace DS3\Application;
 
-class FilePDOConfigurationTest extends \PHPUnit_Framework_TestCase
+class FilePDOBuilderTest extends \PHPUnit_Framework_TestCase
 {
 	public function testGet() {
-		$config = new FilePDOConfiguration("pdo_unittests.cfg");
+		$config = new FilePDOBuilder("pdo_unittests.cfg");
 
 		$this->assertEquals('pgsql', $config->getConnector());
 		$this->assertEquals('dbcharts', $config->getDatabaseName());
