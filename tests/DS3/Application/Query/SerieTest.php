@@ -13,6 +13,6 @@ class SerieTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(3, $serie->getId());
         $this->assertEquals(1, $serie->getMeasurments()[0]->getValue());
-        $this->assertEquals(2, $serie->getMeasurments()[0]->getMoment());
+        $this->assertEquals(2, $serie->getMeasurments()[0]->getTimestamp());
     }
 }

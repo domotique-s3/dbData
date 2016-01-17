@@ -8,7 +8,7 @@ class MeasurmentTest extends \PHPUnit_Framework_TestCase
     {
         $measur = new Measurment(1, 2);
 
-        $this->assertEquals(2, $measur->getMoment());
+        $this->assertEquals(2, $measur->getTimestamp());
         $this->assertEquals(1, $measur->getValue());
     }
 }
