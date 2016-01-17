@@ -99,13 +99,13 @@ class Query
 
         if ($value == null) {
             if ($optional) {
-                return null;
+                return;
             }
             throw new \InvalidArgumentException("$param is missing");
         }
         if (($value = trim($value)) == '') {
             if ($optional) {
-                return null;
+                return;
             }
             throw new \InvalidArgumentException("$param is empty");
         }
