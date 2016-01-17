@@ -35,7 +35,7 @@ class QueryHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $series);
         $this->assertEquals(1, $series[0]->getId());
         $this->assertCount(2, $series[0]->getMeasurments());
-        $this->assertEquals(10, $series[0]->getMeasurments()[0]->getMoment());
+        $this->assertEquals(10, $series[0]->getMeasurments()[0]->getTimestamp());
         $this->assertEquals(0, $series[0]->getMeasurments()[0]->getValue());
     }
 

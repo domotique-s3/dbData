@@ -3,49 +3,49 @@
 namespace DS3\Application\Query;
 
 /**
- * Represente a measure.
+ * Represents a measurment, ie. a row in the table.
  */
 class Measurment
 {
-    /* --- ATTRIBUTES --- */
-
     /**
      * @var mixed
      */
     private $value;
 
     /**
-     * @var number
+     * @var float
      */
-    private $moment;
+    private $timestamp;
 
     /**
      * Measurment constructor.
      *
-     * @param mixed  $value
-     * @param number $moment
+     * @param mixed $value
+     * @param float $timestamp
      */
-    public function __construct($value, $moment)
+    public function __construct($value, $timestamp)
     {
         $this->value = $value;
-        $this->moment = $moment;
+        $this->timestamp = $timestamp;
     }
 
-    /* --- GETTERS --- */
-
-    /*!
-     * Returns measurment's value
+    /**
+     * Returns the measurment value.
+     *
+     * @return mixed
      */
     public function getValue()
     {
         return $this->value;
     }
 
-    /*!
-     * Returns measurment's moment (horodatage)
+    /**
+     * Returns the measurment timestamp, ie. the moment when the value was added.
+     *
+     * @return float
      */
-    public function getMoment()
+    public function getTimestamp()
     {
-        return $this->moment;
+        return $this->timestamp;
     }
 }
