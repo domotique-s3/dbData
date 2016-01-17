@@ -12,9 +12,9 @@ use DS3\Framework\Logger\LoggerAwareInterface;
  */
 class QueryHandler implements LoggerAwareInterface
 {
-    private static $sensorCol = "sensor";
-    private static $valuesCol = "value";
-    private static $timestampCol = "timestamp";
+    private static $sensorCol = 'sensor';
+    private static $valuesCol = 'value';
+    private static $timestampCol = 'timestamp';
 
     /**
      * @var Logger|null
@@ -38,35 +38,40 @@ class QueryHandler implements LoggerAwareInterface
 
     /**
      * @param array $output
+     *
      * @return Serie[]
      */
     public static function toSeries(array $output)
     {
         $ret = array();
         foreach ($output as $sensorId => $rawMeasurments) {
-            if (!is_array($rawMeasurments))
+            if (!is_array($rawMeasurments)) {
                 throw new \InvalidArgumentException('Measurments must be an array');
+            }
 
             $measurments = array();
             foreach ($rawMeasurments as $rawMeasurment) {
-                if (!isset($rawMeasurment[self::$valuesCol]))
-                    throw new \InvalidArgumentException(self::$valuesCol . ' field is missing');
+                if (!isset($rawMeasurment[self::$valuesCol])) {
+                    throw new \InvalidArgumentException(self::$valuesCol.' field is missing');
+                }
 
-                if (!isset($rawMeasurment[self::$timestampCol]))
-                    throw new \InvalidArgumentException(self::$timestampCol . ' field is missing');
+                if (!isset($rawMeasurment[self::$timestampCol])) {
+                    throw new \InvalidArgumentException(self::$timestampCol.' field is missing');
+                }
 
                 $measurments[] = new Measurment($rawMeasurment[self::$valuesCol], $rawMeasurment[self::$timestampCol]);
             }
 
             $ret[] = new Serie($sensorId, $measurments);
         }
+
         return $ret;
     }
 
     /**
-     * Injects the logger
+     * Injects the logger.
+     *
      * @param Logger|null $logger The logger to inject
-     * @return void
      */
     public function setLogger(Logger $logger = null)
     {
@@ -80,20 +85,23 @@ class QueryHandler implements LoggerAwareInterface
     {
         $statement = $this->prepareSQL($query);
 
-        if ($this->logger != null)
-            $this->logger->message("QueryHandler : executing query ...", true);
+        if ($this->logger != null) {
+            $this->logger->message('QueryHandler : executing query ...', true);
+        }
 
         $statement->execute();
         $res = $statement->fetchAll(\PDO::FETCH_GROUP | \PDO::FETCH_ASSOC);
 
-        if ($this->logger != null)
+        if ($this->logger != null) {
             $this->logger->done();
+        }
 
         return $res;
     }
 
     /**
      * @param Query $query
+     *
      * @return \PDOStatement
      */
     private function prepareSQL(Query $query)
@@ -107,9 +115,9 @@ class QueryHandler implements LoggerAwareInterface
         $end = $query->getEndTime();
 
         $sql = "SELECT
-            $sensorCol AS " . self::$sensorCol . ",
-            $timestampCol AS " . self::$timestampCol . ",
-            $valuesCol AS " . self::$valuesCol . "
+            $sensorCol AS ".self::$sensorCol.",
+            $timestampCol AS ".self::$timestampCol.",
+            $valuesCol AS ".self::$valuesCol."
           FROM $table";
 
         $whereClauses = array();
@@ -123,8 +131,9 @@ class QueryHandler implements LoggerAwareInterface
 
             foreach ($sensorIds as $i => $id) {
                 $whereIn .= ":sensor$i";
-                if ($i < $cnt - 1)
+                if ($i < $cnt - 1) {
                     $whereIn .= ', ';
+                }
                 $params[] = array(":sensor$i", $id, \PDO::PARAM_STR);
             }
 
@@ -146,10 +155,11 @@ class QueryHandler implements LoggerAwareInterface
 
         // Building the WHERE clause
         if (($cnt = count($whereClauses)) > 0) {
-            $sql .= " WHERE ";
-            for ($i = 0; $i < $cnt; $i++) {
-                if ($i != 0)
-                    $sql .= " AND ";
+            $sql .= ' WHERE ';
+            for ($i = 0; $i < $cnt; ++$i) {
+                if ($i != 0) {
+                    $sql .= ' AND ';
+                }
                 $sql .= "{$whereClauses[$i]}";
             }
         }
@@ -163,7 +173,7 @@ class QueryHandler implements LoggerAwareInterface
         }
 
         if ($this->logger != null) {
-            $this->logger->message("QueryHandler : $sql with params " . json_encode($params));
+            $this->logger->message("QueryHandler : $sql with params ".json_encode($params));
         }
 
         return $statement;

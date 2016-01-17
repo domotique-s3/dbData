@@ -2,11 +2,10 @@
 
 namespace DS3\Application\Query;
 
-use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use DS3\Framework\HTTP\Request;
 
 /**
- * Holds a query
+ * Holds a query.
  *
  * @author Loïc Payol <loic.payol@gmail.com>
  */
@@ -57,10 +56,11 @@ class Query
 
     /**
      * Query constructor.
-     * @param string $table
-     * @param string $sensorColumn
-     * @param string $timestampColumn
-     * @param string $valuesColumn
+     *
+     * @param string    $table
+     * @param string    $sensorColumn
+     * @param string    $timestampColumn
+     * @param string    $valuesColumn
      * @param \string[] $sensorIds
      * @param \DateTime $startTime
      * @param \DateTime $endTime
@@ -70,12 +70,13 @@ class Query
         $this->table = (string) $table;
         $this->sensorColumn = (string) $sensorColumn;
         $this->timestampColumn = (string) $timestampColumn;
-        $this->valuesColumn = (string)$valuesColumn;
+        $this->valuesColumn = (string) $valuesColumn;
         $this->sensorIds = $sensorIds;
         $this->startTime = $startTime;
 
-        if($endTime < $this->startTime)
+        if ($endTime < $this->startTime) {
             throw new \InvalidArgumentException('$endTime is not supposed to be anterior to $startTime');
+        }
         $this->endTime = $endTime;
     }
 
@@ -97,14 +98,16 @@ class Query
         $value = $request->getQuery()->get($param);
 
         if ($value == null) {
-            if ($optional)
+            if ($optional) {
                 return null;
-            throw new InvalidArgumentException("$param is missing");
+            }
+            throw new \InvalidArgumentException("$param is missing");
         }
         if (($value = trim($value)) == '') {
-            if ($optional)
+            if ($optional) {
                 return null;
-            throw new InvalidArgumentException("$param is empty");
+            }
+            throw new \InvalidArgumentException("$param is empty");
         }
 
         return $value;

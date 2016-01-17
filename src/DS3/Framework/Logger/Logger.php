@@ -4,7 +4,8 @@ namespace DS3\Framework\Logger;
 
 use DS3\Framework\Filesystem\File;
 
-function millitime() {
+function millitime()
+{
     $microtime = microtime();
     $comps = explode(' ', $microtime);
 
@@ -35,7 +36,7 @@ class Logger
         $this->timers_stack = new \SplStack();
 
         // Date
-        
+
         $today = getdate();
         $year = $today['year'];
         $mon = $today['mon'];
@@ -45,22 +46,23 @@ class Logger
         $seconds = $today['seconds'];
 
         $this->file->write(
-            "\n\n --- " . 
-            $year . 
-            "-" . 
-            $mon . 
-            "-" . 
-            $mday . 
-            " " . 
-            $hours . 
-            ":" . 
-            $minutes . 
-            ":" . 
-            $seconds . 
+            "\n\n --- ".
+            $year.
+            '-'.
+            $mon.
+            '-'.
+            $mday.
+            ' '.
+            $hours.
+            ':'.
+            $minutes.
+            ':'.
+            $seconds.
             " --- \n\n");
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->file->write("\n");
     }
 
@@ -76,8 +78,9 @@ class Logger
     {
         $str = "\n";
 
-        for ($i = 0; $i < $this->timers_stack->count(); $i++)
+        for ($i = 0; $i < $this->timers_stack->count(); ++$i) {
             $str .= "\t";
+        }
 
         $str .= $message;
 
@@ -102,18 +105,18 @@ class Logger
         $elapsed_time = millitime() - $this->timers_stack->top()['time'];
         $has_childs = $this->timers_stack->pop()['has_childs'];
 
-        $str = "";
+        $str = '';
 
         if ($has_childs) {
             $str .= "\n";
-            for ($i = 0; $i < $this->timers_stack->count(); $i++)
+            for ($i = 0; $i < $this->timers_stack->count(); ++$i) {
                 $str .= "\t";
-        }
-        else {
-            $str .= " ";
+            }
+        } else {
+            $str .= ' ';
         }
 
-        $str .= "Done (" . $elapsed_time . " ms)";
+        $str .= 'Done ('.$elapsed_time.' ms)';
 
         $this->file->write($str);
     }

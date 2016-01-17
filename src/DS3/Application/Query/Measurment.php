@@ -3,7 +3,7 @@
 namespace DS3\Application\Query;
 
 /**
- * Represente a measure
+ * Represente a measure.
  */
 class Measurment
 {
@@ -21,7 +21,8 @@ class Measurment
 
     /**
      * Measurment constructor.
-     * @param mixed $value
+     *
+     * @param mixed  $value
      * @param number $moment
      */
     public function __construct($value, $moment)
@@ -29,8 +30,6 @@ class Measurment
         $this->value = $value;
         $this->moment = $moment;
     }
-
-
 
     /* --- GETTERS --- */
 

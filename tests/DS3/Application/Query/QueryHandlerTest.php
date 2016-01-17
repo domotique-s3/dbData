@@ -3,34 +3,31 @@
  * Created by PhpStorm.
  * User: palra
  * Date: 1/14/16
- * Time: 6:18 AM
+ * Time: 6:18 AM.
  */
-
 namespace DS3\Application\Query;
-
 
 class QueryHandlerTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testToSerie_ValidTable()
     {
         $data = array(
             1 => array(
                 array(
                     'timestamp' => 10,
-                    'value' => 0
+                    'value' => 0,
                 ),
                 array(
                     'timestamp' => 15,
-                    'value' => 1
-                )
+                    'value' => 1,
+                ),
             ),
             2 => array(
                 array(
                     'timestamp' => 25,
-                    'value' => 10
-                )
-            )
+                    'value' => 10,
+                ),
+            ),
         );
 
         $series = QueryHandler::toSeries($data);
@@ -46,7 +43,7 @@ class QueryHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('InvalidArgumentException');
         QueryHandler::toSeries(array(
-            1 => 'notanarray'
+            1 => 'notanarray',
         ));
     }
 
@@ -55,8 +52,8 @@ class QueryHandlerTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('InvalidArgumentException');
         QueryHandler::toSeries(array(
             1 => array(
-                'missing' => 'required fields'
-            )
+                'missing' => 'required fields',
+            ),
         ));
     }
 }
