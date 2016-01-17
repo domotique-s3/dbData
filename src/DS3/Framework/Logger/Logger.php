@@ -26,7 +26,7 @@ class Logger
 
     /* --- CONSTRUCTORS --- */
 
-    /*!
+    /**
      * File constructor
      * @param File $file File in which logs will be written
      */
@@ -71,7 +71,7 @@ class Logger
         $this->file->write($str);
     }
 
-    /*!
+    /**
      * Write "Done (time ms)" where time is replaced with time elapsed since last message()'s call
      * @return void
      */
