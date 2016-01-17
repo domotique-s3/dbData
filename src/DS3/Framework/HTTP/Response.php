@@ -3,53 +3,80 @@
 namespace DS3\Framework\HTTP;
 
 /**
- * Represente la reponse envoyee a l'utilisateur.
+ * Represents an HTTP response.
+ *
+ * @author Loïc Payol <loic.payol@gmail.com>
  */
 class Response
 {
-    /* --- ATTRIBUTES --- */
-
-    public $headers;
+    /**
+     * @var string Contains the body of the response
+     */
     private $content;
 
-    /*! --- CONSTRUCTOR --- */
-
-    /*!
-     * [__construct description]
-     * @param mixed $content Contenu de la reponse
-     * @param int $status  Status de la reponse
-     * @param mixed[] $headers En-tete
+    /**
+     * @var int The HTTP status code of the Response
      */
-    public function __construct($content, $status, $headers)
+    private $statusCode;
+
+    /**
+     * Initializes a new Response.
+     *
+     * @param $content string The content of the response
+     * @param $status int The HTTP status of the response
+     */
+    public function __construct($content, $statusCode)
     {
-        $this->headers = new ParameterBag();
+        $this->setContent($content);
+        $this->setStatusCode($statusCode);
     }
 
-    /* --- METHODS --- */
-
-    /*!
-     * Envoi la requette au client
-     * @return void
+    /**
+     * Sends the response to the client.
      */
     public function send()
     {
+        http_send_status($this->statusCode);
+        $this->sendContent();
     }
 
-    /* --- GET SET --- */
+    /**
+     * Sends the content of the response to the client.
+     */
+    public function sendContent()
+    {
+        echo $this->content;
+    }
 
+    /**
+     * @return string The content
+     */
     public function getContent()
     {
+        return $this->content;
     }
 
+    /**
+     * @param $content string The content of the response
+     */
     public function setContent($content)
     {
+        $this->content = (string) $content;
     }
 
+    /**
+     * @return int The HTTP status code
+     */
     public function getStatusCode()
     {
+        return $this->statusCode;
     }
 
-    public function setStatusCode($status_code)
+    /**
+     * @param $statusCode int The HTTP status code
+     */
+    public function setStatusCode($statusCode)
     {
+        $this->statusCode = (int) $statusCode;
     }
 }
