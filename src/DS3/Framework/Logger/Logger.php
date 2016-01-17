@@ -24,31 +24,6 @@ class Logger
     {
         $this->file = $file;
         $this->timers_stack = new \SplStack();
-
-        // Date
-        
-        $today = getdate();
-        $year = $today['year'];
-        $mon = $today['mon'];
-        $mday = $today['mday'];
-        $hours = $today['hours'];
-        $minutes = $today['minutes'];
-        $seconds = $today['seconds'];
-
-        $this->file->write(
-            "\n\n --- " . 
-            $year . 
-            "-" . 
-            $mon . 
-            "-" . 
-            $mday . 
-            " " . 
-            $hours . 
-            ":" . 
-            $minutes . 
-            ":" . 
-            $seconds . 
-            " --- \n\n");
     }
 
     public function __destruct() {
