@@ -5,10 +5,23 @@
             "name": "Loïc Payol",
             "email": "loicpayol@gmail.com",
             "role": "Developer"
+        },
+        {
+            "name": "Sebastien Klasa",
+            "email": "skeggib@gmail.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Vincent Emile",
+            "email": "vl.emile@gmail.com",
+            "role": "Developer"
         }
     ],
     "require": {
         "php": "^5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
     },
     "autoload": {
         "psr-4": {

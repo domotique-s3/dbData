@@ -2,11 +2,10 @@
 
 namespace DS3\Application\Query;
 
-use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use DS3\Framework\HTTP\Request;
 
 /**
- * Holds a query
+ * Holds a query.
  *
  * @author Loïc Payol <loic.payol@gmail.com>
  */
@@ -57,25 +56,27 @@ class Query
 
     /**
      * Query constructor.
-     * @param string $table
-     * @param string $sensorColumn
-     * @param string $timestampColumn
-     * @param string $valuesColumn
+     *
+     * @param string    $table
+     * @param string    $sensorColumn
+     * @param string    $timestampColumn
+     * @param string    $valuesColumn
      * @param \string[] $sensorIds
      * @param \DateTime $startTime
      * @param \DateTime $endTime
      */
-    public function __construct($table, $sensorColumn, $timestampColumn, $valuesColumn, array $sensorIds, $startTime = null, $endTime = null)
+    public function __construct($table, $sensorColumn, $timestampColumn, $valuesColumn, array $sensorIds, \DateTime $startTime = null, \DateTime $endTime = null)
     {
         $this->table = (string) $table;
         $this->sensorColumn = (string) $sensorColumn;
         $this->timestampColumn = (string) $timestampColumn;
-        $this->valuesColumn = (string)$valuesColumn;
+        $this->valuesColumn = (string) $valuesColumn;
         $this->sensorIds = $sensorIds;
         $this->startTime = $startTime;
 
-        if($endTime < $this->startTime)
+        if ($endTime < $this->startTime) {
             throw new \InvalidArgumentException('$endTime is not supposed to be anterior to $startTime');
+        }
         $this->endTime = $endTime;
     }
 
@@ -97,14 +98,16 @@ class Query
         $value = $request->getQuery()->get($param);
 
         if ($value == null) {
-            if ($optional)
-                return null;
-            throw new \Exception("$param is missing");
+            if ($optional) {
+                return;
+            }
+            throw new \InvalidArgumentException("$param is missing");
         }
         if (($value = trim($value)) == '') {
-            if ($optional)
-                return null;
-            throw new \Exception("$param is empty");
+            if ($optional) {
+                return;
+            }
+            throw new \InvalidArgumentException("$param is empty");
         }
 
         return $value;

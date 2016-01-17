@@ -21,7 +21,7 @@ class File
     public function __construct($path)
     {
         $this->path = $path;
-        $this->handle = fopen($path, "c+");
+        $this->handle = fopen($path, 'c+');
         $filesize = filesize($path);
         fseek($this->handle, $filesize);
     }
@@ -40,8 +40,9 @@ class File
      */
     public function write($str)
     {
-        if (!fwrite($this->handle, $str))
-            throw new \Exception("Cannot write file " . $this->path);
+        if (!fwrite($this->handle, $str)) {
+            throw new \Exception('Cannot write file '.$this->path);
+        }
     }
 
     /*!
@@ -51,11 +52,11 @@ class File
     public function read()
     {
         fseek($this->handle, 0);
-        
-        $contents = "";
-        do {
+
+        $contents = '';
+        while (!feof($this->handle)) {
             $contents .= fread($this->handle, 1024);
-        } while (!feof($this->handle) && $contents != "");
+        }
 
         return $contents;
     }
@@ -66,9 +67,8 @@ class File
      */
     public function clear()
     {
-        file_put_contents($this->path, "");
+        file_put_contents($this->path, '');
     }
-
 
     public static function exists($path)
     {

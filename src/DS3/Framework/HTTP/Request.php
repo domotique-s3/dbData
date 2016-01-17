@@ -32,7 +32,7 @@ class Request
         return new static($_GET, array(), $_SERVER);
     }
     /**
-     * Retourne la méthode http de la requête
+     * Retourne la méthode http de la requête.
      */
     public function getMethod()
     {
@@ -41,15 +41,18 @@ class Request
 
     /* --- GET --- */
 
-    public function getQuery() {
+    public function getQuery()
+    {
         return $this->query;
     }
 
-    public function getAttributes() {
+    public function getAttributes()
+    {
         return $this->attributes;
     }
 
-    public function getServer() {
+    public function getServer()
+    {
         return $this->server;
     }
 }
