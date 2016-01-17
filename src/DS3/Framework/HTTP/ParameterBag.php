@@ -42,7 +42,6 @@ class ParameterBag
      * @return void
      */
     public function replace(array $parameters) {
-        $this->parameters = NULL;
         $this->parameters = $parameters;
     }
 
@@ -53,11 +52,9 @@ class ParameterBag
      */
     public function add($parameters,$erase = false) {
         foreach ($parameters as $key => $value) {
-            if($this->has($key)){
-                if($erase) $this->parameters[$key] = $value;
-                else return false;
-            }
-            else $this->set($key,$value);
+            if($this->has($key) && !$erase)
+                return false;
+            $this->set($key, $value);
         }
         return true;
     }
@@ -89,8 +86,7 @@ class ParameterBag
      * @return boolean      True if parameter exists
      */
     public function has($key) {
-        if (array_key_exists($key,$this->parameters)) return true;
-        return false;
+        return array_key_exists($key, $this->parameters);
     }
 
     /*!
