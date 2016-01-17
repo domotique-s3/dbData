@@ -15,6 +15,10 @@ class FilePDOConfiguration extends PDOConfiguration {
 			throw new exception("Configuration file does not exists");
 		$this->file = new File($path);
 		$str = $this->file->read();
+
+		if ($str == "")
+			throw new \Exception("$path is empty");
+
 		$array = explode("\n", $str);
 		$this->connector = $array[0];
 		$this->database_name = $array[1];
@@ -26,10 +30,10 @@ class FilePDOConfiguration extends PDOConfiguration {
 	public function getPDO() {
 		switch ($this->connector) {
 			case 'pgsql':
-				return new PDO('pgsql:dbname='.$this->database_name.' host='.$this->host, $this->login, $this->passwd);
+				return new \PDO('pgsql:dbname='.$this->database_name.' host='.$this->host, $this->login, $this->passwd);
 			break;
 			case 'mysql':
-				return new PDO('mysql:host='.$this->host.';dbname='.$this->database_name, $this->login, $this->passwd);
+				return new \PDO('mysql:host='.$this->host.';dbname='.$this->database_name, $this->login, $this->passwd);
 			break;
 		}
 	}

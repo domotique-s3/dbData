@@ -53,9 +53,9 @@ class File
         fseek($this->handle, 0);
         
         $contents = "";
-        while (!feof($this->handle)) {
+        do {
             $contents .= fread($this->handle, 1024);
-        }
+        } while (!feof($this->handle) && $contents != "");
 
         return $contents;
     }

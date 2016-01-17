@@ -65,7 +65,7 @@ class Query
      * @param \DateTime $startTime
      * @param \DateTime $endTime
      */
-    public function __construct($table, $sensorColumn, $timestampColumn, $valuesColumn, array $sensorIds, \DateTime $startTime = null, \DateTime $endTime = null)
+    public function __construct($table, $sensorColumn, $timestampColumn, $valuesColumn, array $sensorIds, $startTime = null, $endTime = null)
     {
         $this->table = (string) $table;
         $this->sensorColumn = (string) $sensorColumn;
@@ -99,12 +99,12 @@ class Query
         if ($value == null) {
             if ($optional)
                 return null;
-            throw new InvalidArgumentException("$param is missing");
+            throw new \Exception("$param is missing");
         }
         if (($value = trim($value)) == '') {
             if ($optional)
                 return null;
-            throw new InvalidArgumentException("$param is empty");
+            throw new \Exception("$param is empty");
         }
 
         return $value;

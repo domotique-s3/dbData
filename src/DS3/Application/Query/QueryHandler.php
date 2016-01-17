@@ -32,6 +32,9 @@ class QueryHandler implements LoggerAwareInterface
      */
     public function __construct($pdo)
     {
+        if (!$pdo instanceof \PDO)
+            throw new \Exception("La variable n'est pas un PDO");
+
         $this->pdo = $pdo;
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
@@ -135,13 +138,13 @@ class QueryHandler implements LoggerAwareInterface
         // timestamp > $start
         if ($start != null) {
             $whereClauses[] = "$timestampCol > :start";
-            $params[] = array(':start', $start->getTimestamp(), \PDO::PARAM_INT);
+            $params[] = array(':start', $start, \PDO::PARAM_INT);
         }
 
         // timestamp < $end
         if ($end != null) {
             $whereClauses[] = "$timestampCol < :end";
-            $params[] = array(':end', $end->getTimestamp(), \PDO::PARAM_INT);
+            $params[] = array(':end', $end, \PDO::PARAM_INT);
         }
 
         // Building the WHERE clause
