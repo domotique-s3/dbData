@@ -5,17 +5,18 @@ namespace DS3\Application;
 /**
  * Database Configuration.
  */
-abstract class PDOBuilder
+class PDOBuilder
 {
-    /* --- ATTRIBUTES --- */
 
     protected $login;
     protected $passwd;
     protected $database_name;
     protected $host;
-    protected $connector;
+    protected $driver;
 
-    /* --- METHODS --- */
+    public function setLogin($login) {
+        $this->login = $login;
+    }
 
     /*!
      * Returns user's login
@@ -25,7 +26,9 @@ abstract class PDOBuilder
         return $this->login;
     }
 
-    /* --- GETTERS --- */
+    public function setPassword($passwd) {
+        $this->passwd = $passwd;
+    }
 
     /*!
      * Returns user's password
@@ -33,6 +36,10 @@ abstract class PDOBuilder
     public function getPassword()
     {
         return $this->passwd;
+    }
+
+    public function setDatabaseName($database_name) {
+        $this->database_name = $database_name;
     }
 
     /*!
@@ -43,18 +50,28 @@ abstract class PDOBuilder
         return $this->database_name;
     }
 
+    public function setHost($host) {
+        $this->host = $host;
+    }
+
     public function getHost()
     {
         return $this->host;
     }
 
-    public function getConnector()
+    public function setDriver($driver) {
+        $this->driver = $driver;
+    }
+
+    public function getDriver()
     {
-        return $this->connector;
+        return $this->driver;
     }
 
     /*!
      * Returns PDO
      */
-    abstract public function getPDO();
+    public function getPDO() {
+        return new \PDO($this->driver.':dbname='.$this->database_name.' host='.$this->host, $this->login, $this->passwd);
+    }
 }
