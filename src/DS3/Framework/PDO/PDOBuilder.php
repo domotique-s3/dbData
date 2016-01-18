@@ -3,7 +3,9 @@
 namespace DS3\Framework\PDO;
 
 /**
- * Database Configuration.
+ * PDO builder
+ *
+ * @author Sébastien Klasa <skeggib@gmail.com>
  */
 class PDOBuilder
 {

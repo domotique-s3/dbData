@@ -5,7 +5,9 @@ namespace DS3\Framework\Filesystem;
 use DS3\Framework\Filesystem\Exception\FilesystemException;
 
 /**
- * Eneble files reading and writing.
+ * Enable files reading and writing.
+ *
+ * @author Sébastien Klasa <skeggib@gmail.com>
  */
 class File
 {
