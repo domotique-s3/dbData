@@ -3,6 +3,20 @@
 require_once 'src/DS3/Framework/Filesystem/File.php';
 use DS3\Framework\Filesystem\File;
 
+function readline_m($prompt = null){
+    if (function_exists("readline")) {
+        $line = readline();
+        return $line;
+    } else {
+        if($prompt){
+            echo $prompt;
+        }
+        $fp = fopen("php://stdin","r");
+        $line = rtrim(fgets($fp, 1024));
+        return $line;
+    }
+}
+
 $file = new File('pdo.cfg');
 
 echo "--- DBCHARTS SETUP --- \n\n";
@@ -23,7 +37,7 @@ while ($dbsm == null) {
         print($i + 1).'. '.$availables_dbsm[$dbsm_keys[$i]]."\n";
     }
 
-    $answer = readline();
+    $answer = readline_m();
     if (is_numeric($answer)) {
         if ($answer > 0 && $answer <= count($dbsm_keys)) {
             $dbsm = $dbsm_keys[$answer - 1];
@@ -34,12 +48,12 @@ while ($dbsm == null) {
 /* Database name */
 
 echo "\nEnter the database name : ";
-$db_name = readline();
+$db_name = readline_m();
 
 /* Host */
 
 echo "\nEnter the database hostname (default=localhost) : ";
-$host = readline();
+$host = readline_m();
 if ($host === '') {
     $host = 'localhost';
 }
@@ -47,12 +61,12 @@ if ($host === '') {
 /* Login */
 
 echo "\nEnter the database login : ";
-$login = readline();
+$login = readline_m();
 
 /* Password */
 
 echo "\nEnter the database password : ";
-$passwd = readline();
+$passwd = readline_m();
 
 /* Write */
 
