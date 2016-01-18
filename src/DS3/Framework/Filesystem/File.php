@@ -3,20 +3,16 @@
 namespace DS3\Framework\Filesystem;
 
 /**
- * Enable read/write in a file.
+ * Eneble files reading and writing.
  */
 class File
 {
-    /* --- ATTRIBUTES --- */
-
     private $handle;
     private $path;
 
-    /* --- CONSTRUCTORS --- */
-
-    /*!
-     * Path constructor, open file in r/w
-     * @param string $path File path
+    /**
+     * Open a file in read and write mode
+     * @param string $path The file path
      */
     public function __construct($path)
     {
@@ -26,17 +22,19 @@ class File
         fseek($this->handle, $filesize);
     }
 
+    /**
+     * Closes the file
+     */
     public function __destruct()
     {
         fclose($this->handle);
     }
 
-    /* --- METHODS --- */
-
-    /*!
+    /**
      * Write at the end of the file
      * @param  string $str Text to write
      * @return void
+     * @throws Exception if the file cannot be written
      */
     public function write($str)
     {
@@ -45,9 +43,9 @@ class File
         }
     }
 
-    /*!
-     * Read file
-     * @return string File contents
+    /**
+     * Read the file
+     * @return string File's contents
      */
     public function read()
     {
@@ -61,8 +59,8 @@ class File
         return $contents;
     }
 
-    /*!
-     * Delete file contents
+    /**
+     * Delete file's contents
      * @return void
      */
     public function clear()
@@ -70,6 +68,11 @@ class File
         file_put_contents($this->path, '');
     }
 
+    /**
+     * Check if the file exists
+     * @param  string $path File's path
+     * @return boolean       True if the file exists
+     */
     public static function exists($path)
     {
         return file_exists($path);

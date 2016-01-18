@@ -3,11 +3,12 @@
 namespace DS3\Application;
 
 /**
- * Database Configuration.
+ * Build a PDO.
+ *
+ * @author Sébastien Klasa <skeggib@gmail.com>
  */
 class PDOBuilder
 {
-
     protected $login;
     protected $passwd;
     protected $database_name;
@@ -18,9 +19,6 @@ class PDOBuilder
         $this->login = $login;
     }
 
-    /*!
-     * Returns user's login
-     */
     public function getLogin()
     {
         return $this->login;
@@ -30,9 +28,6 @@ class PDOBuilder
         $this->passwd = $passwd;
     }
 
-    /*!
-     * Returns user's password
-     */
     public function getPassword()
     {
         return $this->passwd;
@@ -42,9 +37,6 @@ class PDOBuilder
         $this->database_name = $database_name;
     }
 
-    /*!
-     * Returns database's name
-     */
     public function getDatabaseName()
     {
         return $this->database_name;
@@ -68,8 +60,9 @@ class PDOBuilder
         return $this->driver;
     }
 
-    /*!
-     * Returns PDO
+    /**
+     * Build a PDO
+     * @return PDO
      */
     public function getPDO() {
         return new \PDO($this->driver.':dbname='.$this->database_name.' host='.$this->host, $this->login, $this->passwd);
