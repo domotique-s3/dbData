@@ -23,7 +23,7 @@ class Request
 
     /* --- METHODS --- */
 
-    /*!
+    /**
      * Cree un objet Request depuis les variables globales
      * @return Request
      */

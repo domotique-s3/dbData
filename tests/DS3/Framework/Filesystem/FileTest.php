@@ -6,7 +6,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
-        $filename = 'ClassFileTest_file.txt';
+        $filename = $this->getTestFilename();
         if (file_exists($filename)) {
             unlink($filename);
         }
@@ -22,7 +22,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
 
     public function testWriteRead()
     {
-        $filename = 'ClassFileTest_file.txt';
+        $filename = $this->getTestFilename();
         if (file_exists($filename)) {
             unlink($filename);
         }
@@ -45,7 +45,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
 
     public function testClear()
     {
-        $filename = 'ClassFileTest_file.txt';
+        $filename = $this->getTestFilename();
         if (file_exists($filename)) {
             unlink($filename);
         }
@@ -62,7 +62,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
 
     public function testExists()
     {
-        $filename = 'ClassFileTest_file.txt';
+        $filename = $this->getTestFilename();
         if (file_exists($filename)) {
             unlink($filename);
         }
@@ -76,5 +76,14 @@ class FileTest extends \PHPUnit_Framework_TestCase
         if (file_exists($filename)) {
             unlink($filename);
         }
+    }
+
+    /**
+     * @return string
+     */
+    private function getTestFilename()
+    {
+        $filename = __DIR__ . '/ClassFileTest_file.txt';
+        return $filename;
     }
 }

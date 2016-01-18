@@ -17,7 +17,7 @@ class URLQuery extends Query
 
     /* --- METHODS --- */
 
-    /*!
+    /**
      * TODO : TO COMPLETE
      */
     public function fromRequest($request)

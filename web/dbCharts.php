@@ -4,7 +4,7 @@ require_once "../vendor/autoload.php";
 
 use DS3\Framework\HTTP\Request;
 use DS3\Application\Query\Query;
-use DS3\Application\FilePDOBuilder;
+use DS3\Framework\PDO\FilePDOBuilder;
 use DS3\Application\Query\QueryHandler;
 use DS3\Framework\HTTP\Response;
 
