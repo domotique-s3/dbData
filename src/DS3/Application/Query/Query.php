@@ -2,8 +2,6 @@
 
 namespace DS3\Application\Query;
 
-use DS3\Framework\HTTP\Request;
-
 /**
  * Holds a query.
  *
@@ -11,121 +9,50 @@ use DS3\Framework\HTTP\Request;
  */
 class Query
 {
-    const TABLE_NAME = 'tableName';
-    const SENSOR_ID_COLUMN = 'sensorIdColumn';
-    const TIMESTAMP_COLUMN = 'timestampColumn';
-    const VALUES_COLUMN = 'valuesColumn';
-    const SENSOR_IDS = 'sensorIds';
-    const START_TIME = 'startTime';
-    const END_TIME = 'endTime';
+    /**
+     * @var string
+     */
+    protected $sensorIdColumn;
 
     /**
-     * @var string The table where to make the query
+     * @var string
      */
-    private $table;
+    protected $valuesColumn;
 
     /**
-     * @var string The column where to fetch the sensor IDs
+     * @var string
      */
-    private $sensorColumn;
+    protected $timestampColumn;
 
     /**
-     * @var string The column where to fetch the timestamps
+     * @var double|null
      */
-    private $timestampColumn;
+    protected $start;
 
     /**
-     * @var string The column where to fetch the values
+     * @var double|null
      */
-    private $valuesColumn;
+    protected $end;
 
     /**
-     * @var string[] An array of sensor IDs
+     * @var string[]
      */
-    private $sensorIds = array();
-
-    /**
-     * @var \DateTime The starting date of the time interval
-     */
-    private $startTime;
-
-    /**
-     * @var \DateTime The ending date of the time interval
-     */
-    private $endTime;
-
-    /**
-     * Query constructor.
-     *
-     * @param string    $table
-     * @param string    $sensorColumn
-     * @param string    $timestampColumn
-     * @param string    $valuesColumn
-     * @param \string[] $sensorIds
-     * @param \DateTime $startTime
-     * @param \DateTime $endTime
-     */
-    public function initialize($table, $sensorColumn, $timestampColumn, $valuesColumn, array $sensorIds, \DateTime $startTime = null, \DateTime $endTime = null)
-    {
-        $this->table = (string) $table;
-        $this->sensorColumn = (string) $sensorColumn;
-        $this->timestampColumn = (string) $timestampColumn;
-        $this->valuesColumn = (string) $valuesColumn;
-        $this->sensorIds = $sensorIds;
-        $this->startTime = $startTime;
-
-        if ($endTime < $this->startTime) {
-            throw new \InvalidArgumentException('$endTime is not supposed to be anterior to $startTime');
-        }
-        $this->endTime = $endTime;
-    }
+    protected $sensors;
 
     /**
      * @return string
      */
-    public function getTable()
+    public function getSensorIdColumn()
     {
-        return $this->table;
+        return $this->sensorIdColumn;
     }
 
     /**
-     * @param string $table
+     * @param string $sensorIdColumn
      */
-    public function setTable($table)
+    public function setSensorIdColumn($sensorIdColumn)
     {
-        $this->table = $table;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSensorColumn()
-    {
-        return $this->sensorColumn;
-    }
-
-    /**
-     * @param string $sensorColumn
-     */
-    public function setSensorColumn($sensorColumn)
-    {
-        $this->sensorColumn = $sensorColumn;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTimestampColumn()
-    {
-        return $this->timestampColumn;
-    }
-
-    /**
-     * @param string $timestampColumn
-     */
-    public function setTimestampColumn($timestampColumn)
-    {
-        $this->timestampColumn = $timestampColumn;
+        $this->sensorIdColumn = $sensorIdColumn;
     }
 
     /**
@@ -145,51 +72,74 @@ class Query
     }
 
     /**
+     * @return string
+     */
+    public function getTimestampColumn()
+    {
+        return $this->timestampColumn;
+    }
+
+    /**
+     * @param string $timestampColumn
+     */
+    public function setTimestampColumn($timestampColumn)
+    {
+        $this->timestampColumn = $timestampColumn;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    /**
+     * @param float|null $start
+     */
+    public function setStart($start)
+    {
+        $this->start = $start;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getEnd()
+    {
+        return $this->end;
+    }
+
+    /**
+     * @param float|null $end
+     */
+    public function setEnd($end)
+    {
+        $this->end = $end;
+    }
+
+    /**
+     * @return \string[]
+     */
+    public function getSensors()
+    {
+        return $this->sensors;
+    }
+
+    /**
+     * @param \string[] $sensors
+     */
+    public function setSensors($sensors)
+    {
+        $this->sensors = $sensors;
+    }
+
+    /**
      * @return string[]
      */
-    public function getSensorIds()
+    public function getTables()
     {
-        return $this->sensorIds;
+        return array_keys($this->sensors);
     }
-
-    /**
-     * @param string[] $sensorIds
-     */
-    public function setSensorIds($sensorIds)
-    {
-        $this->sensorIds = $sensorIds;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getStartTime()
-    {
-        return $this->startTime;
-    }
-
-    /**
-     * @param \DateTime $startTime
-     */
-    public function setStartTime($startTime = null)
-    {
-        $this->startTime = $startTime;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getEndTime()
-    {
-        return $this->endTime;
-    }
-
-    /**
-     * @param \DateTime $endTime
-     */
-    public function setEndTime($endTime = null)
-    {
-        $this->endTime = $endTime;
-    }
-
 }
