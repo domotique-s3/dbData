@@ -1,6 +1,7 @@
 <?php
 
-require_once 'src/DS3/Framework/Filesystem/File.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
+
 use DS3\Framework\Filesystem\File;
 
 function readline_m($prompt = null){

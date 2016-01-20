@@ -65,7 +65,7 @@ class Query
      * @param \DateTime $startTime
      * @param \DateTime $endTime
      */
-    public function __construct($table, $sensorColumn, $timestampColumn, $valuesColumn, array $sensorIds, \DateTime $startTime = null, \DateTime $endTime = null)
+    public function initialize($table, $sensorColumn, $timestampColumn, $valuesColumn, array $sensorIds, \DateTime $startTime = null, \DateTime $endTime = null)
     {
         $this->table = (string) $table;
         $this->sensorColumn = (string) $sensorColumn;
@@ -80,45 +80,20 @@ class Query
         $this->endTime = $endTime;
     }
 
-    public static function fromRequest(Request $request)
-    {
-        $table = self::getParam(self::TABLE_NAME, $request);
-        $sensorColumn = self::getParam(self::SENSOR_ID_COLUMN, $request);
-        $timestampColumn = self::getParam(self::TIMESTAMP_COLUMN, $request);
-        $valuesColumn = self::getParam(self::VALUES_COLUMN, $request);
-        $sensorIds = json_decode(self::getParam(self::SENSOR_IDS, $request));
-        $startTime = self::getParam(self::START_TIME, $request, true);
-        $endTime = self::getParam(self::END_TIME, $request, true);
-
-        return new static($table, $sensorColumn, $timestampColumn, $valuesColumn, $sensorIds, $startTime, $endTime);
-    }
-
-    private static function getParam($param, Request $request, $optional = false)
-    {
-        $value = $request->getQuery()->get($param);
-
-        if ($value == null) {
-            if ($optional) {
-                return;
-            }
-            throw new \InvalidArgumentException("$param is missing");
-        }
-        if (($value = trim($value)) == '') {
-            if ($optional) {
-                return;
-            }
-            throw new \InvalidArgumentException("$param is empty");
-        }
-
-        return $value;
-    }
-
     /**
      * @return string
      */
     public function getTable()
     {
         return $this->table;
+    }
+
+    /**
+     * @param string $table
+     */
+    public function setTable($table)
+    {
+        $this->table = $table;
     }
 
     /**
@@ -130,11 +105,27 @@ class Query
     }
 
     /**
+     * @param string $sensorColumn
+     */
+    public function setSensorColumn($sensorColumn)
+    {
+        $this->sensorColumn = $sensorColumn;
+    }
+
+    /**
      * @return string
      */
     public function getTimestampColumn()
     {
         return $this->timestampColumn;
+    }
+
+    /**
+     * @param string $timestampColumn
+     */
+    public function setTimestampColumn($timestampColumn)
+    {
+        $this->timestampColumn = $timestampColumn;
     }
 
     /**
@@ -146,11 +137,27 @@ class Query
     }
 
     /**
-     * @return \string[]
+     * @param string $valuesColumn
+     */
+    public function setValuesColumn($valuesColumn)
+    {
+        $this->valuesColumn = $valuesColumn;
+    }
+
+    /**
+     * @return string[]
      */
     public function getSensorIds()
     {
         return $this->sensorIds;
+    }
+
+    /**
+     * @param string[] $sensorIds
+     */
+    public function setSensorIds($sensorIds)
+    {
+        $this->sensorIds = $sensorIds;
     }
 
     /**
@@ -162,10 +169,27 @@ class Query
     }
 
     /**
+     * @param \DateTime $startTime
+     */
+    public function setStartTime($startTime = null)
+    {
+        $this->startTime = $startTime;
+    }
+
+    /**
      * @return \DateTime
      */
     public function getEndTime()
     {
         return $this->endTime;
     }
+
+    /**
+     * @param \DateTime $endTime
+     */
+    public function setEndTime($endTime = null)
+    {
+        $this->endTime = $endTime;
+    }
+
 }
