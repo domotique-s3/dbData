@@ -20,7 +20,7 @@ class FilePDOBuilder extends PDOBuilder
 
     /**
      * Open and read a configuration file
-     * @param File $path Path to the configuration file
+     * @param string $path Path to the configuration file
      */
     public function __construct($path)
     {
