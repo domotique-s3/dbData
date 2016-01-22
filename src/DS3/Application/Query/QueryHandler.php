@@ -16,7 +16,7 @@ class QueryHandler implements LoggerAwareInterface
      * @var Logger|null
      */
     protected $logger;
-    private $_tableCol = 'table';
+    private $_tableCol = 'tableName';
     private $_sensorIdCol = 'sensor';
     private $_valuesCol = 'value';
     private $_timestampCol = 'timestamp';
@@ -108,15 +108,36 @@ class QueryHandler implements LoggerAwareInterface
     {
         $subQueries = array();
         foreach ($query->getTables() as $table)
-            $subQueries = '(' . $this->buildSubQuery($table, $query) . ')';
+            $subQueries[] = '(' . $this->buildSubQuery($table, $query) . ')';
 
-        $sql = implode(' UNION ALL ', $subQueries);
+        $sql = "SELECT
+            {$this->_tableCol},
+            {$this->_sensorIdCol},
+            {$this->_timestampCol},
+            {$this->_valuesCol} FROM (";
+
+        $sql .= implode(' UNION ALL ', $subQueries);
+        $sql .= ") t ORDER BY
+            t.{$this->_tableCol} ASC,
+            t.{$this->_sensorIdCol} ASC,
+            t.{$this->_timestampCol} ASC";
+
+        $sql = preg_replace('/\r\n|\r|\n/', ' ', $sql);
+        $sql = preg_replace('/\s+/', ' ', $sql);
+
 
         $sth = $this->pdo->prepare($sql);
+        if ($this->logger != null)
+            $this->logger->message($sql);
 
         foreach ($query->getTables() as $table)
             foreach ($query->getSensorsByTable($table) as $i => $sensor)
                 $sth->bindValue(":$table$i", $sensor);
+
+        if ($query->getStart() !== null)
+            $sth->bindValue(':start', $query->getStart());
+        if ($query->getEnd() !== null)
+            $sth->bindValue(':end', $query->getEnd());
 
         return $sth;
     }
@@ -130,7 +151,7 @@ class QueryHandler implements LoggerAwareInterface
 
         $sql =
             "SELECT
-                '$table' AS {$this->_tableCol}
+                CAST('$table' AS TEXT) AS {$this->_tableCol},
                 $sensorIdColumn AS {$this->_sensorIdCol},
                 $valuesColumn AS {$this->_valuesCol},
                 $timestampColumn AS {$this->_timestampCol}
@@ -140,18 +161,18 @@ class QueryHandler implements LoggerAwareInterface
 
         if ($query->getStart() !== null && $query->getEnd() !== null) {
             if ($query->getStart() !== null)
-                $where[] = "{$this->_timestampCol} > :start";
+                $where[] = "$timestampColumn > :start";
             if ($query->getEnd() !== null)
-                $where[] = "{$this->_timestampCol} < :end";
+                $where[] = "$timestampColumn < :end";
         }
 
         if (count($sensors = $query->getSensorsByTable($table)) > 0)
             foreach ($sensors as $i => $sensor) {
-                $where[] = "{$this->_sensorIdCol} = :$table$i";
+                $where[] = "$sensorIdColumn = :$table$i";
             }
 
         if (count($where) > 0) {
-            $sql .= "WHERE " . implode(' AND ', $where);
+            $sql .= " WHERE " . implode(' AND ', $where);
         }
 
         return $sql;
