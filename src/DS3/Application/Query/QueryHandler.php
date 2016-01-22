@@ -12,14 +12,14 @@ use DS3\Framework\Logger\LoggerAwareInterface;
  */
 class QueryHandler implements LoggerAwareInterface
 {
-    private static $sensorCol = 'sensor';
-    private static $valuesCol = 'value';
-    private static $timestampCol = 'timestamp';
-
     /**
      * @var Logger|null
      */
     protected $logger;
+    private $_tableCol = 'table';
+    private $_sensorIdCol = 'sensor';
+    private $_valuesCol = 'value';
+    private $_timestampCol = 'timestamp';
     /**
      * @var \PDO The PDO connection object.
      */
@@ -41,7 +41,7 @@ class QueryHandler implements LoggerAwareInterface
      *
      * @return Serie[]
      */
-    public static function toSeries(array $output)
+    public function toSeries(array $output)
     {
         $ret = array();
         foreach ($output as $sensorId => $rawMeasurments) {
@@ -51,15 +51,15 @@ class QueryHandler implements LoggerAwareInterface
 
             $measurments = array();
             foreach ($rawMeasurments as $rawMeasurment) {
-                if (!isset($rawMeasurment[self::$valuesCol])) {
-                    throw new \InvalidArgumentException(self::$valuesCol.' field is missing');
+                if (!isset($rawMeasurment[$this->_valuesCol])) {
+                    throw new \InvalidArgumentException($this->_valuesCol . ' field is missing');
                 }
 
-                if (!isset($rawMeasurment[self::$timestampCol])) {
-                    throw new \InvalidArgumentException(self::$timestampCol.' field is missing');
+                if (!isset($rawMeasurment[$this->_timestampCol])) {
+                    throw new \InvalidArgumentException($this->_timestampCol . ' field is missing');
                 }
 
-                $measurments[] = new Measurment($rawMeasurment[self::$valuesCol], $rawMeasurment[self::$timestampCol]);
+                $measurments[] = new Measurment($rawMeasurment[$this->_valuesCol], $rawMeasurment[$this->_timestampCol]);
             }
 
             $ret[] = new Serie($sensorId, $measurments);
@@ -106,77 +106,55 @@ class QueryHandler implements LoggerAwareInterface
      */
     private function prepareSQL(Query $query)
     {
-        // Securing variables names, as PDO can't escape table and column names
-        $timestampCol = $this->sanitize($query->getTimestampColumn());
-        $sensorCol = $this->sanitize($query->getSensorColumn());
-        $valuesCol = $this->sanitize($query->getValuesColumn());
-        $table = $this->sanitize($query->getTable());
-        $start = $query->getStartTime();
-        $end = $query->getEndTime();
+        $subQueries = array();
+        foreach ($query->getTables() as $table)
+            $subQueries = '(' . $this->buildSubQuery($table, $query) . ')';
 
-        $sql = "SELECT
-            $sensorCol AS ".self::$sensorCol.",
-            $timestampCol AS ".self::$timestampCol.",
-            $valuesCol AS ".self::$valuesCol."
-          FROM $table";
+        $sql = implode(' UNION ALL ', $subQueries);
 
-        $whereClauses = array();
-        $params = array();
+        $sth = $this->pdo->prepare($sql);
 
-        // sensorId IN ...
-        $sensorIds = $query->getSensorIds();
-        $cnt = count($sensorIds);
-        if ($cnt != 0) {
-            $whereIn = "$sensorCol IN (";
+        foreach ($query->getTables() as $table)
+            foreach ($query->getSensorsByTable($table) as $i => $sensor)
+                $sth->bindValue(":$table$i", $sensor);
 
-            foreach ($sensorIds as $i => $id) {
-                $whereIn .= ":sensor$i";
-                if ($i < $cnt - 1) {
-                    $whereIn .= ', ';
-                }
-                $params[] = array(":sensor$i", $id, \PDO::PARAM_STR);
+        return $sth;
+    }
+
+    private function buildSubQuery($table, Query $query)
+    {
+        $table = $this->sanitize($table);
+        $sensorIdColumn = $this->sanitize($query->getSensorIdColumn());
+        $valuesColumn = $this->sanitize($query->getValuesColumn());
+        $timestampColumn = $this->sanitize($query->getTimestampColumn());
+
+        $sql =
+            "SELECT
+                '$table' AS {$this->_tableCol}
+                $sensorIdColumn AS {$this->_sensorIdCol},
+                $valuesColumn AS {$this->_valuesCol},
+                $timestampColumn AS {$this->_timestampCol}
+            FROM $table";
+
+        $where = array();
+
+        if ($query->getStart() !== null && $query->getEnd() !== null) {
+            if ($query->getStart() !== null)
+                $where[] = "{$this->_timestampCol} > :start";
+            if ($query->getEnd() !== null)
+                $where[] = "{$this->_timestampCol} < :end";
+        }
+
+        if (count($sensors = $query->getSensorsByTable($table)) > 0)
+            foreach ($sensors as $i => $sensor) {
+                $where[] = "{$this->_sensorIdCol} = :$table$i";
             }
 
-            $whereIn .= ')';
-            $whereClauses[] = $whereIn;
+        if (count($where) > 0) {
+            $sql .= "WHERE " . implode(' AND ', $where);
         }
 
-        // timestamp > $start
-        if ($start != null) {
-            $whereClauses[] = "$timestampCol > :start";
-            $params[] = array(':start', $start, \PDO::PARAM_INT);
-        }
-
-        // timestamp < $end
-        if ($end != null) {
-            $whereClauses[] = "$timestampCol < :end";
-            $params[] = array(':end', $end, \PDO::PARAM_INT);
-        }
-
-        // Building the WHERE clause
-        if (($cnt = count($whereClauses)) > 0) {
-            $sql .= ' WHERE ';
-            for ($i = 0; $i < $cnt; ++$i) {
-                if ($i != 0) {
-                    $sql .= ' AND ';
-                }
-                $sql .= "{$whereClauses[$i]}";
-            }
-        }
-
-        $sql .= " ORDER BY $timestampCol ASC;";
-
-        // Preparing the SQL
-        $statement = $this->pdo->prepare($sql);
-        foreach ($params as $args) {
-            call_user_func_array(array($statement, 'bindValue'), $args);
-        }
-
-        if ($this->logger != null) {
-            $this->logger->message("QueryHandler : $sql with params ".json_encode($params));
-        }
-
-        return $statement;
+        return $sql;
     }
 
     protected function sanitize($str)

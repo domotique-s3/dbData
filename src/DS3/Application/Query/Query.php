@@ -142,4 +142,12 @@ class Query
     {
         return array_keys($this->sensors);
     }
+
+    /**
+     * @çeturn string[]|null
+     */
+    public function getSensorsByTable($table)
+    {
+        return (isset($this->sensors[$table])) ? $this->sensors[$table] : null;
+    }
 }
