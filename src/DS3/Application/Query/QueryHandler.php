@@ -193,7 +193,7 @@ class QueryHandler implements LoggerAwareInterface
         $newResult = array();
         foreach ($data as $row) {
             $newResult[$row[$this->_tableCol]][$row[$this->_sensorIdCol]][] = array(
-                $this->_timestampCol => $row[$this->_timestampCol],
+                $this->_timestampCol => (double)$row[$this->_timestampCol],
                 $this->_valuesCol => $row[$this->_valuesCol],
             );
         }
