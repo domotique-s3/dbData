@@ -16,7 +16,7 @@ class QueryHandler implements LoggerAwareInterface
      * @var Logger|null
      */
     protected $logger;
-    private $_tableCol = 'tableName';
+    private $_tableCol = 'tablename';
     private $_sensorIdCol = 'sensor';
     private $_valuesCol = 'value';
     private $_timestampCol = 'timestamp';
@@ -90,7 +90,8 @@ class QueryHandler implements LoggerAwareInterface
         }
 
         $statement->execute();
-        $res = $statement->fetchAll(\PDO::FETCH_GROUP | \PDO::FETCH_ASSOC);
+        $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        $res = $this->groupTwoColumns($res);
 
         if ($this->logger != null) {
             $this->logger->done();
@@ -124,7 +125,6 @@ class QueryHandler implements LoggerAwareInterface
 
         $sql = preg_replace('/\r\n|\r|\n/', ' ', $sql);
         $sql = preg_replace('/\s+/', ' ', $sql);
-
 
         $sth = $this->pdo->prepare($sql);
         if ($this->logger != null)
@@ -181,5 +181,23 @@ class QueryHandler implements LoggerAwareInterface
     protected function sanitize($str)
     {
         return preg_replace('/[^a-zA-Z0-9_]/', '', $str);
+    }
+
+    /**
+     * Groups an array with its two first columns
+     * @param array $data
+     * @return array
+     */
+    private function groupTwoColumns(array $data)
+    {
+        $newResult = array();
+        foreach ($data as $row) {
+            $newResult[$row[$this->_tableCol]][$row[$this->_sensorIdCol]][] = array(
+                $this->_timestampCol => $row[$this->_timestampCol],
+                $this->_valuesCol => $row[$this->_valuesCol],
+            );
+        }
+
+        return $newResult;
     }
 }
