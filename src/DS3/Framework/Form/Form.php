@@ -2,6 +2,8 @@
 namespace DS3\Framework\Form;
 
 
+use DS3\Framework\Form\Type\TypeInterface;
+
 class Form implements FormInterface
 {
     /**
@@ -62,6 +64,11 @@ class Form implements FormInterface
     public function getFields()
     {
         return $this->fields;
+    }
+
+    public function addField($name, array $validators, TypeInterface $transformer)
+    {
+        return $this->add(new Field($name, $validators, $transformer));
     }
 
     public function add(Field $field)

@@ -2,7 +2,7 @@
 
 namespace DS3\Framework\Form\Validation;
 
-class NotBlank implements ValidatorInterface
+class NotNull implements ValidatorInterface
 {
     /**
      * @param $value
@@ -11,10 +11,6 @@ class NotBlank implements ValidatorInterface
      */
     public function validate($value)
     {
-        if ($value === null)
-            return null;
-        if (is_string($value) && trim($value) == '')
-            return 'This field should not be blank';
-        return null;
+        return ($value === null) ? 'This field should not be null' : null;
     }
 }
