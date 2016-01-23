@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: palra
- * Date: 24/01/16
- * Time: 00:38
- */
 
 namespace DS3\Framework\Form\Type;
 
