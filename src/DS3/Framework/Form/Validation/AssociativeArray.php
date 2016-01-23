@@ -20,7 +20,7 @@ class AssociativeArray implements ValidatorInterface
      * @param ValidatorInterface[] $keysValidators
      * @param ValidatorInterface[] $valuesValidators
      */
-    public function __construct(array $keysValidators, array $valuesValidators)
+    public function __construct(array $keysValidators = array(), array $valuesValidators = array())
     {
         $this->keysValidators = $keysValidators;
         $this->valuesValidators = $valuesValidators;
