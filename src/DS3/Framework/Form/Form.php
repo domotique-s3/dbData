@@ -2,6 +2,7 @@
 namespace DS3\Framework\Form;
 
 
+use DS3\Framework\Form\Exception\MultipleSubmitException;
 use DS3\Framework\Form\Type\TypeInterface;
 
 class Form implements FormInterface
@@ -100,6 +101,9 @@ class Form implements FormInterface
      */
     public function submit(array $data)
     {
+        if ($this->isSubmitted())
+            throw new MultipleSubmitException('A form can\'t be submitted twice');
+
         if (empty($this->fields))
             return;
 
@@ -126,6 +130,15 @@ class Form implements FormInterface
         }
 
         $this->errors = $errors;
+        $this->submitted = true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSubmitted()
+    {
+        return $this->submitted;
     }
 
     protected function assign($name, $value)
@@ -141,15 +154,7 @@ class Form implements FormInterface
      */
     public function isValid()
     {
-        return $this->isSubmitted() && count($this->getErrors()) == 0;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSubmitted()
-    {
-        return $this->submitted;
+        return $this->isSubmitted() && (count($this->getErrors()) == 0);
     }
 
     /**
