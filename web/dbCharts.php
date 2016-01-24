@@ -9,28 +9,25 @@ use DS3\Application\Query\QueryHandler;
 use DS3\Framework\HTTP\Response;
 use DS3\Framework\Logger\Logger;
 use DS3\Framework\Filesystem\File;
+use DS3\Application\Query\QueryFormBuilder;
 
 
 // --------------------------------
 
 $request = Request::fromGlobals();
 $query = new Query();
-$query->setSensorIdColumn('sensor_id');
-$query->setTimestampColumn('timestamp');
-$query->setValuesColumn('value');
-$query->setSensors(array(
-    'measurments' => array(1)
-));
-$query->setStart(1417962686);
-$query->setEnd($query->getStart() + 1000);
+$form = (new QueryFormBuilder())->buildForm($query);
+$form->submit($request->getQuery()->all());
 
-$logger = new Logger(new File(__DIR__ . '/../app/dev.log'));
-$pdo_config = new FilePDOBuilder(__DIR__ . '/../app/pdo.cfg');
-$queryHandler = new QueryHandler($pdo_config->getPDO());
-$queryHandler->setLogger($logger);
-$data = $queryHandler->execute($query);
+if ($form->isValid()) {
+    $logger = new Logger(new File(__DIR__ . '/../app/dev.log'));
+    $pdo_config = new FilePDOBuilder(__DIR__ . '/../app/pdo.cfg');
+    $queryHandler = new QueryHandler($pdo_config->getPDO());
+    $queryHandler->setLogger($logger);
+    $data = $queryHandler->execute($query);
+} else {
+    $data = $form->getErrors();
+}
 
-/*
-$response = new Response($data);
+$response = new Response(json_encode($data));
 $response->send();
-*/
