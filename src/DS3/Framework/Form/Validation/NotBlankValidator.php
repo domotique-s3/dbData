@@ -2,7 +2,7 @@
 
 namespace DS3\Framework\Form\Validation;
 
-class SQLField implements ValidatorInterface
+class NotBlankValidator implements ValidatorInterface
 {
     /**
      * @param $value
@@ -11,8 +11,10 @@ class SQLField implements ValidatorInterface
      */
     public function validate($value)
     {
-        if (preg_match('/[^a-zA-Z0-9_]+/', $value))
-            return 'This field contains an invalid SQL field name';
+        if ($value === null)
+            return null;
+        if (is_string($value) && trim($value) == '')
+            return 'This field should not be blank';
         return null;
     }
 }

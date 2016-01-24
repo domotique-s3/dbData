@@ -3,11 +3,11 @@
 namespace DS3\Framework\Form\Validation;
 
 
-class AssociativeArrayTest extends \PHPUnit_Framework_TestCase
+class AssociativeArrayValidatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testNull()
     {
-        $validator = new AssociativeArray(array(new NotBlank()), array(new NotBlank()));
+        $validator = new AssociativeArrayValidator(array(new NotBlankValidator()), array(new NotBlankValidator()));
         $this->assertNull($validator->validate(null));
     }
 
@@ -17,7 +17,7 @@ class AssociativeArrayTest extends \PHPUnit_Framework_TestCase
             'key' => 'value'
         );
 
-        $validator = new AssociativeArray(array(new NotBlank()), array(new NotBlank()));
+        $validator = new AssociativeArrayValidator(array(new NotBlankValidator()), array(new NotBlankValidator()));
         $errors = $validator->validate($data);
 
         $this->assertNull($errors);
@@ -27,7 +27,7 @@ class AssociativeArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = 2;
 
-        $validator = new AssociativeArray(array(new NotBlank()), array(new NotBlank()));
+        $validator = new AssociativeArrayValidator(array(new NotBlankValidator()), array(new NotBlankValidator()));
         $errors = $validator->validate($data);
 
         $this->assertContains('array', $errors);
@@ -39,7 +39,7 @@ class AssociativeArrayTest extends \PHPUnit_Framework_TestCase
             'notSQLField@' => '' // Blank value
         );
 
-        $validator = new AssociativeArray(array(new SQLField()), array(new NotBlank()));
+        $validator = new AssociativeArrayValidator(array(new SQLFieldValidator()), array(new NotBlankValidator()));
         $errors = $validator->validate($data);
 
         $this->assertInternalType('array', $errors);

@@ -2,7 +2,7 @@
 
 namespace DS3\Framework\Form\Validation;
 
-class GreaterThan implements ValidatorInterface
+class GreaterThanValidator implements ValidatorInterface
 {
     private $comparative;
 

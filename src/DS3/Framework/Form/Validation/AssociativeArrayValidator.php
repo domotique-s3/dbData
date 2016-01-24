@@ -3,7 +3,7 @@
 namespace DS3\Framework\Form\Validation;
 
 
-class AssociativeArray implements ValidatorInterface
+class AssociativeArrayValidator implements ValidatorInterface
 {
     /**
      * @var ValidatorInterface[]

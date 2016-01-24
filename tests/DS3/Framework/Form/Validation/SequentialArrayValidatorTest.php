@@ -1,25 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: palra
- * Date: 24/01/16
- * Time: 00:15
- */
 
 namespace DS3\Framework\Form\Validation;
 
 
-class SequencialArrayTest extends \PHPUnit_Framework_TestCase
+class SequentialArrayValidatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testNull()
     {
-        $v = new SequencialArray();
+        $v = new SequentialArrayValidator();
         $this->assertNull($v->validate(null));
     }
 
     public function testNotAnArray()
     {
-        $v = new SequencialArray();
+        $v = new SequentialArrayValidator();
         $this->assertInternalType('string', $v->validate(5));
         $this->assertInternalType('string', $v->validate('notAnArray'));
         $this->assertInternalType('string', $v->validate(new \stdClass()));
@@ -27,14 +21,14 @@ class SequencialArrayTest extends \PHPUnit_Framework_TestCase
 
     public function testValidArray()
     {
-        $v = new SequencialArray(array(new NotNull()));
+        $v = new SequentialArrayValidator(array(new NotNullValidator()));
         $data = array(1, 2, 3, 4, 5);
         $this->assertNull($v->validate($data));
     }
 
     public function testInvalidArray()
     {
-        $v = new SequencialArray(array(new NotNull()));
+        $v = new SequentialArrayValidator(array(new NotNullValidator()));
         $data = array(1, 2, null, 4, 5);
         $errors = $v->validate($data);
 
