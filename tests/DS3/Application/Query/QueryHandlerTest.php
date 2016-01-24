@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: palra
- * Date: 1/14/16
- * Time: 6:18 AM.
- */
+
 namespace DS3\Application\Query;
 
 class QueryHandlerTest extends \PHPUnit_Framework_TestCase

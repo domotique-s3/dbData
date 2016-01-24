@@ -12,14 +12,14 @@ use DS3\Framework\Logger\LoggerAwareInterface;
  */
 class QueryHandler implements LoggerAwareInterface
 {
+    private static $_tableCol = 'tablename';
+    private static $_sensorIdCol = 'sensor';
+    private static $_valuesCol = 'value';
+    private static $_timestampCol = 'timestamp';
     /**
      * @var Logger|null
      */
     protected $logger;
-    private $_tableCol = 'tablename';
-    private $_sensorIdCol = 'sensor';
-    private $_valuesCol = 'value';
-    private $_timestampCol = 'timestamp';
     /**
      * @var \PDO The PDO connection object.
      */
@@ -41,7 +41,7 @@ class QueryHandler implements LoggerAwareInterface
      *
      * @return Serie[]
      */
-    public function toSeries(array $output)
+    public static function toSeries(array $output)
     {
         $ret = array();
         foreach ($output as $sensorId => $rawMeasurments) {
@@ -51,15 +51,15 @@ class QueryHandler implements LoggerAwareInterface
 
             $measurments = array();
             foreach ($rawMeasurments as $rawMeasurment) {
-                if (!isset($rawMeasurment[$this->_valuesCol])) {
-                    throw new \InvalidArgumentException($this->_valuesCol . ' field is missing');
+                if (!isset($rawMeasurment[self::$_valuesCol])) {
+                    throw new \InvalidArgumentException(self::$_valuesCol . ' field is missing');
                 }
 
-                if (!isset($rawMeasurment[$this->_timestampCol])) {
-                    throw new \InvalidArgumentException($this->_timestampCol . ' field is missing');
+                if (!isset($rawMeasurment[self::$_timestampCol])) {
+                    throw new \InvalidArgumentException(self::$_timestampCol . ' field is missing');
                 }
 
-                $measurments[] = new Measurment($rawMeasurment[$this->_valuesCol], $rawMeasurment[$this->_timestampCol]);
+                $measurments[] = new Measurment($rawMeasurment[self::$_valuesCol], $rawMeasurment[self::$_timestampCol]);
             }
 
             $ret[] = new Serie($sensorId, $measurments);
@@ -111,17 +111,24 @@ class QueryHandler implements LoggerAwareInterface
         foreach ($query->getTables() as $table)
             $subQueries[] = '(' . $this->buildSubQuery($table, $query) . ')';
 
-        $sql = "SELECT
-            {$this->_tableCol},
-            {$this->_sensorIdCol},
-            {$this->_timestampCol},
-            {$this->_valuesCol} FROM (";
+        $sql = sprintf(
+            "SELECT %s, %s, %s, %s FROM (",
+            self::$_tableCol,
+            self::$_sensorIdCol,
+            self::$_timestampCol,
+            self::$_valuesCol
+        );
 
         $sql .= implode(' UNION ALL ', $subQueries);
-        $sql .= ") t ORDER BY
-            t.{$this->_tableCol} ASC,
-            t.{$this->_sensorIdCol} ASC,
-            t.{$this->_timestampCol} ASC";
+        $sql .= sprintf(
+            ") t ORDER BY
+            t.%s ASC,
+            t.%s ASC,
+            t.%s ASC",
+            self::$_tableCol,
+            self::$_sensorIdCol,
+            self::$_timestampCol
+        );
 
         $sql = preg_replace('/\r\n|\r|\n/', ' ', $sql);
         $sql = preg_replace('/\s+/', ' ', $sql);
@@ -149,13 +156,18 @@ class QueryHandler implements LoggerAwareInterface
         $valuesColumn = $this->sanitize($query->getValuesColumn());
         $timestampColumn = $this->sanitize($query->getTimestampColumn());
 
-        $sql =
+        $sql = sprintf(
             "SELECT
-                CAST('$table' AS TEXT) AS {$this->_tableCol},
-                $sensorIdColumn AS {$this->_sensorIdCol},
-                $valuesColumn AS {$this->_valuesCol},
-                $timestampColumn AS {$this->_timestampCol}
-            FROM $table";
+                CAST('$table' AS TEXT) AS %s
+                $sensorIdColumn AS %s,
+                $valuesColumn AS %s,
+                $timestampColumn AS %s
+            FROM $table",
+            self::$_tableCol,
+            self::$_sensorIdCol,
+            self::$_valuesCol,
+            self::$_timestampCol
+        );
 
         $where = array();
 
@@ -192,9 +204,9 @@ class QueryHandler implements LoggerAwareInterface
     {
         $newResult = array();
         foreach ($data as $row) {
-            $newResult[$row[$this->_tableCol]][$row[$this->_sensorIdCol]][] = array(
-                $this->_timestampCol => (double)$row[$this->_timestampCol],
-                $this->_valuesCol => $row[$this->_valuesCol],
+            $newResult[$row[self::$_tableCol]][$row[self::$_sensorIdCol]][] = array(
+                self::$_timestampCol => (double)$row[self::$_timestampCol],
+                self::$_valuesCol => $row[self::$_valuesCol],
             );
         }
 
