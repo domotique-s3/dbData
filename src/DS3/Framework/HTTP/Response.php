@@ -36,7 +36,7 @@ class Response
      */
     public function send()
     {
-        http_send_status($this->statusCode);
+        http_response_code($this->statusCode);
         $this->sendContent();
     }
 
