@@ -3,7 +3,7 @@
 namespace DS3\Framework\HTTP;
 
 /**
- * Represente la requette de l'utilisateur.
+ * Represents an HTTP request.
  */
 class Request
 {
@@ -22,7 +22,18 @@ class Request
      */
     private $server;
 
-    public function __construct(array $query = array(), array $attributes = array(), array $server = array())
+    /**
+     * Request constructor.
+     *
+     * @param array $query The query parameters
+     * @param array $attributes Some arbitrary attributes, you can use them for you business logic
+     * @param array $server The server parameters
+     */
+    public function __construct(
+        array $query = array(),
+        array $attributes = array(),
+        array $server = array()
+    )
     {
         $this->server = new ParameterBag($server);
         $this->attributes = new ParameterBag($attributes);
@@ -53,8 +64,9 @@ class Request
     /**
      * Transforms a query string parameter into an array, if the parameter follows the good
      * syntax
-     * @param $value
-     * @return mixed
+     *
+     * @param $value string The parameter to parse
+     * @return array|string The array, if parsed successfuly,the input string otherwise
      */
     public static function parseQueryStringArray($value)
     {
@@ -79,25 +91,34 @@ class Request
     }
 
     /**
-     * Retourne la méthode http de la requête.
+     * Returns the HTTP method of this request
+     *
+     * @return string The HTTP method of the request
      */
     public function getMethod()
     {
         return $this->server->get('REQUEST_METHOD', 'GET');
     }
 
-    /* --- GET --- */
-
+    /**
+     * @return ParameterBag The query parameters
+     */
     public function getQuery()
     {
         return $this->query;
     }
 
+    /**
+     * @return ParameterBag The request attributes
+     */
     public function getAttributes()
     {
         return $this->attributes;
     }
 
+    /**
+     * @return ParameterBag The server parameters
+     */
     public function getServer()
     {
         return $this->server;
