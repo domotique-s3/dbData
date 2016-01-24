@@ -5,7 +5,7 @@ namespace DS3\Framework\Form\Type;
 class DoubleType implements TypeInterface
 {
     /**
-     * @param $value string
+     * @param $value
      * @return mixed
      */
     public function transform($value)

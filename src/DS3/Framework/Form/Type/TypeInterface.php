@@ -5,7 +5,7 @@ namespace DS3\Framework\Form\Type;
 interface TypeInterface
 {
     /**
-     * @param $value string
+     * @param $value
      * @return mixed
      */
     public function transform($value);
