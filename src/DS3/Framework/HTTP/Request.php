@@ -7,13 +7,21 @@ namespace DS3\Framework\HTTP;
  */
 class Request
 {
-    /* --- ATTRIBUTES --- */
-
+    /**
+     * @var ParameterBag
+     */
     private $query;
+
+    /**
+     * @var ParameterBag
+     */
     private $attributes;
+
+    /**
+     * @var ParameterBag
+     */
     private $server;
 
-    /* --- CONSTRUCTOR --- */
     public function __construct(array $query = array(), array $attributes = array(), array $server = array())
     {
         $this->server = new ParameterBag($server);
@@ -21,16 +29,55 @@ class Request
         $this->query = new ParameterBag($query);
     }
 
-    /* --- METHODS --- */
-
     /**
-     * Cree un objet Request depuis les variables globales
+     * Creates a Request from super globals
+     *
      * @return Request
      */
     public static function fromGlobals()
     {
-        return new static($_GET, array(), $_SERVER);
+        $recursiveTransform = function (array $array) use (&$recursiveTransform) {
+            foreach ($array as $key => $value) {
+                if (is_array($value))
+                    $array[$key] = $recursiveTransform($array[$key]);
+                else
+                    $array[$key] = Request::parseQueryStringArray($array[$key]);
+            }
+
+            return $array;
+        };
+
+        return new static($recursiveTransform($_GET), array(), $_SERVER);
     }
+
+    /**
+     * Transforms a query string parameter into an array, if the parameter follows the good
+     * syntax
+     * @param $value
+     * @return mixed
+     */
+    public static function parseQueryStringArray($value)
+    {
+        if (!preg_match('/^\[.*\]$/', $value))
+            return $value;
+
+        // Removing square brackets
+        $value = substr($value, 1);
+        $value = substr($value, 0, -1);
+        $value = trim($value);
+        if ($value == '')
+            return array();
+
+        // Exploding string
+        $exploded = explode(',', $value);
+
+        // And trim their values
+        foreach ($exploded as $i => $item)
+            $exploded[$i] = trim($item);
+
+        return $exploded;
+    }
+
     /**
      * Retourne la méthode http de la requête.
      */

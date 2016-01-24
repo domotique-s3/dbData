@@ -34,4 +34,18 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('pong', $request->getServer()->get('ping'));
         $this->assertEquals('bam', $request->getServer()->get('bim'));
     }
+
+    public function testParseArrayQueryString()
+    {
+        $this->assertEquals('[incomplete', Request::parseQueryStringArray('[incomplete'));
+        $this->assertEquals('incomplete]', Request::parseQueryStringArray('incomplete]'));
+        $this->assertEquals(array(), Request::parseQueryStringArray('[]'));
+        $this->assertEquals(array(), Request::parseQueryStringArray('[   ]'));
+        $this->assertEquals(array(1, 2, 3), Request::parseQueryStringArray('[1,2,3]'));
+        $this->assertEquals(array(1, 2, 3), Request::parseQueryStringArray('[1, 2,3]'));
+        $this->assertEquals(array(1, 2, 3), Request::parseQueryStringArray('[1,2 ,3]'));
+        $this->assertEquals(array(1, 2, 3), Request::parseQueryStringArray('[ 1,2,3]'));
+        $this->assertEquals(array(1, 2, 3), Request::parseQueryStringArray('[1,2,3 ]'));
+        $this->assertEquals(array('a', 'b', 'c'), Request::parseQueryStringArray('[a,b,c]'));
+    }
 }
