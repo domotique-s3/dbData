@@ -158,7 +158,7 @@ class QueryHandler implements LoggerAwareInterface
 
         $sql = sprintf(
             "SELECT
-                CAST('$table' AS TEXT) AS %s
+                CAST('$table' AS TEXT) AS %s,
                 $sensorIdColumn AS %s,
                 $valuesColumn AS %s,
                 $timestampColumn AS %s
