@@ -6,7 +6,7 @@ interface TypeInterface
 {
     /**
      * @param $value
-     * @return mixed
+     * @return mixed|null
      */
     public function transform($value);
 }

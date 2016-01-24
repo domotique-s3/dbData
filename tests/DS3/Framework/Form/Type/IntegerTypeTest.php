@@ -10,5 +10,6 @@ class IntegerTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(5, $t->transform('5'));
         $this->assertSame(2, $t->transform(2.8));
         $this->assertSame(2, $t->transform(2.1));
+        $this->assertNull($t->transform(null));
     }
 }

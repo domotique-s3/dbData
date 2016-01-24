@@ -12,5 +12,6 @@ class SequentialArrayTypeTest extends \PHPUnit_Framework_TestCase
             array(5.0, 2.5, 4.0),
             $t->transform(array('5', '2.5', 4))
         );
+        $this->assertNull($t->transform(null));
     }
 }

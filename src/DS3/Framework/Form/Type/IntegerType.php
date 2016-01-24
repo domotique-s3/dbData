@@ -10,6 +10,8 @@ class IntegerType implements TypeInterface
      */
     public function transform($value)
     {
+        if ($value === null)
+            return null;
         return (int)$value;
     }
 }

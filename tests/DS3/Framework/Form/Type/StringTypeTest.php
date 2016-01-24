@@ -13,5 +13,6 @@ class StringTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('2.7', $t->transform(2.7));
         $this->assertSame('aaa', $t->transform('aaa'));
         $this->assertSame('aaa   ', $t->transform('aaa   '));
+        $this->assertNull($t->transform(null));
     }
 }

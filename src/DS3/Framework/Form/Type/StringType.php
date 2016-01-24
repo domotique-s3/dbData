@@ -10,6 +10,8 @@ class StringType implements TypeInterface
      */
     public function transform($value)
     {
+        if ($value === null)
+            return null;
         return (string)$value;
     }
 }

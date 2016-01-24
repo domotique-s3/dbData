@@ -10,6 +10,8 @@ class DoubleType implements TypeInterface
      */
     public function transform($value)
     {
+        if ($value === null)
+            return null;
         return (double)$value;
     }
 }

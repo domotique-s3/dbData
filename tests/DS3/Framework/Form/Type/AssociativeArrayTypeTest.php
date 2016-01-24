@@ -14,5 +14,6 @@ class AssociativeArrayTypeTest extends \PHPUnit_Framework_TestCase
             'foo' => '0.15',
             1 => 5
         )));
+        $this->assertNull($t->transform(null));
     }
 }

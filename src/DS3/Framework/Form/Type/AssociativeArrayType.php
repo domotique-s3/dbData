@@ -32,6 +32,9 @@ class AssociativeArrayType implements TypeInterface
      */
     public function transform($value)
     {
+        if ($value === null)
+            return null;
+
         $res = array();
         foreach ($value as $key => $item) {
             $res[$this->keyType->transform($key)] =
