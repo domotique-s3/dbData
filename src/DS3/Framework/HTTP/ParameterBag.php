@@ -108,11 +108,16 @@ class ParameterBag
     /**
      * Remove a parameter
      * @param  string $key Parameter's key
-     * @return void
+     * @return mixed $tmp if $key exists, false otherwise
      */
     public function remove($key)
     {
-        unset($this->parameters[$key]);
+        if($this->has($key)){
+            $tmp = $key;
+            unset($this->parameters[$key]);
+            return $tmp;
+        }
+        return false;
     }
 
     /**
