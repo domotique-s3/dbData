@@ -114,10 +114,8 @@ class Form implements FormInterface
             $errors[$name] = array();
 
             foreach ($field->getValidators() as $validator) {
-                $value = $data[$name];
-                $message = $validator->validate(
-                    isset($value) ? $value : null
-                );
+                $value = isset($data[$name]) ? $data[$name] : null;
+                $message = $validator->validate($value);
 
                 if ($message !== null)
                     $errors[$name][] = $message;
