@@ -3,3 +3,4 @@
 /composer.phar
 *.log
 /app/pdo.cfg
+node_modules/*
