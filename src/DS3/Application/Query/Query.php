@@ -25,12 +25,12 @@ class Query
     protected $timestampColumn;
 
     /**
-     * @var double|null
+     * @var float|null
      */
     protected $start;
 
     /**
-     * @var double|null
+     * @var float|null
      */
     protected $end;
 
