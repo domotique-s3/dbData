@@ -171,7 +171,7 @@ class QueryHandler implements LoggerAwareInterface
 
         $where = array();
 
-        if ($query->getStart() !== null && $query->getEnd() !== null) {
+        if ($query->getStart() !== null || $query->getEnd() !== null) {
             if ($query->getStart() !== null)
                 $where[] = "$timestampColumn > :start";
             if ($query->getEnd() !== null)
