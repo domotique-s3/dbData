@@ -171,12 +171,10 @@ class QueryHandler implements LoggerAwareInterface
 
         $where = array();
 
-        if ($query->getStart() !== null || $query->getEnd() !== null) {
-            if ($query->getStart() !== null)
-                $where[] = "$timestampColumn > :start";
-            if ($query->getEnd() !== null)
-                $where[] = "$timestampColumn < :end";
-        }
+        if ($query->getStart() !== null)
+            $where[] = "$timestampColumn > :start";
+        if ($query->getEnd() !== null)
+            $where[] = "$timestampColumn < :end";
 
         if (count($sensors = $query->getSensorsByTable($table)) > 0)
             foreach ($sensors as $i => $sensor) {
