@@ -6,7 +6,7 @@ namespace DS3\Framework\Form\Validation\Violation;
  * Represents a violation encountered while validating a given field.
  * @author Loïc Payol <loic.payol@gmail.com>
  */
-class Violation
+class Violation implements \JsonSerializable
 {
     /**
      * The type of the violation, aka the discriminator
@@ -45,6 +45,23 @@ class Violation
         $this->field = $field;
         $this->code = $code;
         $this->message = $message;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    function jsonSerialize()
+    {
+        return array(
+            'type' => $this->getType(),
+            'field' => $this->getField(),
+            'code' => $this->getCode(),
+            'message' => $this->getMessage()
+        );
     }
 
     /**

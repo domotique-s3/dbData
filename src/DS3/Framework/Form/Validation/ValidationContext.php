@@ -22,10 +22,16 @@ class ValidationContext
     private $field;
 
     /**
-     * The class of the violation
+     * The type of the violation
      * @var string
      */
     private $type;
+
+    /**
+     * The class of the violation of the given type
+     * @var string
+     */
+    private $typeClass;
 
     /**
      * @var ValidationContext[]
@@ -42,15 +48,16 @@ class ValidationContext
     {
         switch ($type) {
             case 'key':
-                $this->type = 'DS3\Framework\Form\Validation\Violation\KeyViolation';
+                $this->typeClass = 'DS3\Framework\Form\Validation\Violation\KeyViolation';
                 break;
             case 'value':
-                $this->type = 'DS3\Framework\Form\Validation\Violation\ValueViolation';
+                $this->typeClass = 'DS3\Framework\Form\Validation\Violation\ValueViolation';
                 break;
             default:
                 throw new \InvalidArgumentException("$type is not a valid violation type");
         }
 
+        $this->type = $type;
         $this->field = $field;
         $this->violations = array();
         $this->subContexts = array();
@@ -64,7 +71,7 @@ class ValidationContext
      */
     public function add($code, $message)
     {
-        $type = $this->type;
+        $type = $this->typeClass;
         $this->violations[] = new $type($this->field, $code, $message);
     }
 

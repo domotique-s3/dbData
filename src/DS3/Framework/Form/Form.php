@@ -4,6 +4,8 @@ namespace DS3\Framework\Form;
 
 use DS3\Framework\Form\Exception\MultipleSubmitException;
 use DS3\Framework\Form\Type\TypeInterface;
+use DS3\Framework\Form\Validation\ValidationContext;
+use DS3\Framework\Form\Validation\Violation\Violation;
 
 class Form implements FormInterface
 {
@@ -107,27 +109,27 @@ class Form implements FormInterface
         if (empty($this->fields))
             return;
 
-        $errors = array();
+        $violations = array();
 
         foreach ($this->fields as $field) {
             $name = $field->getName();
-            $errors[$name] = array();
-
             foreach ($field->getValidators() as $validator) {
+                $ctx = new ValidationContext($name);
                 $value = isset($data[$name]) ? $data[$name] : null;
-                $message = $validator->validate($value);
+                $validator->setValidationContext($ctx);
+                $validator->validate($value);
 
-                if ($message !== null)
-                    $errors[$name][] = $message;
+                $errors = $ctx->getViolations();
+
+                if(count($errors) > 0)
+                    foreach($errors as $violation)
+                        $violations[] = $violation;
                 else
                     $this->assign($name, $field->getType()->transform($value));
             }
-
-            if (count($errors[$name]) == 0)
-                unset($errors[$name]);
         }
 
-        $this->errors = $errors;
+        $this->errors = $violations;
         $this->submitted = true;
     }
 
@@ -156,7 +158,7 @@ class Form implements FormInterface
     }
 
     /**
-     * @return array[string]mixed
+     * @return Violation[]
      */
     public function getErrors()
     {
