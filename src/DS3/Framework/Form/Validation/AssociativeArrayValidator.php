@@ -3,8 +3,11 @@
 namespace DS3\Framework\Form\Validation;
 
 
-class AssociativeArrayValidator implements ValidatorInterface
+class AssociativeArrayValidator extends AbstractValidator
 {
+    private static $message = 'This field should be an array';
+    private static $code = 'V00004';
+
     /**
      * @var ValidatorInterface[]
      */
@@ -35,35 +38,24 @@ class AssociativeArrayValidator implements ValidatorInterface
     public function validate($value)
     {
         if ($value === null)
-            return null;
-        if (!is_array($value))
-            return 'This field should be an array';
-
-        $errors = array();
-        foreach ($value as $key => $item) {
-            // List key errors
-            $keysError = array();
-            foreach ($this->keysValidators as $keysValidator) {
-                $message = $keysValidator->validate($key);
-                if ($message !== null)
-                    $keysError[] = $message;
-            }
-            if (count($keysError) > 0)
-                $errors[$key]['$key'] = $keysError;
-
-            // List values errors
-            $valuesError = array();
-            foreach ($this->valuesValidators as $valuesValidator) {
-                $message = $valuesValidator->validate($item);
-                if ($message !== null)
-                    $valuesError[] = $message;
-            }
-
-            if (count($valuesError) > 0)
-                $errors[$key]['$value'] = $valuesError;
-
+            return;
+        if (!is_array($value)) {
+            $this->context->add(self::$code, self::$message);
+            return;
         }
 
-        return (count($errors) > 0) ? $errors : null;
+        foreach ($value as $key => $item) {
+            foreach ($this->keysValidators as $keysValidator) {
+                $subContextKey = $this->context->createSubContext($key, 'key');
+                $keysValidator->setValidationContext($subContextKey);
+                $keysValidator->validate($key);
+            }
+
+            foreach ($this->valuesValidators as $valuesValidator) {
+                $subContextValue = $this->context->createSubContext($key);
+                $valuesValidator->setValidationContext($subContextValue);
+                $valuesValidator->validate($item);
+            }
+        }
     }
 }

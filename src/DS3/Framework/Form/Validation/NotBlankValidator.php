@@ -2,19 +2,16 @@
 
 namespace DS3\Framework\Form\Validation;
 
-class NotBlankValidator implements ValidatorInterface
+class NotBlankValidator extends AbstractValidator
 {
-    /**
-     * @param $value
-     * @return null|string Null if no errors occured, a message if a validation
-     * violation was encountered
-     */
+    private static $message = 'This field should not be blank';
+    private static $code = 'V00002';
+
     public function validate($value)
     {
         if ($value === null)
-            return null;
+            return;
         if (is_string($value) && trim($value) == '')
-            return 'This field should not be blank';
-        return null;
+            $this->context->add(self::$code, self::$message);
     }
 }

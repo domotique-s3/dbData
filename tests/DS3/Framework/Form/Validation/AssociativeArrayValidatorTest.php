@@ -2,13 +2,15 @@
 
 namespace DS3\Framework\Form\Validation;
 
-
 class AssociativeArrayValidatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testNull()
     {
+        $ctx = new ValidationContext('');
         $validator = new AssociativeArrayValidator(array(new NotBlankValidator()), array(new NotBlankValidator()));
-        $this->assertNull($validator->validate(null));
+        $validator->setValidationContext($ctx);
+        $validator->validate(null);
+        $this->assertCount(0, $ctx->getViolations());
     }
 
     public function testNoErrors()
@@ -17,20 +19,23 @@ class AssociativeArrayValidatorTest extends \PHPUnit_Framework_TestCase
             'key' => 'value'
         );
 
+        $ctx = new ValidationContext('');
         $validator = new AssociativeArrayValidator(array(new NotBlankValidator()), array(new NotBlankValidator()));
-        $errors = $validator->validate($data);
-
-        $this->assertNull($errors);
+        $validator->setValidationContext($ctx);
+        $validator->validate($data);
+        $this->assertCount(0, $ctx->getViolations());
     }
 
     public function testNotAnArray()
     {
         $data = 2;
 
+        $ctx = new ValidationContext('');
         $validator = new AssociativeArrayValidator(array(new NotBlankValidator()), array(new NotBlankValidator()));
-        $errors = $validator->validate($data);
-
-        $this->assertContains('array', $errors);
+        $validator->setValidationContext($ctx);
+        $validator->validate($data);
+        $this->assertEquals('V00004', $ctx->getViolations()[0]->getCode());
+        $this->assertEquals('value', $ctx->getViolations()[0]->getType());
     }
 
     public function testError()
@@ -39,14 +44,18 @@ class AssociativeArrayValidatorTest extends \PHPUnit_Framework_TestCase
             'notSQLField@' => '' // Blank value
         );
 
+        $ctx = new ValidationContext('test');
         $validator = new AssociativeArrayValidator(array(new SQLFieldValidator()), array(new NotBlankValidator()));
-        $errors = $validator->validate($data);
+        $validator->setValidationContext($ctx);
+        $validator->validate($data);
 
-        $this->assertInternalType('array', $errors);
-        $this->assertArrayHasKey('notSQLField@', $errors);
-        $this->assertArrayHasKey('$key', $errors['notSQLField@']);
-        $this->assertCount(1, $errors['notSQLField@']['$key']);
-        $this->assertArrayHasKey('$value', $errors['notSQLField@']);
-        $this->assertCount(1, $errors['notSQLField@']['$value']);
+        var_dump($ctx->getViolations());
+
+        $this->assertEquals('V00010', $ctx->getViolations()[0]->getCode());
+        $this->assertEquals('key', $ctx->getViolations()[0]->getType());
+        $this->assertEquals('test.notSQLField@', $ctx->getViolations()[0]->getField());
+        $this->assertEquals('V00002', $ctx->getViolations()[1]->getCode());
+        $this->assertEquals('value', $ctx->getViolations()[1]->getType());
+        $this->assertEquals('test.notSQLField@', $ctx->getViolations()[1]->getField());
     }
 }

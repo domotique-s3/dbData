@@ -2,7 +2,7 @@
 
 namespace DS3\Framework\Form\Validation;
 
-class SequentialArrayValidator implements ValidatorInterface
+class SequentialArrayValidator extends AbstractValidator
 {
     /**
      * @var ValidatorInterface[]
@@ -25,6 +25,8 @@ class SequentialArrayValidator implements ValidatorInterface
      */
     public function validate($value)
     {
-        return (new AssociativeArrayValidator(array(), $this->validators))->validate($value);
+        $v = new AssociativeArrayValidator(array(), $this->validators);
+        $v->setValidationContext($this->context);
+        $v->validate($value);
     }
 }

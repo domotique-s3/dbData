@@ -7,24 +7,37 @@ class NotBlankValidatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testBlank()
     {
+        $ctx = new ValidationContext('');
         $validator = new NotBlankValidator();
-        $this->assertInternalType('string', $validator->validate(''));
-        $this->assertInternalType('string', $validator->validate(' '));
+        $validator->setValidationContext($ctx);
+        $validator->validate('');
+        $this->assertEquals('V00002', $ctx->getViolations()[0]->getCode());
+
+        $ctx = new ValidationContext('');
+        $validator = new NotBlankValidator();
+        $validator->setValidationContext($ctx);
+        $validator->validate('     ');
+        $this->assertEquals('V00002', $ctx->getViolations()[0]->getCode());
+
     }
 
     public function testNotBlank()
     {
-        $validator = new NotBlankValidator();
-        $this->assertNull($validator->validate(2));
-        $this->assertNull($validator->validate('Foo'));
-        $this->assertNull($validator->validate(new \stdClass()));
+        foreach (array(2, 'Foo', new \stdClass()) as $item) {
+            $ctx = new ValidationContext('');
+            $validator = new NotBlankValidator();
+            $validator->setValidationContext($ctx);
+            $validator->validate($item);
+            $this->assertCount(0, $ctx->getViolations());
+        }
     }
 
     public function testNull()
     {
+        $ctx = new ValidationContext('');
         $validator = new NotBlankValidator();
-        $this->assertNull($validator->validate(null));
+        $validator->setValidationContext($ctx);
+        $validator->validate(null);
+        $this->assertCount(0, $ctx->getViolations());
     }
-
-
 }

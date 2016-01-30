@@ -5,9 +5,9 @@ namespace DS3\Framework\Form\Validation;
 interface ValidatorInterface
 {
     /**
-     * @param $value
-     * @return null|string Null if no errors occured, a message if a validation
-     * violation was encountered
+     * @param $value mixed The value to validate
      */
     public function validate($value);
+
+    public function setValidationContext(ValidationContext $context);
 }

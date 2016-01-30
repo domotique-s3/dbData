@@ -2,8 +2,11 @@
 
 namespace DS3\Framework\Form\Validation;
 
-class NotNullValidator implements ValidatorInterface
+class NotNullValidator extends AbstractValidator
 {
+    private static $message = 'This field should not be null';
+    private static $code = 'V00001';
+
     /**
      * @param $value
      * @return null|string Null if no errors occured, a message if a validation
@@ -11,6 +14,7 @@ class NotNullValidator implements ValidatorInterface
      */
     public function validate($value)
     {
-        return ($value === null) ? 'This field should not be null' : null;
+        if ($value === null)
+            $this->context->add(self::$code, self::$message);
     }
 }
