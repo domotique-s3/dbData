@@ -11,16 +11,19 @@ use DS3\Framework\Logger\Logger;
 use DS3\Framework\Filesystem\File;
 use DS3\Application\Query\QueryFormBuilder;
 
-
-// --------------------------------
+$logger = new Logger(new File(__DIR__ . '/../app/dev.log'));
+$logger->message(sprintf('[%s] : Started dbCharts', date(DATE_ATOM)), true);
 
 $request = Request::fromGlobals();
+$logger->message('Handling request ' .
+    "`{$request->getMethod()} $_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]`");
+
 $query = new Query();
 $form = (new QueryFormBuilder())->buildForm($query);
+
 $form->submit($request->getQuery()->all());
 
 if ($form->isValid()) {
-    $logger = new Logger(new File(__DIR__ . '/../app/dev.log'));
     $pdo_config = new FilePDOBuilder(__DIR__ . '/../app/pdo.cfg');
     $queryHandler = new QueryHandler($pdo_config->getPDO());
     $queryHandler->setLogger($logger);
@@ -31,3 +34,5 @@ if ($form->isValid()) {
 
 $response = new Response(json_encode($data));
 $response->send();
+
+$logger->done();
