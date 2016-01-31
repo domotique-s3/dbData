@@ -7,10 +7,11 @@ class JsonHandler
     public static function encode($data)
     {
         $output = null;
-        if ($data instanceof \Exception)
+        if ($data instanceof \Exception) {
             $output = self::exceptionToArray($data);
-        else
+        } else {
             $output = $data;
+        }
 
         return json_encode($output);
     }
@@ -19,11 +20,12 @@ class JsonHandler
     {
         $a = array(
             'code' => $e->getCode(),
-            'message' => $e->getMessage()
+            'message' => $e->getMessage(),
         );
 
-        if ($e->getPrevious() !== null)
+        if ($e->getPrevious() !== null) {
             $a['previous'] = self::exceptionToArray($e->getPrevious());
+        }
 
         return $a;
     }

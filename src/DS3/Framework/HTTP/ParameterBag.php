@@ -23,7 +23,8 @@ class ParameterBag
     /* --- METHODS --- */
 
     /**
-     * Returns all parameters
+     * Returns all parameters.
+     *
      * @return mixed[] Parameters
      */
     public function all()
@@ -32,7 +33,8 @@ class ParameterBag
     }
 
     /**
-     * Returns all keys
+     * Returns all keys.
+     *
      * @return string[] Keys
      */
     public function keys()
@@ -41,9 +43,9 @@ class ParameterBag
     }
 
     /**
-     * Replace parameters
-     * @param  mixed[] $parameters Parameter to replace
-     * @return void
+     * Replace parameters.
+     *
+     * @param mixed[] $parameters Parameter to replace
      */
     public function replace(array $parameters)
     {
@@ -51,26 +53,59 @@ class ParameterBag
     }
 
     /**
-     * Add parameters
+     * Add parameters.
+     *
      * @param mixed[] $parameters Parameters to add
-     * @param boolean $erase If true, duplicate keys will be overwritten
-     * @return boolean true if parameter has been added, false otherwise
+     * @param bool $erase If true, duplicate keys will be overwritten
+     *
+     * @return bool true if parameter has been added, false otherwise
      */
     public function add($parameters, $erase = false)
     {
         foreach ($parameters as $key => $value) {
-            if ($this->has($key) && !$erase)
+            if ($this->has($key) && !$erase) {
                 return false;
+            }
             $this->set($key, $value);
         }
+
         return true;
     }
 
     /**
-     * Returns parameter's value
-     * @param  string $key     Key
-     * @param  mixed $default Default value to return if parameter doesn't exist
-     * @return mixed          Parameter's value
+     * Check if a parameter exists.
+     *
+     * @param string $key Cle
+     *
+     * @return bool True if parameter exists
+     */
+    public function has($key)
+    {
+        return array_key_exists($key, $this->parameters);
+    }
+
+    /**
+     * Change parameter's value, create if doesn't exist.
+     *
+     * @param string $key   Parameter's key
+     * @param mixed $value Parameter's value
+     *
+     * @return ParameterBag updated ParameterBag
+     */
+    public function set($key, $value)
+    {
+        $this->parameters[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Returns parameter's value.
+     *
+     * @param string $key Key
+     * @param mixed $default Default value to return if parameter doesn't exist
+     *
+     * @return mixed Parameter's value
      */
     public function get($key, $default = null)
     {
@@ -82,46 +117,27 @@ class ParameterBag
     }
 
     /**
-     * Change parameter's value, create if doesn't exist
-     * @param string $key   Parameter's key
-     * @param mixed $value Parameter's value
-     * @return ParameterBag updated ParameterBag
-     */
-    public function set($key, $value)
-    {
-        $this->parameters[$key] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Check if a parameter exists
-     * @param  string  $key Cle
-     * @return boolean      True if parameter exists
-     */
-    public function has($key)
-    {
-        return array_key_exists($key, $this->parameters);
-
-    }
-
-    /**
-     * Remove a parameter
-     * @param  string $key Parameter's key
+     * Remove a parameter.
+     *
+     * @param string $key Parameter's key
+     *
      * @return mixed $tmp if $key exists, false otherwise
      */
     public function remove($key)
     {
-        if($this->has($key)){
+        if ($this->has($key)) {
             $tmp = $key;
             unset($this->parameters[$key]);
+
             return $tmp;
         }
+
         return false;
     }
 
     /**
-     * Count number of parameters
+     * Count number of parameters.
+     *
      * @return int Number of Parameters
      */
     public function count()

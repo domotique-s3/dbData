@@ -6,6 +6,7 @@ interface FormBuilderInterface
 {
     /**
      * @param object $model The model to bind to the form
+     *
      * @return Form
      */
     public function buildForm(&$model);

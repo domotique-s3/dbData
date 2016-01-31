@@ -16,6 +16,7 @@ class AssociativeArrayType implements TypeInterface
 
     /**
      * AssociativeArrayType constructor.
+     *
      * @param TypeInterface $keyType
      * @param TypeInterface $valueType
      */
@@ -25,15 +26,16 @@ class AssociativeArrayType implements TypeInterface
         $this->valueType = $valueType;
     }
 
-
     /**
      * @param $value
+     *
      * @return mixed
      */
     public function transform($value)
     {
-        if ($value === null)
-            return null;
+        if ($value === null) {
+            return;
+        }
 
         $res = array();
         foreach ($value as $key => $item) {

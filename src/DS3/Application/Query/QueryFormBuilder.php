@@ -25,25 +25,27 @@ class QueryFormBuilder implements FormBuilderInterface
     {
         $form = new Form($model);
 
-        foreach (array('sensorIdColumn', 'valuesColumn', 'timestampColumn') as $field)
+        foreach (array('sensorIdColumn', 'valuesColumn', 'timestampColumn') as $field) {
             $form->addField(
                 $field,
                 array(
                     new SQLFieldValidator(),
                     new NotBlankValidator(),
-                    new NotNullValidator()
+                    new NotNullValidator(),
                 ),
                 new StringType()
             );
+        }
 
-        foreach (array('start', 'end') as $field)
+        foreach (array('start', 'end') as $field) {
             $form->addField(
                 $field,
                 array(
-                    new GreaterThanValidator(0) // GreaterThan allows null values
+                    new GreaterThanValidator(0), // GreaterThan allows null values
                 ),
                 new DoubleType()
             );
+        }
 
         $form->addField(
             'sensors',
@@ -53,15 +55,15 @@ class QueryFormBuilder implements FormBuilderInterface
                     array(
                         new SQLFieldValidator(),
                         new NotBlankValidator(),
-                        new NotNullValidator()
+                        new NotNullValidator(),
                     ),
                     array(
                         new SequentialArrayValidator(array(
                             new NotNullValidator(),
-                            new NotBlankValidator()
-                        ))
+                            new NotBlankValidator(),
+                        )),
                     )
-                )
+                ),
             ),
             new AssociativeArrayType(
                 new StringType(),

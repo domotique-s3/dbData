@@ -6,12 +6,15 @@ class DoubleType implements TypeInterface
 {
     /**
      * @param $value
+     *
      * @return mixed
      */
     public function transform($value)
     {
-        if ($value === null)
-            return null;
+        if ($value === null) {
+            return;
+        }
+
         return (double)$value;
     }
 }

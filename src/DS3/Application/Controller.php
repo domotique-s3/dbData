@@ -25,6 +25,7 @@ class Controller
 
     /**
      * Controller constructor.
+     *
      * @param PDOBuilder $pdoBuilder
      * @param Logger $logger
      */
@@ -33,7 +34,6 @@ class Controller
         $this->pdoBuilder = $pdoBuilder;
         $this->logger = $logger;
     }
-
 
     public function handle(Request $request)
     {

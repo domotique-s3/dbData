@@ -41,7 +41,7 @@ class Request
     }
 
     /**
-     * Creates a Request from super globals
+     * Creates a Request from super globals.
      *
      * @return Request
      */
@@ -49,10 +49,11 @@ class Request
     {
         $recursiveTransform = function (array $array) use (&$recursiveTransform) {
             foreach ($array as $key => $value) {
-                if (is_array($value))
+                if (is_array($value)) {
                     $array[$key] = $recursiveTransform($array[$key]);
-                else
+                } else {
                     $array[$key] = Request::parseQueryStringArray($array[$key]);
+                }
             }
 
             return $array;
@@ -63,35 +64,39 @@ class Request
 
     /**
      * Transforms a query string parameter into an array, if the parameter follows the good
-     * syntax
+     * syntax.
      *
      * @param $value string The parameter to parse
+     *
      * @return array|string The array, if parsed successfuly,the input string otherwise
      */
     public static function parseQueryStringArray($value)
     {
-        if (!preg_match('/^\[.*\]$/', $value))
+        if (!preg_match('/^\[.*\]$/', $value)) {
             return $value;
+        }
 
         // Removing square brackets
         $value = substr($value, 1);
         $value = substr($value, 0, -1);
         $value = trim($value);
-        if ($value == '')
+        if ($value == '') {
             return array();
+        }
 
         // Exploding string
         $exploded = explode(',', $value);
 
         // And trim their values
-        foreach ($exploded as $i => $item)
+        foreach ($exploded as $i => $item) {
             $exploded[$i] = trim($item);
+        }
 
         return $exploded;
     }
 
     /**
-     * Returns the HTTP method of this request
+     * Returns the HTTP method of this request.
      *
      * @return string The HTTP method of the request
      */

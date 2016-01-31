@@ -3,7 +3,7 @@
 namespace DS3\Framework\PDO;
 
 /**
- * PDO builder
+ * PDO builder.
  *
  * @author Sébastien Klasa <skeggib@gmail.com>
  */

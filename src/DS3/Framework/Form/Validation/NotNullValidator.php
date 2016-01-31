@@ -9,12 +9,14 @@ class NotNullValidator extends AbstractValidator
 
     /**
      * @param $value
+     *
      * @return null|string Null if no errors occured, a message if a validation
-     * violation was encountered
+     *                     violation was encountered
      */
     public function validate($value)
     {
-        if ($value === null)
+        if ($value === null) {
             $this->context->add(self::$code, self::$message);
+        }
     }
 }

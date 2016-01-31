@@ -18,7 +18,7 @@ class File
     private $path;
 
     /**
-     * Opens the given file, or create it if it doesn't exists
+     * Opens the given file, or create it if it doesn't exists.
      *
      * @param string $path File path
      */
@@ -36,18 +36,22 @@ class File
     }
 
     /**
-     * Closes the file
+     * Check if the file exists.
+     *
+     * @param string $path File's path
+     *
+     * @return bool True if the file exists
      */
-    public function __destruct()
+    public static function exists($path)
     {
-        fclose($this->handle);
+        return file_exists($path);
     }
 
     /**
-     * Write at the end of the file
+     * Write at the end of the file.
      *
-     * @param  string $str Text to write
-     * @return void
+     * @param string $str Text to write
+     *
      * @throws FilesystemException When a writing error occurs
      */
     public function write($str)
@@ -61,6 +65,7 @@ class File
      * Read the file and returns its content.
      *
      * @return string The file contents
+     *
      * @throws FilesystemException When a read error occurs
      */
     public function read()
@@ -74,34 +79,31 @@ class File
             }
 
             return $contents;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->__destruct();
             throw new FilesystemException("Cannot read file {$this->path}", 0, $e);
         }
     }
 
     /**
-     * Delete file contents
+     * Closes the file.
+     */
+    public function __destruct()
+    {
+        fclose($this->handle);
+    }
+
+    /**
+     * Delete file contents.
      *
-     * @return void
      * @throws FilesystemException When a writing error occurs
      */
     public function clear()
     {
         try {
             file_put_contents($this->path, '');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new FilesystemException("Cannot read file {$this->path}", 0, $e);
         }
-    }
-
-    /**
-     * Check if the file exists
-     * @param  string $path File's path
-     * @return boolean       True if the file exists
-     */
-    public static function exists($path)
-    {
-        return file_exists($path);
     }
 }

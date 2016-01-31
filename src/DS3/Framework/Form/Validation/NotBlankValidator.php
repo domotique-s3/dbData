@@ -9,9 +9,11 @@ class NotBlankValidator extends AbstractValidator
 
     public function validate($value)
     {
-        if ($value === null)
+        if ($value === null) {
             return;
-        if (is_string($value) && trim($value) == '')
+        }
+        if (is_string($value) && trim($value) == '') {
             $this->context->add(self::$code, self::$message);
+        }
     }
 }

@@ -24,22 +24,25 @@ class Field
 
     /**
      * Field constructor.
+     *
      * @param string $name
      * @param ValidatorInterface[] $validators
      * @param TypeInterface $transformer
      */
     public function __construct($name, array $validators, TypeInterface $transformer)
     {
-        if ($name == null)
+        if ($name == null) {
             throw new \InvalidArgumentException('Name can not be null');
+        }
 
         $this->name = (string)$name;
         $this->validators = array();
         $this->type = $transformer;
 
         foreach ($validators as $validator) {
-            if (!($validator instanceof ValidatorInterface))
+            if (!($validator instanceof ValidatorInterface)) {
                 throw new \InvalidArgumentException('Validators should implement ValidatorInterface');
+            }
 
             $this->validators[] = $validator;
         }

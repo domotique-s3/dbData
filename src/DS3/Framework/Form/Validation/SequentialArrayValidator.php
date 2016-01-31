@@ -11,6 +11,7 @@ class SequentialArrayValidator extends AbstractValidator
 
     /**
      * All constructor.
+     *
      * @param ValidatorInterface[] $validators
      */
     public function __construct(array $validators = array())
@@ -20,8 +21,9 @@ class SequentialArrayValidator extends AbstractValidator
 
     /**
      * @param $value
+     *
      * @return null|string Null if no errors occured, a message if a validation
-     * violation was encountered
+     *                     violation was encountered
      */
     public function validate($value)
     {
