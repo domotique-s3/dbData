@@ -4,3 +4,4 @@
 *.log
 /app/pdo.cfg
 node_modules/*
+/.idea/
