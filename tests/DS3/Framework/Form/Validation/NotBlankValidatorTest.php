@@ -2,7 +2,6 @@
 
 namespace DS3\Framework\Form\Validation;
 
-
 class NotBlankValidatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testBlank()
@@ -18,7 +17,6 @@ class NotBlankValidatorTest extends \PHPUnit_Framework_TestCase
         $validator->setValidationContext($ctx);
         $validator->validate('     ');
         $this->assertEquals('V00002', $ctx->getViolations()[0]->getCode());
-
     }
 
     public function testNotBlank()

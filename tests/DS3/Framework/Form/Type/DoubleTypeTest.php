@@ -2,7 +2,6 @@
 
 namespace DS3\Framework\Form\Type;
 
-
 class DoubleTypeTest extends \PHPUnit_Framework_TestCase
 {
     public function testTransform()

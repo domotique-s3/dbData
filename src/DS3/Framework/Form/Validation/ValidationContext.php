@@ -46,7 +46,7 @@ class ValidationContext
      * ValidationContext constructor.
      *
      * @param string $field The field name
-     * @param string $type The type of the violation
+     * @param string $type  The type of the violation
      */
     public function __construct($field, $type = 'value')
     {

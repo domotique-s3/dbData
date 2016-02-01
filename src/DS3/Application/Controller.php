@@ -27,7 +27,7 @@ class Controller
      * Controller constructor.
      *
      * @param PDOBuilder $pdoBuilder
-     * @param Logger $logger
+     * @param Logger     $logger
      */
     public function __construct(PDOBuilder $pdoBuilder, Logger $logger)
     {

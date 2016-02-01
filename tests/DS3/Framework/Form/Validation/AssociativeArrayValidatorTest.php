@@ -16,7 +16,7 @@ class AssociativeArrayValidatorTest extends \PHPUnit_Framework_TestCase
     public function testNoErrors()
     {
         $data = array(
-            'key' => 'value'
+            'key' => 'value',
         );
 
         $ctx = new ValidationContext('');
@@ -41,7 +41,7 @@ class AssociativeArrayValidatorTest extends \PHPUnit_Framework_TestCase
     public function testError()
     {
         $data = array(
-            'notSQLField@' => '' // Blank value
+            'notSQLField@' => '', // Blank value
         );
 
         $ctx = new ValidationContext('test');

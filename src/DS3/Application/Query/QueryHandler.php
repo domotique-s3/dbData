@@ -54,11 +54,11 @@ class QueryHandler implements LoggerAwareInterface
             $measurments = array();
             foreach ($rawMeasurments as $rawMeasurment) {
                 if (!isset($rawMeasurment[self::$_valuesCol])) {
-                    throw new \InvalidArgumentException(self::$_valuesCol . ' field is missing');
+                    throw new \InvalidArgumentException(self::$_valuesCol.' field is missing');
                 }
 
                 if (!isset($rawMeasurment[self::$_timestampCol])) {
-                    throw new \InvalidArgumentException(self::$_timestampCol . ' field is missing');
+                    throw new \InvalidArgumentException(self::$_timestampCol.' field is missing');
                 }
 
                 $measurments[] = new Measurment($rawMeasurment[self::$_valuesCol], $rawMeasurment[self::$_timestampCol]);
@@ -111,7 +111,7 @@ class QueryHandler implements LoggerAwareInterface
     {
         $subQueries = array();
         foreach ($query->getTables() as $table) {
-            $subQueries[] = '(' . $this->buildSubQuery($table, $query) . ')';
+            $subQueries[] = '('.$this->buildSubQuery($table, $query).')';
         }
 
         $sql = sprintf(
@@ -193,7 +193,7 @@ class QueryHandler implements LoggerAwareInterface
         }
 
         if (count($where) > 0) {
-            $sql .= ' WHERE ' . implode(' AND ', $where);
+            $sql .= ' WHERE '.implode(' AND ', $where);
         }
 
         return $sql;
@@ -216,7 +216,7 @@ class QueryHandler implements LoggerAwareInterface
         $newResult = array();
         foreach ($data as $row) {
             $newResult[$row[self::$_tableCol]][$row[self::$_sensorIdCol]][] = array(
-                self::$_timestampCol => (double)$row[self::$_timestampCol],
+                self::$_timestampCol => (double) $row[self::$_timestampCol],
                 self::$_valuesCol => $row[self::$_valuesCol],
             );
         }

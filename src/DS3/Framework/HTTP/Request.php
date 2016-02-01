@@ -25,16 +25,15 @@ class Request
     /**
      * Request constructor.
      *
-     * @param array $query The query parameters
+     * @param array $query      The query parameters
      * @param array $attributes Some arbitrary attributes, you can use them for you business logic
-     * @param array $server The server parameters
+     * @param array $server     The server parameters
      */
     public function __construct(
         array $query = array(),
         array $attributes = array(),
         array $server = array()
-    )
-    {
+    ) {
         $this->server = new ParameterBag($server);
         $this->attributes = new ParameterBag($attributes);
         $this->query = new ParameterBag($query);

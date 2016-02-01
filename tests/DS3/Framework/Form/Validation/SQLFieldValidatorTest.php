@@ -2,7 +2,6 @@
 
 namespace DS3\Framework\Form\Validation;
 
-
 class SQLFieldValidatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testValid()

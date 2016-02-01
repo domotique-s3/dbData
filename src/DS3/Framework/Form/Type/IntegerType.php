@@ -15,6 +15,6 @@ class IntegerType implements TypeInterface
             return;
         }
 
-        return (int)$value;
+        return (int) $value;
     }
 }

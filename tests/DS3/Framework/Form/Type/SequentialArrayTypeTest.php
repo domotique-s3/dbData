@@ -2,7 +2,6 @@
 
 namespace DS3\Framework\Form\Type;
 
-
 class SequentialArrayTypeTest extends \PHPUnit_Framework_TestCase
 {
     public function testValid()

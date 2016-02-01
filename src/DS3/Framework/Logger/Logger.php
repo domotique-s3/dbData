@@ -43,8 +43,8 @@ class Logger
     /**
      * Writes a message at the end of the logs file.
      *
-     * @param string $message
-     * @param bool|false $timer If true, the timer will be stated until the call of the method done()
+     * @param string     $message
+     * @param bool|false $timer   If true, the timer will be stated until the call of the method done()
      */
     public function message($message, $timer = false)
     {

@@ -10,7 +10,7 @@ class ParameterBag
     private $parameters = array();
 
     /**
-     * Default constructor
+     * Default constructor.
      */
     public function __construct($parameters = array())
     {
@@ -51,7 +51,7 @@ class ParameterBag
      * Add parameters.
      *
      * @param mixed[] $parameters Parameters to add
-     * @param bool $erase If true, duplicate keys will be overwritten
+     * @param bool    $erase      If true, duplicate keys will be overwritten
      *
      * @return bool true if parameter has been added, false otherwise
      */
@@ -83,7 +83,7 @@ class ParameterBag
      * Change parameter's value, create if doesn't exist.
      *
      * @param string $key   Parameter's key
-     * @param mixed $value Parameter's value
+     * @param mixed  $value Parameter's value
      *
      * @return ParameterBag updated ParameterBag
      */
@@ -97,8 +97,8 @@ class ParameterBag
     /**
      * Returns parameter's value.
      *
-     * @param string $key Key
-     * @param mixed $default Default value to return if parameter doesn't exist
+     * @param string $key     Key
+     * @param mixed  $default Default value to return if parameter doesn't exist
      *
      * @return mixed Parameter's value
      */

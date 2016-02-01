@@ -2,7 +2,6 @@
 
 namespace DS3\Framework\Form\Validation;
 
-
 class SequentialArrayValidatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testNull()

@@ -15,6 +15,6 @@ class StringType implements TypeInterface
             return;
         }
 
-        return (string)$value;
+        return (string) $value;
     }
 }

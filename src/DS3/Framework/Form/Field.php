@@ -25,9 +25,9 @@ class Field
     /**
      * Field constructor.
      *
-     * @param string $name
+     * @param string               $name
      * @param ValidatorInterface[] $validators
-     * @param TypeInterface $transformer
+     * @param TypeInterface        $transformer
      */
     public function __construct($name, array $validators, TypeInterface $transformer)
     {
@@ -35,7 +35,7 @@ class Field
             throw new \InvalidArgumentException('Name can not be null');
         }
 
-        $this->name = (string)$name;
+        $this->name = (string) $name;
         $this->validators = array();
         $this->type = $transformer;
 

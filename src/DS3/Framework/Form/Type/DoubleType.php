@@ -15,6 +15,6 @@ class DoubleType implements TypeInterface
             return;
         }
 
-        return (double)$value;
+        return (double) $value;
     }
 }

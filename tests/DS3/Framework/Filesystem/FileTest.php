@@ -83,7 +83,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     private function getTestFilename()
     {
-        $filename = __DIR__ . '/ClassFileTest_file.txt';
+        $filename = __DIR__.'/ClassFileTest_file.txt';
+
         return $filename;
     }
 }

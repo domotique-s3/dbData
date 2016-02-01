@@ -30,7 +30,7 @@ class Serie
     }
 
     /**
-     * Returns the id of the serie's sensor
+     * Returns the id of the serie's sensor.
      *
      * @return mixed
      */
@@ -40,7 +40,7 @@ class Serie
     }
 
     /**
-     * Return the measurments of the serie
+     * Return the measurments of the serie.
      *
      * @return Measurment[]
      */

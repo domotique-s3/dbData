@@ -9,10 +9,10 @@ class AssociativeArrayTypeTest extends \PHPUnit_Framework_TestCase
         $t = new AssociativeArrayType(new StringType(), new DoubleType());
         $this->assertSame(array(
             'foo' => 0.15,
-            '1' => 5.0
+            '1' => 5.0,
         ), $t->transform(array(
             'foo' => '0.15',
-            1 => 5
+            1 => 5,
         )));
         $this->assertNull($t->transform(null));
     }
