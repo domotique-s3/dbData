@@ -7,8 +7,6 @@ namespace DS3\Application\Query;
  */
 class Serie
 {
-    /* --- ATTRIBUTES --- */
-
     /**
      * @var mixed
      */
@@ -31,14 +29,8 @@ class Serie
         $this->measurments = $measurments;
     }
 
-    public static function fromArray(array $input)
-    {
-    }
-
-    /* --- GETTERS --- */
-
     /**
-     * Returns serie's id.
+     * Returns the id of the serie's sensor
      *
      * @return mixed
      */
@@ -48,7 +40,7 @@ class Serie
     }
 
     /**
-     * Return serie's measurments.
+     * Return the measurments of the serie
      *
      * @return Measurment[]
      */

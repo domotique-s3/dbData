@@ -16,14 +16,16 @@ class QueryHandler implements LoggerAwareInterface
     private static $_sensorIdCol = 'sensor';
     private static $_valuesCol = 'value';
     private static $_timestampCol = 'timestamp';
+
     /**
      * @var Logger|null
      */
     protected $logger;
+
     /**
      * @var \PDO The PDO connection object.
      */
-    private $pdo;
+    protected $pdo;
 
     /**
      * Constructs a QueryHandler with a PDO connection.

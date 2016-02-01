@@ -7,11 +7,8 @@ namespace DS3\Framework\HTTP;
  */
 class ParameterBag
 {
-    /* --- ATTRIBUTES --- */
-
     private $parameters = array();
 
-    /* --- CONSTRUCTORS --- *
     /**
      * Default constructor
      */
@@ -19,8 +16,6 @@ class ParameterBag
     {
         $this->parameters = $parameters;
     }
-
-    /* --- METHODS --- */
 
     /**
      * Returns all parameters.
