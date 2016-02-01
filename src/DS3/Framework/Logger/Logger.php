@@ -15,7 +15,8 @@ class Logger
     private $timers_stack;
 
     /**
-     * Constructor by file
+     * Constructor by file.
+     *
      * @param File $file File where the logs will be written
      */
     public function __construct(File $file)
@@ -25,7 +26,7 @@ class Logger
     }
 
     /**
-     * Write a '\n' at the end of the logs file
+     * Write a '\n' at the end of the logs file.
      */
     public function __destruct()
     {
@@ -38,12 +39,12 @@ class Logger
      * @param  bool $timer   If true, timer is on until done()'s call
      * @return void
      */
-    
+
     /**
-     * Writes a message at the end of the logs file
-     * @param  string  $message
-     * @param  boolean|false $timer   If true, the timer will be stated until the call of the method done() 
-     * @return void
+     * Writes a message at the end of the logs file.
+     *
+     * @param string $message
+     * @param bool|false $timer If true, the timer will be stated until the call of the method done()
      */
     public function message($message, $timer = false)
     {
@@ -67,9 +68,18 @@ class Logger
         $this->file->write($str);
     }
 
+    private function millitime()
+    {
+        $microtime = microtime();
+        $comps = explode(' ', $microtime);
+
+        // Note: Using a string here to prevent loss of precision
+        // in case of "overflow" (PHP converts it to a double)
+        return sprintf('%d%03d', $comps[1], $comps[0] * 1000);
+    }
+
     /**
-     * Write "Done (time ms)" where time is replaced with time elapsed since last message()'s call
-     * @return void
+     * Write "Done (time ms)" where time is replaced with time elapsed since last message()'s call.
      */
     public function done()
     {
@@ -90,15 +100,5 @@ class Logger
         $str .= 'Done ('.$elapsed_time.' ms)';
 
         $this->file->write($str);
-    }
-
-    private function millitime()
-    {
-        $microtime = microtime();
-        $comps = explode(' ', $microtime);
-
-        // Note: Using a string here to prevent loss of precision
-        // in case of "overflow" (PHP converts it to a double)
-        return sprintf('%d%03d', $comps[1], $comps[0] * 1000);
     }
 }

@@ -49,8 +49,6 @@ class AssociativeArrayValidatorTest extends \PHPUnit_Framework_TestCase
         $validator->setValidationContext($ctx);
         $validator->validate($data);
 
-        var_dump($ctx->getViolations());
-
         $this->assertEquals('V00010', $ctx->getViolations()[0]->getCode());
         $this->assertEquals('key', $ctx->getViolations()[0]->getType());
         $this->assertEquals('test.notSQLField@', $ctx->getViolations()[0]->getField());

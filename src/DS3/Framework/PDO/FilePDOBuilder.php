@@ -6,20 +6,22 @@ use DS3\Framework\Filesystem\File;
 use DS3\Framework\PDO\Exception\FilePDOBuilderException;
 
 /**
- * PDO builder from configuration file
+ * PDO builder from configuration file.
  *
  * @author Sébastien Klasa <skeggib@gmail.com>
  */
 class FilePDOBuilder extends PDOBuilder
 {
     /**
-     * Configuration file
+     * Configuration file.
+     *
      * @var File
      */
     private $file;
 
     /**
-     * Open and read a configuration file
+     * Open and read a configuration file.
+     *
      * @param string $path Path to the configuration file
      */
     public function __construct($path)

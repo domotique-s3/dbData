@@ -11,6 +11,7 @@ class GreaterThanValidator extends AbstractValidator
 
     /**
      * GreaterThan constructor.
+     *
      * @param $comparative mixed value to compare to
      */
     public function __construct($comparative)
@@ -20,9 +21,11 @@ class GreaterThanValidator extends AbstractValidator
 
     public function validate($value)
     {
-        if ($value === null)
-            return null;
-        if (!($value > $this->comparative))
+        if ($value === null) {
+            return;
+        }
+        if (!($value > $this->comparative)) {
             $this->context->add(self::$code, sprintf(self::$message, $this->comparative));
+        }
     }
 }

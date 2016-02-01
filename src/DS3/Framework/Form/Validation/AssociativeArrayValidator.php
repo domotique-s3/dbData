@@ -2,7 +2,6 @@
 
 namespace DS3\Framework\Form\Validation;
 
-
 class AssociativeArrayValidator extends AbstractValidator
 {
     private static $message = 'This field should be an array';
@@ -20,6 +19,7 @@ class AssociativeArrayValidator extends AbstractValidator
 
     /**
      * AssociativeArray constructor.
+     *
      * @param ValidatorInterface[] $keysValidators
      * @param ValidatorInterface[] $valuesValidators
      */
@@ -29,18 +29,20 @@ class AssociativeArrayValidator extends AbstractValidator
         $this->valuesValidators = $valuesValidators;
     }
 
-
     /**
      * @param $value
+     *
      * @return null|string Null if no errors occured, a message if a validation
-     * violation was encountered
+     *                     violation was encountered
      */
     public function validate($value)
     {
-        if ($value === null)
+        if ($value === null) {
             return;
+        }
         if (!is_array($value)) {
             $this->context->add(self::$code, self::$message);
+
             return;
         }
 

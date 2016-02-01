@@ -2,7 +2,6 @@
 
 namespace DS3\Framework\Form\Type;
 
-
 class SequentialArrayType implements TypeInterface
 {
     /**
@@ -12,6 +11,7 @@ class SequentialArrayType implements TypeInterface
 
     /**
      * SequentialArrayType constructor.
+     *
      * @param TypeInterface $valuesType
      */
     public function __construct(TypeInterface $valuesType)
@@ -21,6 +21,7 @@ class SequentialArrayType implements TypeInterface
 
     /**
      * @param $value
+     *
      * @return mixed
      */
     public function transform($value)

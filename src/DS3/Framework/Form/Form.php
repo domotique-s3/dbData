@@ -1,6 +1,6 @@
 <?php
-namespace DS3\Framework\Form;
 
+namespace DS3\Framework\Form;
 
 use DS3\Framework\Form\Exception\MultipleSubmitException;
 use DS3\Framework\Form\Type\TypeInterface;
@@ -36,6 +36,7 @@ class Form implements FormInterface
 
     /**
      * Form constructor.
+     *
      * @param $model
      */
     public function __construct(&$model)
@@ -76,38 +77,45 @@ class Form implements FormInterface
 
     public function add(Field $field)
     {
-        if ($this->hasFieldWithName($field))
+        if ($this->hasFieldWithName($field)) {
             throw new \InvalidArgumentException(
                 "A field with the name {$field->getName()} already exists"
             );
+        }
 
         $this->fields[] = $field;
+
         return $this;
     }
 
     /**
      * @param Field $field
+     *
      * @return bool
      */
     protected function hasFieldWithName(Field $field)
     {
-        foreach ($this->fields as $_field)
-            if ($field->getName() == $_field->getName())
+        foreach ($this->fields as $_field) {
+            if ($field->getName() == $_field->getName()) {
                 return true;
+            }
+        }
+
         return false;
     }
 
     /**
      * @param array [string]mixed $data
-     * @return void
      */
     public function submit(array $data)
     {
-        if ($this->isSubmitted())
+        if ($this->isSubmitted()) {
             throw new MultipleSubmitException('A form can\'t be submitted twice');
+        }
 
-        if (empty($this->fields))
+        if (empty($this->fields)) {
             return;
+        }
 
         $violations = array();
 
@@ -121,11 +129,13 @@ class Form implements FormInterface
 
                 $errors = $ctx->getViolations();
 
-                if(count($errors) > 0)
-                    foreach($errors as $violation)
+                if (count($errors) > 0) {
+                    foreach ($errors as $violation) {
                         $violations[] = $violation;
-                else
+                    }
+                } else {
                     $this->assign($name, $field->getType()->transform($value));
+                }
             }
         }
 
@@ -144,9 +154,9 @@ class Form implements FormInterface
     protected function assign($name, $value)
     {
         $camelCase = ucwords($name);
-        if (method_exists($this->model, "set$camelCase"))
+        if (method_exists($this->model, "set$camelCase")) {
             call_user_func(array($this->model, "set$camelCase"), $value);
-
+        }
     }
 
     /**

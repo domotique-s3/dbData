@@ -9,7 +9,8 @@ class SQLFieldValidator extends AbstractValidator
 
     public function validate($value)
     {
-        if (preg_match('/[^a-zA-Z0-9_]+/', $value))
+        if (preg_match('/[^a-zA-Z0-9_]+/', $value)) {
             $this->context->add(self::$code, self::$message);
+        }
     }
 }

@@ -6,7 +6,6 @@ interface FormInterface
 {
     /**
      * @param array [string]mixed $data
-     * @return void
      */
     public function submit(array $data);
 
