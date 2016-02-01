@@ -1,4 +1,4 @@
-# dbCharts
+# dbData
 
 ## Prérequis
 
