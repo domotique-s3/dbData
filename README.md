@@ -1,6 +1,22 @@
 # dbCharts
 
+## Prérequis
+
+- Un serveur web
+- PHP >= 5.4
+- Un SGBD
+
 ## Installation
+
+### Si votre SGBD est Postgresql
+
+Installer le driver pgsql :
+
+`sudo apt-get install php5-pgsql`
+
+Relancer apache2 :
+
+`sudo service apache2 restart`
 
 ### Création de la BDD (uniquement pour développer)
 
@@ -8,9 +24,9 @@ Installer postgresql (si ce n'est déjà fait).
 
 `sudo apt-get install postgresql`
 
-Se placer dans le dossier 'setup_dev'.
+Se placer dans le dossier 'bin/dev'.
 
-`cd setup_dev`
+`cd bin/dev`
 
 Se connecter en tant qu'utilisateur 'postgres'.
 
@@ -18,13 +34,19 @@ Se connecter en tant qu'utilisateur 'postgres'.
 
 Executer le script 'setup.sh'.
 
-`./setup_dev.sh`
+`.setup_dev.sh`
 
 ### Configuration
 
 Lancer le script 'setup_rel.sh' en super-utilisateur à la racine du projet :
 
-`sudo sh setup_rel.sh`
+`sudo sh bin/setup_rel.sh`
+
+> Les informations d'authentification à la base de données de développement sont :
+> - Nom de la base : dbcharts
+> - Host : localhost
+> - Login : dbcharts
+> - Mot de passe : pass
 
 ## Tests (uniquement pour développer)
 
@@ -42,10 +64,6 @@ ou
 
 ## Utilisation
 
-Ouvrir la page 'web/index.html' avec les paramètres de la forme :
+Ouvrir la page 'web/dbCharts.php' avec les paramètres de la forme :
 
-`web/index.html?tableName=<table_name>&sensorIdColumn=<sensors_id_column_name>&valuesColumn=<values_column_name>&timestampColumn=<timestamp_column_name>&sensorIds=[<id>,<id>...]&startTime=<start_timestamp>&endTime=<end_timestamp>`
-
-Par exemple :
-
-`web/index.html?tableName=measurments&sensorIdColumn=sensor_id&valuesColumn=value&timestampColumn=timestamp&sensorIds=[70,72]&startTime=1417962686.2894&endTime=141818181881.2399`
+`http://localhost/skeggib/dbCharts/web/dbCharts.php?sensorIdColumn=sensor_id&valuesColumn=value&timestampColumn=timestamp&start=1417962686.2894&end=1418176473.2971&sensors[measurments]=[63,34,78]&sensors[othertable]=[1,2,3]`

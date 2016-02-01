@@ -18,7 +18,7 @@ function readline_m($prompt = null){
     }
 }
 
-$file = new File('pdo.cfg');
+$file = new File('app/pdo.cfg');
 
 echo "--- DBCHARTS SETUP --- \n\n";
 echo "You will be asked to enter your EXISTING database configuration.\n\n";
