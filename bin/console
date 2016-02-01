@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Application;
+use DS3\Framework\PDO\FilePDOCommand;
+
+
+$input = new ArgvInput();
+$app = new Application();
+
+$app->add(new FilePDOCommand());
+
+$app->run($input);
