@@ -30,6 +30,8 @@ class FilePDOCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $file = new File($input->hasOption('path') ? $input->getOption('path'): './app/pdo.cfg');
+
         /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
 
@@ -48,18 +50,17 @@ class FilePDOCommand extends Command
         $question = new Question('Please enter your username : ', '');
         $username = $helper->ask($input, $output, $question);
 
-        $question = new Question('Please enter your username (value hidden) : ', '');
+        $question = new Question('Please enter your password (value hidden) : ', '');
         $question->setHidden(true);
         $question->setHiddenFallback(true);
         $pass = $helper->ask($input, $output, $question);
 
-        $file = new File($input->hasOption('path') ? $input->getOption('path'): './app/pdo.cfg');
         $file->clear();
 
         $file->write($driver . PHP_EOL);
         $file->write($database . PHP_EOL);
         $file->write($host . PHP_EOL);
         $file->write($username . PHP_EOL);
-        $file->write($pass);
+        $file->write($pass . PHP_EOL);
     }
 }
