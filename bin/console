@@ -12,6 +12,8 @@ $app = new Application();
 $app->setName('DS3 CLI Console');
 $app->setVersion('0.1.0');
 
-$app->add(new FilePDOCommand());
+$dbConfig = new FilePDOCommand();
+$dbConfig->setName('db-config');
+$app->add($dbConfig);
 
 $app->run($input);
