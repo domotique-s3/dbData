@@ -34,8 +34,8 @@ Lancer le script 'setup_rel.sh' en super-utilisateur à la racine du projet :
 
 Ouvrir la page 'web/index.html' avec les paramètres de la forme :
 
-`web/index.html?tableName=<table_name>&sensorIdColumn=<sensors_id_column_name>&valuesColumn=<values_column_name>&timestampColumn=<timestamp_column_name>&sensorIds=[<id>,<id>...]&startTime=<start_timestamp>&endTime=<end_timestamp>`
+`web/index.html?sensorIdColumn=<sensors_id_column_name>&valuesColumn=<values_column_name>&timestampColumn=<timestamp_column_name>&sensors[<table_name>]=[<id>,<id>...]&start=<start_timestamp>&end=<end_timestamp>`
 
 Par exemple :
 
-`web/index.html?tableName=measurments&sensorIdColumn=sensor_id&valuesColumn=value&timestampColumn=timestamp&sensorIds=[70,72]&startTime=1417962686.2894&endTime=141818181881.2399`
+`web/index.html?sensorIdColumn=sensor_id&valuesColumn=value&timestampColumn=timestamp&sensors[measurments]=[70,72]&start=1417962686.2894&end=141818181881.2399`
