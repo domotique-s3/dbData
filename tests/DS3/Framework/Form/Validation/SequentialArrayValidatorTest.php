@@ -43,4 +43,17 @@ class SequentialArrayValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('V00001', $ctx->getViolations()[0]->getCode());
         $this->assertEquals('value', $ctx->getViolations()[0]->getType());
     }
+
+    public function testAssocitaiveArray()
+    {
+        $ctx = new ValidationContext('');
+        $v = new SequentialArrayValidator(array(new NotNullValidator()));
+        $v->setValidationContext($ctx);
+
+        $v->validate(array('a' => 'b', 1 => 2));
+        $this->assertEquals('V00005', $ctx->getViolations()[0]->getCode());
+
+        $v->validate(array(2 => 3, 1 => 2));
+        $this->assertEquals('V00005', $ctx->getViolations()[0]->getCode());
+    }
 }
