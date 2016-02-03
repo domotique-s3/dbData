@@ -61,6 +61,7 @@ class QueryFormBuilder implements FormBuilderInterface
                         new SequentialArrayValidator(array(
                             new NotNullValidator(),
                             new NotBlankValidator(),
+                            new SQLFieldValidator(),
                         )),
                     )
                 ),
