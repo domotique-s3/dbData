@@ -187,9 +187,12 @@ class QueryHandler implements LoggerAwareInterface
         }
 
         if (count($sensors = $query->getSensorsByTable($table)) > 0) {
+            $sensorWhere = array();
             foreach ($sensors as $i => $sensor) {
-                $where[] = "$sensorIdColumn = :$table$i";
+                $sensorWhere[] = "$sensorIdColumn = :$table$i";
             }
+
+            $where[] = implode(' OR ', $sensorWhere);
         }
 
         if (count($where) > 0) {
