@@ -46,10 +46,10 @@ class Controller
             $queryHandler = new QueryHandler($this->pdoBuilder->getPDO());
             $queryHandler->setLogger($this->logger);
             $data = $queryHandler->execute($query);
-        } else {
-            $data = $form->getErrors();
+
+            return new Response(JsonHandler::encode($data), 200);
         }
 
-        return new Response(JsonHandler::encode($data));
+        return new Response(JsonHandler::encode($form->getErrors()), 400);
     }
 }
