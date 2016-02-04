@@ -21,6 +21,8 @@ class File
      * Opens the given file, or create it if it doesn't exists.
      *
      * @param string $path File path
+     * 
+     * @throws FilesystemException If the file cannot be open
      */
     public function __construct($path)
     {
