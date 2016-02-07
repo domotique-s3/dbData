@@ -6,7 +6,7 @@
 
 Le projet *Domotique S3* vise à générer des graphiques représentant des données enregistrées par des capteurs dans une base de données.
 
-*dbData* est la partie du projet qui permet la relation entre dbCharts, qui génére les graphiques, et la base de données. Ce programme est développé en PHP et est destiné à être exécuté par un serveur web tel que Apache2. Son but est de recevoir une requête HTTP, dans laquelle sont spécifié les paramètres du graphique (nom des tables, noms des colonnes, IDs des capteurs, etc...), d'interroger la base de donnée et de formatter les données pour les renvoyer via le protocole HTTP.
+*dbData* est la partie du projet qui permet la relation entre dbCharts, qui génère les graphiques, et la base de données. Ce programme est développé en PHP et est destiné à être exécuté par un serveur web tel que Apache2. Son but est de recevoir une requête HTTP, dans laquelle sont spécifiés les paramètres du graphique (nom des tables, noms des colonnes, IDs des capteurs, etc.), d'interroger la base de données et de formater les données pour les renvoyer via le protocole HTTP.
 
 ## Cahier des charges
 
@@ -27,7 +27,7 @@ La requête envoyée à dbData doit contenir les informations suivantes :
 - Le nom de la colonne des identifiants des capteurs
 - Le nom de la colonne des valeurs enregistrées
 - Le nom de la colonne des horodatages
-- L'horodatage de début et de fin (optionel, par defaut toute les entrées seront renvoyées)
+- Les horodatages de début et de fin (optionnels, par défaut toutes les entrées seront renvoyées)
 - Les noms des tables (au moins une) et la liste des capteurs de chaque table
 
 Ces informations seront transmises dans l'URL via le protocole GET :
@@ -74,11 +74,11 @@ Contient les classes spécifique du projet.
 ### `class Framework/Filesystem/File`
 
 Permet la lecture et écriture des fichiers.
-Cette classe à été créée pour simplifier la lecture et écriture dans les fichiers.
+Cette classe a été créée pour simplifier la lecture et écriture dans les fichiers.
 
 `__construct($path)` prend en paramètre le chemin du fichier, il sera ouvert en lecture et écriture et sera créé s'il n'existe pas. Le fichier est formé lors de l'appel du desctructeur.
 
-La méthode statique `exists($path)` renvoi *true* si le fichier spécifié par le chemin `$path` existe et *false* sinon.
+La méthode statique `exists($path)` renvoit *true* si le fichier spécifié par le chemin `$path` existe et *false* sinon.
 
 `write($str)` écrit le string `$str` à la fin du fichier.
 
@@ -103,7 +103,7 @@ Cette classe est composée de trois *ParameterBag* :
 - `$attributes` qui contient des éventuels paramètres additionels
 - `$server` qui contient les paramètres du serveur
 
-`fromGlobals()` construit un objet de type `Request` à partir des variables globales (`$_GET`, ...).
+`fromGlobals()` construit un objet de type `Request` à partir des variables superglobales (`$_GET`, ...).
 
 ### `class Framework/HTTP/Response`
 
@@ -119,11 +119,11 @@ Permet de formater des objets au format JSON.
 
 ### `class Framework/Logger/Logger`
 
-Permet d'écrire les logs du programme. Le constructeur de cette classeprend en paramètre un objet de type `File` dans lequel seront écrits les logs.
+Permet d'écrire les logs du programme. Le constructeur de cette classe prend en paramètre un objet de type `File` dans lequel seront écrits les logs.
 
 `message($message, $timer = false)` écrit un message dans les logs, si *timer* est égal à true, un timer sera lancé jusqu'à l'appel de la méthode `done()`
 
-`done()` écrit "Done (<temps> ms)" où *temps* est remplacé par le temps en millisecondes depuis que le timer à été lancé.
+`done()` écrit "Done (<temps> ms)" où *temps* est remplacé par le temps en millisecondes depuis que le timer a été lancé.
 
 ### `class Framework/Logger/LoggerAwareInterface`
 
@@ -131,8 +131,8 @@ Un classe qui implémente cette interface devra implémenter la méthode `setLog
 
 ## Fonctionnement du programme
 
-La page à laquelle est envoyée la requête se trouve dans le dossier *web/* et se nomme *dbData.php*, ce script PHP va instancier les différents objets nécessaires à la lecture de la requête, la récupération des données auprès de la base de données puis la structuration et l'envoit de la réponse.
+La page à laquelle est envoyée la requête se trouve dans le dossier *web/* et se nomme *dbData.php*, ce script PHP va instancier les différents objets nécessaires à la lecture de la requête, la récupération des données auprès de la base de données puis la structuration et l'envoi de la réponse.
 
 ### `Récupération des paramètre de l'URL`
 
-La méthode statique `fromGlobals()` de la classe `Request` construit un objet de type `Request` à partir des variables globales (en particulier `$_GET`).
+La méthode statique `fromGlobals()` de la classe `Request` construit un objet de type `Request` à partir des variables superglobales (en particulier `$_GET`).
