@@ -103,9 +103,11 @@ class File
     public function clear()
     {
         try {
-            file_put_contents($this->path, '');
+            file_put_contents($this->path, "");
         } catch (\Exception $e) {
             throw new FilesystemException("Cannot read file {$this->path}", 0, $e);
         }
+
+        rewind($this->handle);
     }
 }

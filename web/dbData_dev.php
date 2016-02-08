@@ -20,6 +20,7 @@ use DS3\Framework\HTTP\JsonHandler;
 $logger = new Logger(new File(__DIR__ . '/../app/dev.log'));
 
 try {
+    $logger->message("-------------------------------------------------------\n");
     $logger->message(sprintf('[%s] : Started dbCharts', date(DATE_ATOM)));
 
     // --- Request
@@ -47,7 +48,11 @@ try {
     // --- Response
 
     $logger->message("Creating response...", true);
-    $response = $controller->handle($request);
+    try {
+        $response = $controller->handle($request);
+    } catch (\Exception $e) {
+        throw new \Exception("Cannot handle request", 0, $e);
+    }
     $logger->done();
 
     $logger->message("Sending response", false);
@@ -55,7 +60,7 @@ try {
     
 } catch (\Exception $e) {
     $json = JsonHandler::encode($e);
-    $logger->message($json);
+    $logger->message($e);
 
     $response = new Response($json, 500);
     $response->send();
