@@ -18,23 +18,44 @@ use DS3\Framework\Filesystem\File;
 use DS3\Framework\HTTP\JsonHandler;
 
 $logger = new Logger(new File(__DIR__ . '/../app/dev.log'));
-$logger->message(sprintf('[%s] : Started dbCharts', date(DATE_ATOM)), true);
 
 try {
+    $logger->message(sprintf('[%s] : Started dbCharts', date(DATE_ATOM)));
+
+    // --- Request
+
+    $logger->message("Creating request...", true);
     $request = Request::fromGlobals();
-    $logger->message('Handling request ' .
-        "`{$request->getMethod()} $_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]`");
-
-    $pdo_config = new FilePDOBuilder(__DIR__ . '/../app/pdo.cfg');
-
-    $controller = new \DS3\Application\Controller($pdo_config, $logger);
-    $response = $controller->handle($request);
-    $response->send();
     $logger->done();
+
+    $logger->message('Handling request ' .
+    "`{$request->getMethod()} $_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]`");
+
+    // --- PDO configuration
+
+    $pdo_cfg_path = '/../app/pdo.cfg';
+    $logger->message("Loading PDO configuration from file '" . $pdo_cfg_path . "'...", true);
+    $pdo_config = new FilePDOBuilder(__DIR__ . $pdo_cfg_path);
+    $logger->done();
+
+    // --- Controller
+
+    $logger->message("Creating controller...", true);
+    $controller = new \DS3\Application\Controller($pdo_config, $logger);
+    $logger->done();
+
+    // --- Response
+
+    $logger->message("Creating response...", true);
+    $response = $controller->handle($request);
+    $logger->done();
+
+    $logger->message("Sending response", false);
+    $response->send();
+    
 } catch (\Exception $e) {
     $json = JsonHandler::encode($e);
     $logger->message($json);
-    $logger->done();
 
     $response = new Response($json, 500);
     $response->send();
