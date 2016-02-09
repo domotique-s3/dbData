@@ -8,10 +8,11 @@ use DS3\Application\Query\QueryHandler;
 use DS3\Application\Query\QueryFormBuilder;
 use DS3\Framework\HTTP\Response;
 use DS3\Framework\HTTP\JsonHandler;
-use DS3\Framework\Logger\Logger;
 use DS3\Framework\PDO\PDOBuilder;
+use DS3\Framework\Logger\Logger;
+use DS3\Framework\Logger\LoggerAwareInterface;
 
-class Controller
+class Controller implements LoggerAwareInterface
 {
     /**
      * @var PDOBuilder
@@ -32,24 +33,59 @@ class Controller
     public function __construct(PDOBuilder $pdoBuilder, Logger $logger)
     {
         $this->pdoBuilder = $pdoBuilder;
-        $this->logger = $logger;
+        $this->setLogger($logger);
     }
 
     public function handle(Request $request)
     {
+        $this->logger->message("Creating query");
         $query = new Query();
-        $form = (new QueryFormBuilder())->buildForm($query);
-
-        $form->submit($request->getQuery()->all());
-
-        if ($form->isValid()) {
-            $queryHandler = new QueryHandler($this->pdoBuilder->getPDO());
-            $queryHandler->setLogger($this->logger);
-            $data = $queryHandler->execute($query);
-
-            return new Response(JsonHandler::encode($data), 200);
+        $this->logger->message("Creating form");
+        try {
+            $form = (new QueryFormBuilder())->buildForm($query);
+        } catch (\Exception $e) {
+            throw new \Exception("Cannot build form", 0, $e);
         }
 
-        return new Response(JsonHandler::encode($form->getErrors()), 400);
+        $this->logger->message("Submitting request to form");
+        try {
+            $form->submit($request->getQuery()->all());
+        } catch (\Exception $e) {
+            throw new \Exception("Cannot sumit request to form", 0, $e);
+        }
+
+        if ($form->isValid()) {
+            $this->logger->message("The form is valid");
+            $this->logger->message("Creating query handler");
+            
+            try {
+                $queryHandler = new QueryHandler($this->pdoBuilder->getPDO());
+            } catch (\Exception $e) {
+                throw new \Exception("Cannot create query handler", 0, $e);
+            }
+
+            $queryHandler->setLogger($this->logger);
+
+            $this->logger->message("Executing query");
+            $data = $queryHandler->execute($query);
+
+            try {
+                return new Response(JsonHandler::encode($data), 200);
+            } catch (\Exception $e) {
+                throw new \Exception("Cannot create response", 0, $e);
+            }
+        }
+
+        $this->logger->message("The form is not valid");
+
+        try {
+            return new Response(JsonHandler::encode($form->getErrors()), 400);
+        } catch (\Exception $e) {
+            throw new \Exception("Cannot create response", 0, $e);
+        }
+    }
+
+    public function setLogger(Logger $logger = null) {
+        $this->logger = $logger;
     }
 }

@@ -21,6 +21,8 @@ class File
      * Opens the given file, or create it if it doesn't exists.
      *
      * @param string $path File path
+     * 
+     * @throws FilesystemException If the file cannot be open
      */
     public function __construct($path)
     {
@@ -101,9 +103,11 @@ class File
     public function clear()
     {
         try {
-            file_put_contents($this->path, '');
+            file_put_contents($this->path, "");
         } catch (\Exception $e) {
             throw new FilesystemException("Cannot read file {$this->path}", 0, $e);
         }
+
+        rewind($this->handle);
     }
 }
