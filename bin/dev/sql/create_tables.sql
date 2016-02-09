@@ -4,3 +4,15 @@ CREATE TABLE measurments (
     unit INTEGER NOT NULL,
     value DOUBLE PRECISION NOT NULL
 );
+
+CREATE TABLE measurmentsone (
+    sensor_id INTEGER NOT NULL,
+    value DOUBLE PRECISION NOT NULL,
+    timestamp DOUBLE PRECISION NOT NULL
+);
+
+CREATE TABLE measurmentstwo (
+    sensor_id INTEGER NOT NULL,
+    value DOUBLE PRECISION NOT NULL,
+    timestamp DOUBLE PRECISION NOT NULL
+);
