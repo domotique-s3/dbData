@@ -123,11 +123,51 @@ Permet d'écrire les logs du programme. Le constructeur de cette classe prend en
 
 `message($message, $timer = false)` écrit un message dans les logs, si *timer* est égal à true, un timer sera lancé jusqu'à l'appel de la méthode `done()`
 
-`done()` écrit "Done (<temps> ms)" où *temps* est remplacé par le temps en millisecondes depuis que le timer a été lancé.
+`done()` écrit "Done (\<temps\> ms)" où *temps* est remplacé par le temps en millisecondes depuis que le timer a été lancé.
 
 ### `class Framework/Logger/LoggerAwareInterface`
 
 Un classe qui implémente cette interface devra implémenter la méthode `setLogger(Logger $logger)`.
+
+### `class Framework/PDO/PDOBuilder`
+
+Permet de construire un objet de type PDO à partir :
+
+- Du login
+- Du mot de passe
+- Du nom de la base de données
+- De l'hôte
+- Du driver (pgsql, mysql, etc...)
+
+### `class Framework/PDO/FilePDOBuilder`
+
+Permet de construire unobjet de type PDO à partir d'un fichier de la forme :
+
+```
+<driver>
+<database_name>
+<host>
+<username>
+<password>
+```
+
+Par exemple :
+
+```
+pgsql
+dbcharts
+localhost
+user
+pass
+```
+
+### `class Application/Query/Query`
+
+Représente la requête qui va être envoyée au SGBD.
+
+### `class Application/Query/QueryHandler`
+
+Permet d'envoyer une requête au SGBD avec la méthode `execute(Query $query)`.
 
 ## Fonctionnement du programme
 
