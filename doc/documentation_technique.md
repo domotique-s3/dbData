@@ -232,10 +232,37 @@ Représente la requête qui va être envoyée au SGBD.
 
 Permet d'envoyer une requête au SGBD avec la méthode `execute(Query $query)`.
 
+### `class Application/Controller`
+
+// TODO Loïc ?
+
 ## Fonctionnement du programme
 
-La page à laquelle est envoyée la requête se trouve dans le dossier *web/* et se nomme *dbData.php*, ce script PHP va instancier les différents objets nécessaires à la lecture de la requête, la récupération des données auprès de la base de données puis la structuration et l'envoi de la réponse.
+Le fichier 'web/dbData.php' est l'entrée du programme en mode *prod*, 'web/dbData_dev.php' et l'entrée du programme en mode *dev*.
+En mode *prod*, en cas d'exceptions non-gérées, seul un message d'erreur sera renvoyé (voir partie *Réponse*).
+En mode *dev*, toute les exceptions non-gérées seront renvoyées.
 
-### `Récupération des paramètre de l'URL`
+### Création du Logger
 
-La méthode statique `fromGlobals()` de la classe `Request` construit un objet de type `Request` à partir des variables superglobales (en particulier `$_GET`).
+Le Logger créé un fichier dans lequel seront écrits les logs, 'app/prod.log' en mode *prod* et 'app/dev.log' en mode *dev*.
+
+### Création de l'objet `Request`
+
+La méthode statique `Request::frlomGlobals()` est appelée, elle construit et retourne un objet de type `Request` à partir des variables globales.
+
+### Création de l'objet `FilePDOBuilder`
+
+Le fichier 'app/pdo.cfg' contient la configuration de la base de données.
+
+### Création du contrôleur
+
+L'objet `FilePDOBuilder` et le `Logger` est passé à son constructeur.
+
+### Création de l'objet `Response`
+
+Appel de la méthode `handle()` du contrôleur qui retourne un objet de type `Response`.
+
+### Envoi de la réponse
+
+L'envoi de la réponse est réalisé grâce à la méthode `send()`
+
