@@ -54,12 +54,75 @@ Un exemple d'URL pourrai être :
 
 ### Réponse
 
-La réponse est renvoyée via le protocole HTTP et est au format JSON.
+La réponse est renvoyée via le protocole HTTP et est au format JSON. Elle peut avoir deux formats différents : 
 
-// TODO : Peut contenir soit les données soit les erreurs
-// TODO : Format des données
-// TODO : Format des erreurs
-// TODO : Erreurs possibles
+- Si tout se passe bien, la réponse sera composée des séries de relevé
+- Si une plusieurs erreurs de validation (URL non valide) surviennent, la réponse contiendra la liste de ces erreurs
+- Si une exception non-gérée survient :
+    - En mode "prod" (dbData.php), le code HTTP de la réponse sera 500 et la réponse contiendra `{"code":500,"message":"Internal Server Error"}`
+    - En mode "dev" (dbData_dev.php), le code HTTP de la réponse sera 500 et la réponse contient l'exception et ses précédents au format JSON : par exemple `{"code":0,"message":"Cannot handle request","previous":{"code":0,"message":"Cannot create query handler","previous":{"code":0,"message":"could not find driver"}}}`
+
+#### Format général des séries de relevé
+
+```javascript
+{
+    "<table>": {
+        "<sensor>" : [
+            {
+                "timestamp": "<timestamp>",
+                "value": "<value>"
+            },
+            {
+                "timestamp": "<timestamp>",
+                "value": "<value>"
+            },
+            {
+                "timestamp": "<timestamp>",
+                "value": "<value>"
+            }
+            ...
+        ],
+        "<sensor>" : [
+            {
+                "timestamp": "<timestamp>",
+                "value": "<value>"
+            },
+            ...
+        ]
+        ...
+    },
+	...
+}
+```
+
+#### Format général des erreurs de validation
+
+```javascript
+[
+    {
+		"field": "<attribut1>",
+		"code": "xxx",
+		"message": "Message 1"
+    },
+    {
+		"type": "key"
+		"field": "<attribut2>",
+		"code": "xxx",
+		"message": "Message 1"
+    },
+	...
+]
+```
+
+#### Liste des erreurs de validation
+
+// TODO : Loïc ?
+
+#### Format général des exceptions
+
+```javascript
+{"code": <code>, "message": "<message>", "previous": <exception>}
+```
 
 ## Documentation des classes
 
