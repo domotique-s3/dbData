@@ -12,7 +12,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use DS3\Framework\HTTP\Request;
 use DS3\Framework\PDO\FilePDOBuilder;
-use DS3\Framework\HTTP\Response;
+use DS3\Framework\HTTP\JsonResponse;
 use DS3\Framework\Logger\Logger;
 use DS3\Framework\Filesystem\File;
 use DS3\Framework\HTTP\JsonHandler;
@@ -62,6 +62,6 @@ try {
     $json = JsonHandler::encode($e);
     $logger->message($e);
 
-    $response = new Response($json, 500);
+    $response = new JsonResponse($json, 500);
     $response->send();
 }

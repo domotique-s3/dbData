@@ -4,7 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use DS3\Framework\HTTP\Request;
 use DS3\Framework\PDO\FilePDOBuilder;
-use DS3\Framework\HTTP\Response;
+use DS3\Framework\HTTP\JsonResponse;
 use DS3\Framework\Logger\Logger;
 use DS3\Framework\Filesystem\File;
 use DS3\Framework\HTTP\JsonHandler;
@@ -27,10 +27,10 @@ try {
         )
     );
 
-    $response = new Response(json_encode(array(
+    $response = new JsonResponse(array(
         'code' => 500,
         'message' => 'Internal Server Error'
-    )), 500);
+    ), 500);
 
     $response->send();
     $logger->done();

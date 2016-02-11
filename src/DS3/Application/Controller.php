@@ -6,8 +6,7 @@ use DS3\Framework\HTTP\Request;
 use DS3\Application\Query\Query;
 use DS3\Application\Query\QueryHandler;
 use DS3\Application\Query\QueryFormBuilder;
-use DS3\Framework\HTTP\Response;
-use DS3\Framework\HTTP\JsonHandler;
+use DS3\Framework\HTTP\JsonResponse;
 use DS3\Framework\PDO\PDOBuilder;
 use DS3\Framework\Logger\Logger;
 use DS3\Framework\Logger\LoggerAwareInterface;
@@ -51,13 +50,13 @@ class Controller implements LoggerAwareInterface
         try {
             $form->submit($request->getQuery()->all());
         } catch (\Exception $e) {
-            throw new \Exception("Cannot sumit request to form", 0, $e);
+            throw new \Exception("Cannot submit request to form", 0, $e);
         }
 
         if ($form->isValid()) {
             $this->logger->message("The form is valid");
             $this->logger->message("Creating query handler");
-            
+ 
             try {
                 $queryHandler = new QueryHandler($this->pdoBuilder->getPDO());
             } catch (\Exception $e) {
@@ -70,7 +69,7 @@ class Controller implements LoggerAwareInterface
             $data = $queryHandler->execute($query);
 
             try {
-                return new Response(JsonHandler::encode($data), 200);
+                return new JsonResponse($data, 200);
             } catch (\Exception $e) {
                 throw new \Exception("Cannot create response", 0, $e);
             }
@@ -79,7 +78,7 @@ class Controller implements LoggerAwareInterface
         $this->logger->message("The form is not valid");
 
         try {
-            return new Response(JsonHandler::encode($form->getErrors()), 400);
+            return new JsonResponse($form->getErrors(), 400);
         } catch (\Exception $e) {
             throw new \Exception("Cannot create response", 0, $e);
         }
