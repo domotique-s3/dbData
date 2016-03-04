@@ -122,16 +122,31 @@ class QueryHandler implements LoggerAwareInterface
             self::$_valuesCol
         );
 
-        $sql .= implode(' UNION ALL ', $subQueries);
-        $sql .= sprintf(
-            ') t ORDER BY
-            t.%s ASC,
-            t.%s ASC,
-            t.%s ASC',
+        $sql .= implode(' UNION ALL ', $subQueries) . ') t';
+
+        $where = array();
+        $timestampColumn = $this->sanitize($query->getTimestampColumn());
+
+        if ($query->getStart() !== null) {
+            $where[] = "$timestampColumn > :start";
+        }
+        if ($query->getEnd() !== null) {
+            $where[] = "$timestampColumn < :end";
+        }
+
+        if(count($where) != 0) {
+            $sql .= ' WHERE ' . implode(' AND ', $where);
+        }
+
+        $sql .= sprintf(' ORDER BY
+            t.%1$s ASC,
+            t.%2$s ASC,
+            t.%3$s ASC',
             self::$_tableCol,
             self::$_sensorIdCol,
             self::$_timestampCol
         );
+
 
         $sql = preg_replace('/\r\n|\r|\n/', ' ', $sql);
         $sql = preg_replace('/\s+/', ' ', $sql);
@@ -177,26 +192,14 @@ class QueryHandler implements LoggerAwareInterface
             self::$_timestampCol
         );
 
-        $where = array();
-
-        if ($query->getStart() !== null) {
-            $where[] = "$timestampColumn > :start";
-        }
-        if ($query->getEnd() !== null) {
-            $where[] = "$timestampColumn < :end";
-        }
 
         if (count($sensors = $query->getSensorsByTable($table)) > 0) {
             $sensorWhere = array();
-            foreach ($sensors as $i => $sensor) {
-                $sensorWhere[] = "$sensorIdColumn = :$table$i";
+            foreach (array_keys($sensors) as $i) {
+                $sensorWhere[] = ":$table$i";
             }
 
-            $where[] = implode(' OR ', $sensorWhere);
-        }
-
-        if (count($where) > 0) {
-            $sql .= ' WHERE '.implode(' AND ', $where);
+            $sql .= " WHERE $sensorIdColumn IN (" . implode(',', $sensorWhere) .')';
         }
 
         return $sql;

@@ -47,5 +47,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(1, 2, 3), Request::parseQueryStringArray('[ 1,2,3]'));
         $this->assertEquals(array(1, 2, 3), Request::parseQueryStringArray('[1,2,3 ]'));
         $this->assertEquals(array('a', 'b', 'c'), Request::parseQueryStringArray('[a,b,c]'));
+        $this->assertEquals(array(1, 1, 2, 3), Request::parseQueryStringArray('[1,1,2,3]'));
     }
 }
