@@ -54,12 +54,75 @@ Un exemple d'URL pourrai être :
 
 ### Réponse
 
-La réponse est renvoyée via le protocole HTTP et est au format JSON.
+La réponse est renvoyée via le protocole HTTP et est au format JSON. Elle peut avoir deux formats différents : 
 
-// TODO : Peut contenir soit les données soit les erreurs
-// TODO : Format des données
-// TODO : Format des erreurs
-// TODO : Erreurs possibles
+- Si tout se passe bien, la réponse sera composée des séries de relevé
+- Si une plusieurs erreurs de validation (URL non valide) surviennent, la réponse contiendra la liste de ces erreurs
+- Si une exception non-gérée survient :
+    - En mode "prod" (dbData.php), le code HTTP de la réponse sera 500 et la réponse contiendra `{"code":500,"message":"Internal Server Error"}`
+    - En mode "dev" (dbData_dev.php), le code HTTP de la réponse sera 500 et la réponse contient l'exception et ses précédents au format JSON : par exemple `{"code":0,"message":"Cannot handle request","previous":{"code":0,"message":"Cannot create query handler","previous":{"code":0,"message":"could not find driver"}}}`
+
+#### Format général des séries de relevé
+
+```javascript
+{
+    "<table>": {
+        "<sensor>" : [
+            {
+                "timestamp": "<timestamp>",
+                "value": "<value>"
+            },
+            {
+                "timestamp": "<timestamp>",
+                "value": "<value>"
+            },
+            {
+                "timestamp": "<timestamp>",
+                "value": "<value>"
+            }
+            ...
+        ],
+        "<sensor>" : [
+            {
+                "timestamp": "<timestamp>",
+                "value": "<value>"
+            },
+            ...
+        ]
+        ...
+    },
+	...
+}
+```
+
+#### Format général des erreurs de validation
+
+```javascript
+[
+    {
+		"field": "<attribut1>",
+		"code": "xxx",
+		"message": "Message 1"
+    },
+    {
+		"type": "key"
+		"field": "<attribut2>",
+		"code": "xxx",
+		"message": "Message 1"
+    },
+	...
+]
+```
+
+#### Liste des erreurs de validation
+
+// TODO : Loïc ?
+
+#### Format général des exceptions
+
+```javascript
+{"code": <code>, "message": "<message>", "previous": <exception>}
+```
 
 ## Documentation des classes
 
@@ -123,16 +186,83 @@ Permet d'écrire les logs du programme. Le constructeur de cette classe prend en
 
 `message($message, $timer = false)` écrit un message dans les logs, si *timer* est égal à true, un timer sera lancé jusqu'à l'appel de la méthode `done()`
 
-`done()` écrit "Done (<temps> ms)" où *temps* est remplacé par le temps en millisecondes depuis que le timer a été lancé.
+`done()` écrit "Done (\<temps\> ms)" où *temps* est remplacé par le temps en millisecondes depuis que le timer a été lancé.
 
 ### `class Framework/Logger/LoggerAwareInterface`
 
 Un classe qui implémente cette interface devra implémenter la méthode `setLogger(Logger $logger)`.
 
+### `class Framework/PDO/PDOBuilder`
+
+Permet de construire un objet de type PDO à partir :
+
+- Du login
+- Du mot de passe
+- Du nom de la base de données
+- De l'hôte
+- Du driver (pgsql, mysql, etc...)
+
+### `class Framework/PDO/FilePDOBuilder`
+
+Permet de construire unobjet de type PDO à partir d'un fichier de la forme :
+
+```
+<driver>
+<database_name>
+<host>
+<username>
+<password>
+```
+
+Par exemple :
+
+```
+pgsql
+dbcharts
+localhost
+user
+pass
+```
+
+### `class Application/Query/Query`
+
+Représente la requête qui va être envoyée au SGBD.
+
+### `class Application/Query/QueryHandler`
+
+Permet d'envoyer une requête au SGBD avec la méthode `execute(Query $query)`.
+
+### `class Application/Controller`
+
+// TODO Loïc ?
+
 ## Fonctionnement du programme
 
-La page à laquelle est envoyée la requête se trouve dans le dossier *web/* et se nomme *dbData.php*, ce script PHP va instancier les différents objets nécessaires à la lecture de la requête, la récupération des données auprès de la base de données puis la structuration et l'envoi de la réponse.
+Le fichier 'web/dbData.php' est l'entrée du programme en mode *prod*, 'web/dbData_dev.php' et l'entrée du programme en mode *dev*.
+En mode *prod*, en cas d'exceptions non-gérées, seul un message d'erreur sera renvoyé (voir partie *Réponse*).
+En mode *dev*, toute les exceptions non-gérées seront renvoyées.
 
-### `Récupération des paramètre de l'URL`
+### Création du Logger
 
-La méthode statique `fromGlobals()` de la classe `Request` construit un objet de type `Request` à partir des variables superglobales (en particulier `$_GET`).
+Le Logger créé un fichier dans lequel seront écrits les logs, 'app/prod.log' en mode *prod* et 'app/dev.log' en mode *dev*.
+
+### Création de l'objet `Request`
+
+La méthode statique `Request::frlomGlobals()` est appelée, elle construit et retourne un objet de type `Request` à partir des variables globales.
+
+### Création de l'objet `FilePDOBuilder`
+
+Le fichier 'app/pdo.cfg' contient la configuration de la base de données.
+
+### Création du contrôleur
+
+L'objet `FilePDOBuilder` et le `Logger` est passé à son constructeur.
+
+### Création de l'objet `Response`
+
+Appel de la méthode `handle()` du contrôleur qui retourne un objet de type `Response`.
+
+### Envoi de la réponse
+
+L'envoi de la réponse est réalisé grâce à la méthode `send()`
+

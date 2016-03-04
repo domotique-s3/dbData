@@ -15,6 +15,16 @@
             "name": "Vincent Emile",
             "email": "vl.emile@gmail.com",
             "role": "Developer"
+        },
+        {
+            "name": "Kevin Beaudouin",
+            "email": "beaudouink@gmail.com",
+            "role":"Developer"
+        },
+        {
+            "name": "Alexis Moulin",
+            "email":"alexis.moulin2@gmail.com",
+            "role":"Developer"
         }
     ],
     "require": {
