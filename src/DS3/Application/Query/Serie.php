@@ -3,12 +3,10 @@
 namespace DS3\Application\Query;
 
 /**
- * Serie
+ * Serie.
  */
 class Serie
 {
-    /* --- ATTRIBUTES --- */
-
     /**
      * @var mixed
      */
@@ -21,7 +19,8 @@ class Serie
 
     /**
      * Serie constructor.
-     * @param mixed $id
+     *
+     * @param mixed        $id
      * @param Measurment[] $measurments
      */
     public function __construct($id, array $measurments)
@@ -30,30 +29,23 @@ class Serie
         $this->measurments = $measurments;
     }
 
-    public static function fromArray(array $input)
-    {
-
-    }
-
-    /* --- GETTERS --- */
-
     /**
-     * Returns serie's id
+     * Returns the id of the serie's sensor.
+     *
      * @return mixed
      */
-    public function getId () 
+    public function getId()
     {
-    	return $this->id;
+        return $this->id;
     }
 
     /**
-     * Return serie's measurments
+     * Return the measurments of the serie.
+     *
      * @return Measurment[]
      */
     public function getMeasurments()
     {
         return $this->measurments;
     }
-
-
 }

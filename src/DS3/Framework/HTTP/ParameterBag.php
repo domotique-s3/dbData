@@ -1,114 +1,142 @@
 <?php
+
 namespace DS3\Framework\HTTP;
 
 /**
- * Parameter Bag, contains values and related keys
+ * Parameter Bag, contains values and related keys.
  */
 class ParameterBag
 {
-    /* --- ATTRIBUTES --- */
-
     private $parameters = array();
 
-    /* --- CONSTRUCTORS --- *
-    /*!
-     * Default constructor
+    /**
+     * Default constructor.
      */
-    public function __construct($parameters = array()) {
+    public function __construct($parameters = array())
+    {
         $this->parameters = $parameters;
     }
 
-    /* --- METHODS --- */
-
-    /*!
-     * Returns all parameters
+    /**
+     * Returns all parameters.
+     *
      * @return mixed[] Parameters
      */
-    public function all() {
+    public function all()
+    {
         return $this->parameters;
     }
 
-    /*!
-     * Returns all keys
+    /**
+     * Returns all keys.
+     *
      * @return string[] Keys
      */
-    public function keys() {
+    public function keys()
+    {
         return array_keys($this->parameters);
     }
 
-    /*!
-     * Replace parameters
-     * @param  mixed[] $parameters Parameter to replace
-     * @return void
+    /**
+     * Replace parameters.
+     *
+     * @param mixed[] $parameters Parameter to replace
      */
-    public function replace(array $parameters) {
-        $this->parameters = NULL;
+    public function replace(array $parameters)
+    {
         $this->parameters = $parameters;
     }
 
-    /*!
-     * Add parameters
+    /**
+     * Add parameters.
+     *
      * @param mixed[] $parameters Parameters to add
-     * @param boolean $erase If true, duplicate keys will be overwritten
+     * @param bool    $erase      If true, duplicate keys will be overwritten
+     *
+     * @return bool true if parameter has been added, false otherwise
      */
-    public function add($parameters,$erase = false) {
+    public function add($parameters, $erase = false)
+    {
         foreach ($parameters as $key => $value) {
-            if($this->has($key)){
-                if($erase) $this->parameters[$key] = $value;
-                else return false;
+            if ($this->has($key) && !$erase) {
+                return false;
             }
-            else $this->set($key,$value);
+            $this->set($key, $value);
         }
+
         return true;
     }
 
-    /*!
-     * Returns parameter's value
-     * @param  string $key     Key
-     * @param  mixed $default Default value to return if parameter doesn't exist
-     * @return mixed          Parameter's value
+    /**
+     * Check if a parameter exists.
+     *
+     * @param string $key Cle
+     *
+     * @return bool True if parameter exists
      */
-    public function get($key, $default = null) {
-        if ($this->has($key))return $this->parameters[$key];
-        return $default;
+    public function has($key)
+    {
+        return array_key_exists($key, $this->parameters);
     }
 
-    /*!
-     * Change parameter's value, create if doesn't exist
+    /**
+     * Change parameter's value, create if doesn't exist.
+     *
      * @param string $key   Parameter's key
-     * @param mixed $value Parameter's value
+     * @param mixed  $value Parameter's value
+     *
+     * @return ParameterBag updated ParameterBag
      */
-    public function set($key, $value) {
+    public function set($key, $value)
+    {
         $this->parameters[$key] = $value;
+
         return $this;
     }
 
-    /*!
-     * Check if a parameter exists
-     * @param  string  $key Cle
-     * @return boolean      True if parameter exists
+    /**
+     * Returns parameter's value.
+     *
+     * @param string $key     Key
+     * @param mixed  $default Default value to return if parameter doesn't exist
+     *
+     * @return mixed Parameter's value
      */
-    public function has($key) {
-        if (array_key_exists($key,$this->parameters)) return true;
+    public function get($key, $default = null)
+    {
+        if ($this->has($key)) {
+            return $this->parameters[$key];
+        }
+
+        return $default;
+    }
+
+    /**
+     * Remove a parameter.
+     *
+     * @param string $key Parameter's key
+     *
+     * @return mixed $tmp if $key exists, false otherwise
+     */
+    public function remove($key)
+    {
+        if ($this->has($key)) {
+            $tmp = $key;
+            unset($this->parameters[$key]);
+
+            return $tmp;
+        }
+
         return false;
     }
 
-    /*!
-     * Remove a parameter
-     * @param  string $key Parameter's key
-     * @return void
-     */
-    public function remove($key) {
-        unset($this->parameters[$key]);
-    }
-
-    /*!
-     * Count number of parameters
+    /**
+     * Count number of parameters.
+     *
      * @return int Number of Parameters
      */
-    public function count() {
+    public function count()
+    {
         return count($this->parameters);
     }
-
-
 }

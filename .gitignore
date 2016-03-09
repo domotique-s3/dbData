@@ -2,6 +2,7 @@
 /vendor/
 /composer.phar
 *.log
-pdo.cfg
-.idea/
+/app/pdo.cfg
 node_modules/*
+/.idea/
+*~
