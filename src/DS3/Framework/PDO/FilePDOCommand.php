@@ -47,10 +47,10 @@ class FilePDOCommand extends Command
         $question = new Question('Please enter the host of the database [localhost] : ', 'localhost');
         $host = $helper->ask($input, $output, $question);
 
-        $question = new Question('Please enter your username : ', '');
+        $question = new Question('Please enter the login of the database : ', '');
         $username = $helper->ask($input, $output, $question);
 
-        $question = new Question('Please enter your password (value hidden) : ', '');
+        $question = new Question('Please enter the password of the database (value hidden) : ', '');
         $question->setHidden(true);
         $question->setHiddenFallback(true);
         $pass = $helper->ask($input, $output, $question);
