@@ -128,10 +128,10 @@ class QueryHandler implements LoggerAwareInterface
         $timestampColumn = $this->sanitize($query->getTimestampColumn());
 
         if ($query->getStart() !== null) {
-            $where[] = "$timestampColumn > :start";
+            $where[] = self::$_timestampCol . ' > :start';
         }
         if ($query->getEnd() !== null) {
-            $where[] = "$timestampColumn < :end";
+            $where[] = self::$_timestampCol . ' < :end';
         }
 
         if(count($where) != 0) {
